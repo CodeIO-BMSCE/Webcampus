@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
-
+const nextConfig = {
+    transpilePackages: ["@webcampus/ui"],
+}
 export default nextConfig;
