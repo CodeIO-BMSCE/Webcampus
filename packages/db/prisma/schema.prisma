@@ -2,6 +2,17 @@ generator client {
   provider = "prisma-client-js"
   output   = "../generated/prisma"
 }
+/**
+ * After making changes to the schema,
+ * run `bunx turbo db:zod` from the project root,
+ * or `bun run db:zod` from the `db` package to update Zod types.
+ */
+
+generator zod {
+  provider         = "zod-prisma-types"
+  output           = "../../schemas/src/prisma"
+  useMultipleFiles = true
+}
 
 datasource db {
   provider = "postgresql"

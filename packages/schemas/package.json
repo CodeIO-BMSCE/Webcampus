@@ -1,0 +1,15 @@
+{
+  "name": "@webcampus/schemas",
+  "type": "module",
+  "private": true,
+  "exports": {
+    "./db": "./src/prisma/index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@webcampus/typescript-config": "*"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

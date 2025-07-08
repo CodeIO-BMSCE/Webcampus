@@ -1,0 +1,24 @@
+import { z } from "zod";
+import type { Prisma } from "../../../../db/generated/prisma";
+import { SortOrderInputSchema } from "./SortOrderInputSchema";
+import { SortOrderSchema } from "./SortOrderSchema";
+import { UserOrderByWithRelationInputSchema } from "./UserOrderByWithRelationInputSchema";
+
+export const PostOrderByWithRelationInputSchema: z.ZodType<Prisma.PostOrderByWithRelationInput> =
+  z
+    .object({
+      id: z.lazy(() => SortOrderSchema).optional(),
+      title: z.lazy(() => SortOrderSchema).optional(),
+      content: z
+        .union([
+          z.lazy(() => SortOrderSchema),
+          z.lazy(() => SortOrderInputSchema),
+        ])
+        .optional(),
+      published: z.lazy(() => SortOrderSchema).optional(),
+      authorId: z.lazy(() => SortOrderSchema).optional(),
+      author: z.lazy(() => UserOrderByWithRelationInputSchema).optional(),
+    })
+    .strict();
+
+export default PostOrderByWithRelationInputSchema;

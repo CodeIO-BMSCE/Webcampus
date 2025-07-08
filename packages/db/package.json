@@ -11,6 +11,7 @@
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev --skip-generate",
     "db:deploy": "prisma migrate deploy",
+    "db:zod": "prisma generate zod",
     "format:write": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
     "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache"
   },
@@ -32,6 +33,7 @@
     "@prisma/client": "^6.11.1",
     "bun": "^1.2.18",
     "install": "^0.13.0",
-    "prisma": "^6.11.1"
+    "prisma": "^6.11.1",
+    "zod-prisma-types": "^3.2.4"
   }
 }

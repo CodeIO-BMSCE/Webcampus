@@ -28,6 +28,9 @@
     "db:deploy": {
       "cache": false
     },
+    "db:zod": {
+      "cache": false
+    },
     "format:check": {
       "cache": false,
       "outputs": []

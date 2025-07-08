@@ -1,0 +1,22 @@
+import { z } from "zod";
+import type { Prisma } from "../../../../db/generated/prisma";
+import { UserOrderByWithRelationInputSchema } from "../inputTypeSchemas/UserOrderByWithRelationInputSchema";
+import { UserWhereInputSchema } from "../inputTypeSchemas/UserWhereInputSchema";
+import { UserWhereUniqueInputSchema } from "../inputTypeSchemas/UserWhereUniqueInputSchema";
+
+export const UserAggregateArgsSchema: z.ZodType<Prisma.UserAggregateArgs> = z
+  .object({
+    where: UserWhereInputSchema.optional(),
+    orderBy: z
+      .union([
+        UserOrderByWithRelationInputSchema.array(),
+        UserOrderByWithRelationInputSchema,
+      ])
+      .optional(),
+    cursor: UserWhereUniqueInputSchema.optional(),
+    take: z.number().optional(),
+    skip: z.number().optional(),
+  })
+  .strict();
+
+export default UserAggregateArgsSchema;
