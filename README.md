@@ -37,6 +37,10 @@ bun run dev
 
 ---
 
+## Database Setup
+
+Follow the [pgAdmin Setup Guide](./pgadmin.md) to connect to the PostgreSQL database.
+
 ## Common Commands
 
 | Command                    | Description                       |
