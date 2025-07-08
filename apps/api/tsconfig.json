@@ -1,0 +1,3 @@
+{
+  "extends" : "@webcampus/typescript-config/base.json"
+}
