@@ -8,7 +8,6 @@
     "format:write": "turbo run format:write",
     "format:check": "turbo run format:check",
     "check-types": "turbo run check-types",
-    "validate": "bun run format:write && bun run check-types && bun run lint && bun run build",
     "prepare": "husky"
   },
   "devDependencies": {
