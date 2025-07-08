@@ -8,6 +8,7 @@ Follow the official Bun installation guide for your OS:
 👉 https://bun.sh/docs/installation
 
 > Bun supports:
+>
 > - Windows (via WSL or native PowerShell)
 > - macOS (Intel & Apple Silicon)
 > - Linux (Ubuntu, Arch, etc.)
@@ -21,7 +22,7 @@ Follow the official Bun installation guide for your OS:
 ```bash
 git clone https://github.com/CodeIOBMSCE/Webcampus.git
 cd Webcampus
-````
+```
 
 ### 2. Install Dependencies
 
@@ -54,6 +55,7 @@ Follow the [pgAdmin Setup Guide](./pgadmin.md) to connect to the PostgreSQL data
 ---
 
 ## Contributing
+
 1. Create a new branch
 2. Make your changes
 3. Open a Pull Request

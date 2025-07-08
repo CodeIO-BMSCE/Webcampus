@@ -1,0 +1,5 @@
+bunx turbo check-types
+
+bunx lint-staged
+
+bun run build

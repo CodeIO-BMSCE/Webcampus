@@ -2,7 +2,7 @@ name: webcampus
 services:
   db:
     image: postgres
-    container_name : db
+    container_name: db
     restart: always
     ports:
       - 5432:5432
@@ -15,7 +15,7 @@ services:
 
   pgadmin:
     image: dpage/pgadmin4
-    container_name : PG-Admin
+    container_name: PG-Admin
     restart: always
     ports:
       - 5050:80

@@ -4,8 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "lint" : "eslint .",
-    "check-types": "tsc --noEmit --pretty"
+    "lint": "eslint .",
+    "check-types": "tsc --noEmit --pretty",
+    "format:write": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
+    "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache"
   },
   "devDependencies": {
     "@eslint/css": "^0.9.0",
