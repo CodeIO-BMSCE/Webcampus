@@ -58,18 +58,6 @@ Follow the [pgAdmin Setup Guide](./pgadmin.md) to connect to the PostgreSQL data
 
 ---
 
-## Common Commands
-
-| Command                    | Description                       |
-| -------------------------- | --------------------------------- |
-| `bun install`              | Install all dependencies          |
-| `bun run dev --filter=app` | Run dev server for a specific app |
-| `bun run build`            | Build all apps and packages       |
-| `bun run lint`             | Lint the codebase                 |
-| `bun run clean`            | Clean Turborepo cache             |
-
----
-
 ## Contributing
 
 1. Create a new branch
