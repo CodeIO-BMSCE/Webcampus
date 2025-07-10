@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { Prisma } from "../../../../db/generated/prisma";
+import type { Prisma } from "../../../../../node_modules/.prisma/client";
 import { PostIncludeSchema } from "../inputTypeSchemas/PostIncludeSchema";
 import { PostUncheckedUpdateInputSchema } from "../inputTypeSchemas/PostUncheckedUpdateInputSchema";
 import { PostUpdateInputSchema } from "../inputTypeSchemas/PostUpdateInputSchema";

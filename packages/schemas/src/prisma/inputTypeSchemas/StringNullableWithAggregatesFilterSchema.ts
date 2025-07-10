@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { Prisma } from "../../../../db/generated/prisma";
+import type { Prisma } from "../../../../../node_modules/.prisma/client";
 import { NestedIntNullableFilterSchema } from "./NestedIntNullableFilterSchema";
 import { NestedStringNullableFilterSchema } from "./NestedStringNullableFilterSchema";
 import { NestedStringNullableWithAggregatesFilterSchema } from "./NestedStringNullableWithAggregatesFilterSchema";

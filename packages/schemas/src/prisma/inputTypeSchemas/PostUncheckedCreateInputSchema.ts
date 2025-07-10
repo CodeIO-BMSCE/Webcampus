@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { Prisma } from "../../../../db/generated/prisma";
+import type { Prisma } from "../../../../../node_modules/.prisma/client";
 
 export const PostUncheckedCreateInputSchema: z.ZodType<Prisma.PostUncheckedCreateInput> =
   z
@@ -8,7 +8,7 @@ export const PostUncheckedCreateInputSchema: z.ZodType<Prisma.PostUncheckedCreat
       title: z.string(),
       content: z.string().optional().nullable(),
       published: z.boolean().optional(),
-      authorId: z.number().int(),
+      authorId: z.string(),
     })
     .strict();
 

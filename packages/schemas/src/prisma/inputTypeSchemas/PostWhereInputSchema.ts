@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { Prisma } from "../../../../db/generated/prisma";
+import type { Prisma } from "../../../../../node_modules/.prisma/client";
 import { BoolFilterSchema } from "./BoolFilterSchema";
 import { IntFilterSchema } from "./IntFilterSchema";
 import { StringFilterSchema } from "./StringFilterSchema";
@@ -34,7 +34,9 @@ export const PostWhereInputSchema: z.ZodType<Prisma.PostWhereInput> = z
     published: z
       .union([z.lazy(() => BoolFilterSchema), z.boolean()])
       .optional(),
-    authorId: z.union([z.lazy(() => IntFilterSchema), z.number()]).optional(),
+    authorId: z
+      .union([z.lazy(() => StringFilterSchema), z.string()])
+      .optional(),
     author: z
       .union([
         z.lazy(() => UserScalarRelationFilterSchema),

@@ -13,6 +13,7 @@
     "lint-staged": "^16.1.2",
     "prettier": "3.6.2",
     "prettier-plugin-tailwindcss": "^0.6.13",
+    "prisma": "^6.11.1",
     "turbo": "^2.5.4",
     "typescript": "5.8.3",
     "typescript-eslint": "^8.36.0"
@@ -43,5 +44,9 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "@prisma/client": "^6.11.1",
+    "better-auth": "^1.2.12"
+  }
 }

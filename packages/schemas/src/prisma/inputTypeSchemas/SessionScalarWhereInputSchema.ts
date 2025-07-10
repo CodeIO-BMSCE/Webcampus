@@ -1,0 +1,41 @@
+import { z } from "zod";
+import type { Prisma } from "../../../../../node_modules/.prisma/client";
+import { DateTimeFilterSchema } from "./DateTimeFilterSchema";
+import { StringFilterSchema } from "./StringFilterSchema";
+
+export const SessionScalarWhereInputSchema: z.ZodType<Prisma.SessionScalarWhereInput> =
+  z
+    .object({
+      AND: z
+        .union([
+          z.lazy(() => SessionScalarWhereInputSchema),
+          z.lazy(() => SessionScalarWhereInputSchema).array(),
+        ])
+        .optional(),
+      OR: z
+        .lazy(() => SessionScalarWhereInputSchema)
+        .array()
+        .optional(),
+      NOT: z
+        .union([
+          z.lazy(() => SessionScalarWhereInputSchema),
+          z.lazy(() => SessionScalarWhereInputSchema).array(),
+        ])
+        .optional(),
+      id: z.union([z.lazy(() => StringFilterSchema), z.string()]).optional(),
+      userId: z
+        .union([z.lazy(() => StringFilterSchema), z.string()])
+        .optional(),
+      expires: z
+        .union([z.lazy(() => DateTimeFilterSchema), z.coerce.date()])
+        .optional(),
+      createdAt: z
+        .union([z.lazy(() => DateTimeFilterSchema), z.coerce.date()])
+        .optional(),
+      updatedAt: z
+        .union([z.lazy(() => DateTimeFilterSchema), z.coerce.date()])
+        .optional(),
+    })
+    .strict();
+
+export default SessionScalarWhereInputSchema;

@@ -9,7 +9,7 @@ export const PostSchema = z.object({
   title: z.string(),
   content: z.string().nullable(),
   published: z.boolean(),
-  authorId: z.number().int(),
+  authorId: z.string(),
 });
 
 export type Post = z.infer<typeof PostSchema>;

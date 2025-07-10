@@ -1,0 +1,14 @@
+import { z } from "zod";
+import type { Prisma } from "../../../../../node_modules/.prisma/client";
+
+export const SessionUncheckedCreateWithoutUserInputSchema: z.ZodType<Prisma.SessionUncheckedCreateWithoutUserInput> =
+  z
+    .object({
+      id: z.string().cuid().optional(),
+      expires: z.coerce.date(),
+      createdAt: z.coerce.date().optional(),
+      updatedAt: z.coerce.date().optional(),
+    })
+    .strict();
+
+export default SessionUncheckedCreateWithoutUserInputSchema;

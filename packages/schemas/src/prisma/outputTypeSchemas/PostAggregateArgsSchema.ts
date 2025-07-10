@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { Prisma } from "../../../../db/generated/prisma";
+import type { Prisma } from "../../../../../node_modules/.prisma/client";
 import { PostOrderByWithRelationInputSchema } from "../inputTypeSchemas/PostOrderByWithRelationInputSchema";
 import { PostWhereInputSchema } from "../inputTypeSchemas/PostWhereInputSchema";
 import { PostWhereUniqueInputSchema } from "../inputTypeSchemas/PostWhereUniqueInputSchema";

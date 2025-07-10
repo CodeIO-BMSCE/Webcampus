@@ -27,6 +27,7 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "@prisma/client": "^6.11.1",
     "cors": "^2.8.5",
     "dotenv": "^17.1.0",
     "express": "^5.1.0"

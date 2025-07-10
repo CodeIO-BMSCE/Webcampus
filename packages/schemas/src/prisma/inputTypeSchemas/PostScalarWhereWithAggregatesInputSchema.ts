@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { Prisma } from "../../../../db/generated/prisma";
+import type { Prisma } from "../../../../../node_modules/.prisma/client";
 import { BoolWithAggregatesFilterSchema } from "./BoolWithAggregatesFilterSchema";
 import { IntWithAggregatesFilterSchema } from "./IntWithAggregatesFilterSchema";
 import { StringNullableWithAggregatesFilterSchema } from "./StringNullableWithAggregatesFilterSchema";
@@ -41,7 +41,7 @@ export const PostScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.PostScal
         .union([z.lazy(() => BoolWithAggregatesFilterSchema), z.boolean()])
         .optional(),
       authorId: z
-        .union([z.lazy(() => IntWithAggregatesFilterSchema), z.number()])
+        .union([z.lazy(() => StringWithAggregatesFilterSchema), z.string()])
         .optional(),
     })
     .strict();

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { Prisma } from "../../../../db/generated/prisma";
+import type { Prisma } from "../../../../../node_modules/.prisma/client";
 
 export const PostCreateManyInputSchema: z.ZodType<Prisma.PostCreateManyInput> =
   z
@@ -8,7 +8,7 @@ export const PostCreateManyInputSchema: z.ZodType<Prisma.PostCreateManyInput> =
       title: z.string(),
       content: z.string().optional().nullable(),
       published: z.boolean().optional(),
-      authorId: z.number().int(),
+      authorId: z.string(),
     })
     .strict();
 
