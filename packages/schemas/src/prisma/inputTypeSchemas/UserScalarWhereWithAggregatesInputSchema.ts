@@ -1,6 +1,7 @@
 import { z } from "zod";
 import type { Prisma } from "../../../../db/generated/prisma";
-import { IntWithAggregatesFilterSchema } from "./IntWithAggregatesFilterSchema";
+import { BoolWithAggregatesFilterSchema } from "./BoolWithAggregatesFilterSchema";
+import { DateTimeWithAggregatesFilterSchema } from "./DateTimeWithAggregatesFilterSchema";
 import { StringNullableWithAggregatesFilterSchema } from "./StringNullableWithAggregatesFilterSchema";
 import { StringWithAggregatesFilterSchema } from "./StringWithAggregatesFilterSchema";
 
@@ -24,12 +25,44 @@ export const UserScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.UserScal
         ])
         .optional(),
       id: z
-        .union([z.lazy(() => IntWithAggregatesFilterSchema), z.number()])
+        .union([z.lazy(() => StringWithAggregatesFilterSchema), z.string()])
+        .optional(),
+      name: z
+        .union([z.lazy(() => StringWithAggregatesFilterSchema), z.string()])
         .optional(),
       email: z
         .union([z.lazy(() => StringWithAggregatesFilterSchema), z.string()])
         .optional(),
-      name: z
+      emailVerified: z
+        .union([z.lazy(() => BoolWithAggregatesFilterSchema), z.boolean()])
+        .optional(),
+      image: z
+        .union([
+          z.lazy(() => StringNullableWithAggregatesFilterSchema),
+          z.string(),
+        ])
+        .optional()
+        .nullable(),
+      createdAt: z
+        .union([
+          z.lazy(() => DateTimeWithAggregatesFilterSchema),
+          z.coerce.date(),
+        ])
+        .optional(),
+      updatedAt: z
+        .union([
+          z.lazy(() => DateTimeWithAggregatesFilterSchema),
+          z.coerce.date(),
+        ])
+        .optional(),
+      username: z
+        .union([
+          z.lazy(() => StringNullableWithAggregatesFilterSchema),
+          z.string(),
+        ])
+        .optional()
+        .nullable(),
+      displayUsername: z
         .union([
           z.lazy(() => StringNullableWithAggregatesFilterSchema),
           z.string(),

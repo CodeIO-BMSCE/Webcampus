@@ -1,6 +1,7 @@
 import { z } from "zod";
 import type { Prisma } from "../../../../db/generated/prisma";
-import { PostOrderByRelationAggregateInputSchema } from "./PostOrderByRelationAggregateInputSchema";
+import { AccountOrderByRelationAggregateInputSchema } from "./AccountOrderByRelationAggregateInputSchema";
+import { SessionOrderByRelationAggregateInputSchema } from "./SessionOrderByRelationAggregateInputSchema";
 import { SortOrderInputSchema } from "./SortOrderInputSchema";
 import { SortOrderSchema } from "./SortOrderSchema";
 
@@ -8,14 +9,35 @@ export const UserOrderByWithRelationInputSchema: z.ZodType<Prisma.UserOrderByWit
   z
     .object({
       id: z.lazy(() => SortOrderSchema).optional(),
+      name: z.lazy(() => SortOrderSchema).optional(),
       email: z.lazy(() => SortOrderSchema).optional(),
-      name: z
+      emailVerified: z.lazy(() => SortOrderSchema).optional(),
+      image: z
         .union([
           z.lazy(() => SortOrderSchema),
           z.lazy(() => SortOrderInputSchema),
         ])
         .optional(),
-      posts: z.lazy(() => PostOrderByRelationAggregateInputSchema).optional(),
+      createdAt: z.lazy(() => SortOrderSchema).optional(),
+      updatedAt: z.lazy(() => SortOrderSchema).optional(),
+      username: z
+        .union([
+          z.lazy(() => SortOrderSchema),
+          z.lazy(() => SortOrderInputSchema),
+        ])
+        .optional(),
+      displayUsername: z
+        .union([
+          z.lazy(() => SortOrderSchema),
+          z.lazy(() => SortOrderInputSchema),
+        ])
+        .optional(),
+      sessions: z
+        .lazy(() => SessionOrderByRelationAggregateInputSchema)
+        .optional(),
+      accounts: z
+        .lazy(() => AccountOrderByRelationAggregateInputSchema)
+        .optional(),
     })
     .strict();
 

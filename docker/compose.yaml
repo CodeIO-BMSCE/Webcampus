@@ -3,7 +3,6 @@ services:
   db:
     image: postgres
     container_name: db
-    restart: always
     ports:
       - 5432:5432
     shm_size: 128mb
@@ -16,7 +15,6 @@ services:
   pgadmin:
     image: dpage/pgadmin4
     container_name: PG-Admin
-    restart: always
     ports:
       - 5050:80
     environment:

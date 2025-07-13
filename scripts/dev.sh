@@ -13,8 +13,9 @@ docker compose up -d
 popd
 
 # Free up common development ports before starting the dev server
-bun kill-port 8080
-bun kill-port 3000
+pushd scripts
+sh kill-ports.sh
+popd
 
 # Start the Turborepo development server using Bun
 bunx turbo dev

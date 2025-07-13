@@ -1,15 +1,25 @@
 import { z } from "zod";
 import type { Prisma } from "../../../../db/generated/prisma";
-import { PostUncheckedCreateNestedManyWithoutAuthorInputSchema } from "./PostUncheckedCreateNestedManyWithoutAuthorInputSchema";
+import { AccountUncheckedCreateNestedManyWithoutUserInputSchema } from "./AccountUncheckedCreateNestedManyWithoutUserInputSchema";
+import { SessionUncheckedCreateNestedManyWithoutUserInputSchema } from "./SessionUncheckedCreateNestedManyWithoutUserInputSchema";
 
 export const UserUncheckedCreateInputSchema: z.ZodType<Prisma.UserUncheckedCreateInput> =
   z
     .object({
-      id: z.number().int().optional(),
+      id: z.string(),
+      name: z.string(),
       email: z.string(),
-      name: z.string().optional().nullable(),
-      posts: z
-        .lazy(() => PostUncheckedCreateNestedManyWithoutAuthorInputSchema)
+      emailVerified: z.boolean(),
+      image: z.string().optional().nullable(),
+      createdAt: z.coerce.date(),
+      updatedAt: z.coerce.date(),
+      username: z.string().optional().nullable(),
+      displayUsername: z.string().optional().nullable(),
+      sessions: z
+        .lazy(() => SessionUncheckedCreateNestedManyWithoutUserInputSchema)
+        .optional(),
+      accounts: z
+        .lazy(() => AccountUncheckedCreateNestedManyWithoutUserInputSchema)
         .optional(),
     })
     .strict();
