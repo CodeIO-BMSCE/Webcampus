@@ -5,9 +5,15 @@ import { z } from "zod";
 /////////////////////////////////////////
 
 export const UserSchema = z.object({
-  id: z.number().int(),
+  id: z.string(),
+  name: z.string(),
   email: z.string(),
-  name: z.string().nullable(),
+  emailVerified: z.boolean(),
+  image: z.string().nullable(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date(),
+  username: z.string().nullable(),
+  displayUsername: z.string().nullable(),
 });
 
 export type User = z.infer<typeof UserSchema>;

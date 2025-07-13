@@ -1,6 +1,7 @@
 import { z } from "zod";
 import type { Prisma } from "../../../../db/generated/prisma";
-import { IntFieldUpdateOperationsInputSchema } from "./IntFieldUpdateOperationsInputSchema";
+import { BoolFieldUpdateOperationsInputSchema } from "./BoolFieldUpdateOperationsInputSchema";
+import { DateTimeFieldUpdateOperationsInputSchema } from "./DateTimeFieldUpdateOperationsInputSchema";
 import { NullableStringFieldUpdateOperationsInputSchema } from "./NullableStringFieldUpdateOperationsInputSchema";
 import { StringFieldUpdateOperationsInputSchema } from "./StringFieldUpdateOperationsInputSchema";
 
@@ -9,8 +10,14 @@ export const UserUncheckedUpdateManyInputSchema: z.ZodType<Prisma.UserUncheckedU
     .object({
       id: z
         .union([
-          z.number().int(),
-          z.lazy(() => IntFieldUpdateOperationsInputSchema),
+          z.string(),
+          z.lazy(() => StringFieldUpdateOperationsInputSchema),
+        ])
+        .optional(),
+      name: z
+        .union([
+          z.string(),
+          z.lazy(() => StringFieldUpdateOperationsInputSchema),
         ])
         .optional(),
       email: z
@@ -19,7 +26,39 @@ export const UserUncheckedUpdateManyInputSchema: z.ZodType<Prisma.UserUncheckedU
           z.lazy(() => StringFieldUpdateOperationsInputSchema),
         ])
         .optional(),
-      name: z
+      emailVerified: z
+        .union([
+          z.boolean(),
+          z.lazy(() => BoolFieldUpdateOperationsInputSchema),
+        ])
+        .optional(),
+      image: z
+        .union([
+          z.string(),
+          z.lazy(() => NullableStringFieldUpdateOperationsInputSchema),
+        ])
+        .optional()
+        .nullable(),
+      createdAt: z
+        .union([
+          z.coerce.date(),
+          z.lazy(() => DateTimeFieldUpdateOperationsInputSchema),
+        ])
+        .optional(),
+      updatedAt: z
+        .union([
+          z.coerce.date(),
+          z.lazy(() => DateTimeFieldUpdateOperationsInputSchema),
+        ])
+        .optional(),
+      username: z
+        .union([
+          z.string(),
+          z.lazy(() => NullableStringFieldUpdateOperationsInputSchema),
+        ])
+        .optional()
+        .nullable(),
+      displayUsername: z
         .union([
           z.string(),
           z.lazy(() => NullableStringFieldUpdateOperationsInputSchema),

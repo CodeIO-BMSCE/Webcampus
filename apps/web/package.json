@@ -21,6 +21,8 @@
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-tooltip": "^1.2.7",
     "@webcampus/ui": "*",
+    "@webcampus/common": "*",
+    "better-auth": "^1.2.12",
     "class-variance-authority": "^0.7.1",
     "lucide-react": "^0.525.0",
     "next": "^15.3.0",

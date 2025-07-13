@@ -1,12 +1,16 @@
 import { z } from "zod";
 import type { Prisma } from "../../../../db/generated/prisma";
-import { PostFindManyArgsSchema } from "../outputTypeSchemas/PostFindManyArgsSchema";
+import { AccountFindManyArgsSchema } from "../outputTypeSchemas/AccountFindManyArgsSchema";
+import { SessionFindManyArgsSchema } from "../outputTypeSchemas/SessionFindManyArgsSchema";
 import { UserCountOutputTypeArgsSchema } from "../outputTypeSchemas/UserCountOutputTypeArgsSchema";
 
 export const UserIncludeSchema: z.ZodType<Prisma.UserInclude> = z
   .object({
-    posts: z
-      .union([z.boolean(), z.lazy(() => PostFindManyArgsSchema)])
+    sessions: z
+      .union([z.boolean(), z.lazy(() => SessionFindManyArgsSchema)])
+      .optional(),
+    accounts: z
+      .union([z.boolean(), z.lazy(() => AccountFindManyArgsSchema)])
       .optional(),
     _count: z
       .union([z.boolean(), z.lazy(() => UserCountOutputTypeArgsSchema)])

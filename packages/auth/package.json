@@ -1,0 +1,23 @@
+{
+  "name": "@webcampus/auth",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "auth:generate": "bunx @better-auth/cli generate --output=../../db/prisma/schema.prisma --y"
+  },
+  "devDependencies": {
+    "@better-auth/cli": "^1.2.12",
+    "@types/bun": "latest",
+    "@webcampus/typescript-config": "*"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "better-auth": "^1.2.12",
+    "@webcampus/db": "*"
+  }
+}
