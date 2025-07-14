@@ -1,13 +1,6 @@
-
 generator client {
   provider = "prisma-client-js"
   output   = "../generated/prisma"
-}
-
-generator zod {
-  provider         = "zod-prisma-types"
-  output           = "../src/schemas"
-  useMultipleFiles = true
 }
 
 datasource db {
@@ -25,13 +18,25 @@ model User {
   updatedAt     DateTime
   sessions      Session[]
   accounts      Account[]
+  role          Role      @default(STUDENT)
+  student       Student?
+  faculty       Faculty?
+  hod           Hod?
+  admin         Admin?
+  Freeze        Freeze[]
 
   username        String?
   displayUsername String?
+  frozenAsFaculty Freeze[] @relation("FrozenByFaculty")
+  frozenAsHod     Freeze[] @relation("FrozenByHod")
+  frozenAsAdmin   Freeze[] @relation("FrozenByAdmin")
+
+  members     Member[]
+  invitations Invitation[]
 
   @@unique([email])
-  @@map("user")
   @@unique([username])
+  @@map("user")
 }
 
 model Session {
@@ -44,6 +49,8 @@ model Session {
   userAgent String?
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  activeOrganizationId String?
 
   @@unique([token])
   @@map("session")
@@ -77,4 +84,294 @@ model Verification {
   updatedAt  DateTime?
 
   @@map("verification")
+}
+
+enum Role {
+  STUDENT
+  FACULTY
+  HOD
+  ADMIN
+}
+
+enum CourseType {
+  PROFESSIONAL_CORE
+  NON_CREDIT
+  BASIC_SCIENCE
+  ABILITY_ENHANCEMENT
+}
+
+enum CondonationStatus {
+  NOT_REQUESTED
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum EligibilityStatus {
+  ELIGIBLE
+  NOT_ELIGIBLE
+}
+
+enum AssignmentType {
+  THEORY
+  LAB
+}
+
+model Branch {
+  id        String    @id @default(uuid())
+  name      String    @unique
+  code      String    @unique
+  hod       Hod?
+  hodId     String?   @unique
+  sections  Section[]
+  students  Student[]
+  faculties Faculty[]
+
+  @@index([code])
+}
+
+model Hod {
+  id       String @id @default(uuid())
+  user     User   @relation(fields: [userId], references: [id])
+  userId   String @unique
+  branch   Branch @relation(fields: [branchId], references: [id])
+  branchId String @unique
+}
+
+model Section {
+  id              String             @id @default(uuid())
+  name            String
+  branch          Branch             @relation(fields: [branchId], references: [id])
+  branchId        String
+  semester        Int
+  courses         CourseAssignment[]
+  studentSections StudentSection[]
+  batches         Batch[]
+
+  @@unique([name, branchId, semester])
+  @@index([branchId, semester])
+}
+
+model Batch {
+  id               String             @id @default(uuid())
+  name             String
+  section          Section            @relation(fields: [sectionId], references: [id])
+  sectionId        String
+  students         Student[]          @relation("BatchStudents")
+  CourseAssignment CourseAssignment[]
+
+  @@unique([name, sectionId])
+}
+
+model StudentSection {
+  id           String  @id @default(uuid())
+  student      Student @relation(fields: [studentId], references: [id])
+  studentId    String
+  section      Section @relation(fields: [sectionId], references: [id])
+  sectionId    String
+  semester     Int
+  academicYear String
+
+  @@unique([studentId, sectionId, semester, academicYear])
+  @@index([studentId])
+  @@index([sectionId])
+}
+
+model Student {
+  id              String               @id @default(uuid())
+  user            User                 @relation(fields: [userId], references: [id])
+  userId          String               @unique
+  usn             String               @unique
+  branch          Branch               @relation(fields: [branchId], references: [id])
+  branchId        String
+  currentSemester Int
+  studentSections StudentSection[]
+  academicYear    String
+  registrations   CourseRegistration[]
+  marks           Mark[]
+  attendances     Attendance[]
+  batches         Batch[]              @relation("BatchStudents")
+
+  @@index([branchId])
+}
+
+model Faculty {
+  id       String             @id @default(uuid())
+  user     User               @relation(fields: [userId], references: [id])
+  userId   String             @unique
+  branch   Branch             @relation(fields: [branchId], references: [id])
+  branchId String
+  teaches  CourseAssignment[]
+
+  @@index([branchId])
+}
+
+model Admin {
+  id     String @id @default(uuid())
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique
+}
+
+model Course {
+  id            String               @id @default(uuid())
+  code          String               @unique
+  name          String
+  type          CourseType
+  credits       Int
+  hasLab        Boolean              @default(false)
+  assignments   CourseAssignment[]
+  registrations CourseRegistration[]
+  marks         Mark[]
+  attendances   Attendance[]
+
+  @@index([code])
+}
+
+model CourseAssignment {
+  id             String         @id @default(uuid())
+  course         Course         @relation(fields: [courseId], references: [id])
+  courseId       String
+  faculty        Faculty        @relation(fields: [facultyId], references: [id])
+  facultyId      String
+  section        Section        @relation(fields: [sectionId], references: [id])
+  sectionId      String
+  batch          Batch?         @relation(fields: [batchId], references: [id])
+  batchId        String?
+  assignmentType AssignmentType
+  semester       Int
+  academicYear   String
+  freezes        Freeze[]
+
+  @@unique([courseId, facultyId, sectionId, batchId, assignmentType, semester, academicYear])
+  @@index([sectionId, semester])
+  @@index([batchId])
+}
+
+model CourseRegistration {
+  id           String  @id @default(uuid())
+  student      Student @relation(fields: [studentId], references: [id])
+  studentId    String
+  course       Course  @relation(fields: [courseId], references: [id])
+  courseId     String
+  semester     Int
+  academicYear String
+  hasDropped   Boolean @default(false)
+
+  @@unique([studentId, courseId, semester, academicYear])
+  @@index([studentId])
+  @@index([courseId])
+}
+
+model Attendance {
+  id                String            @id @default(uuid())
+  student           Student           @relation(fields: [studentId], references: [id])
+  studentId         String
+  course            Course            @relation(fields: [courseId], references: [id])
+  courseId          String
+  total             Int
+  present           Int
+  absent            Int
+  condonationStatus CondonationStatus @default(NOT_REQUESTED)
+  percentage        Float
+
+  @@unique([studentId, courseId])
+  @@index([courseId])
+}
+
+model Mark {
+  id        String  @id @default(uuid())
+  student   Student @relation(fields: [studentId], references: [id])
+  studentId String
+  course    Course  @relation(fields: [courseId], references: [id])
+  courseId  String
+
+  cie1     Float?
+  cie2     Float?
+  cie3     Float?
+  aat1     Float?
+  aat2     Float?
+  lab1     Float?
+  lab2     Float?
+  labTotal Float?
+  cieTotal Float?
+  status   EligibilityStatus
+
+  @@unique([studentId, courseId])
+  @@index([courseId])
+}
+
+model Freeze {
+  id                 String           @id @default(uuid())
+  courseAssignment   CourseAssignment @relation(fields: [courseAssignmentId], references: [id])
+  courseAssignmentId String           @unique
+
+  cie1Frozen   Boolean   @default(false)
+  cie2Frozen   Boolean   @default(false)
+  cie3Frozen   Boolean   @default(false)
+  cie1Deadline DateTime?
+  cie2Deadline DateTime?
+  cie3Deadline DateTime?
+
+  facultyFrozen Boolean @default(false)
+  hodFrozen     Boolean @default(false)
+  adminFrozen   Boolean @default(false)
+
+  facultyFrozenAt DateTime?
+  hodFrozenAt     DateTime?
+  adminFrozenAt   DateTime?
+
+  frozenByFaculty   User?   @relation("FrozenByFaculty", fields: [frozenByFacultyId], references: [id])
+  frozenByFacultyId String?
+
+  frozenByHod   User?   @relation("FrozenByHod", fields: [frozenByHodId], references: [id])
+  frozenByHodId String?
+
+  frozenByAdmin   User?   @relation("FrozenByAdmin", fields: [frozenByAdminId], references: [id])
+  frozenByAdminId String?
+
+  finalFrozen   Boolean   @default(false)
+  finalDeadline DateTime?
+  frozenAt      DateTime?
+  User          User?     @relation(fields: [userId], references: [id])
+  userId        String?
+}
+
+model Organization {
+  id          String       @id
+  name        String
+  slug        String?
+  logo        String?
+  createdAt   DateTime
+  metadata    String?
+  members     Member[]
+  invitations Invitation[]
+
+  @@unique([slug])
+  @@map("organization")
+}
+
+model Member {
+  id             String       @id
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role           String
+  createdAt      DateTime
+
+  @@map("member")
+}
+
+model Invitation {
+  id             String       @id
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  email          String
+  role           String?
+  status         String
+  expiresAt      DateTime
+  inviterId      String
+  user           User         @relation(fields: [inviterId], references: [id], onDelete: Cascade)
+
+  @@map("invitation")
 }
