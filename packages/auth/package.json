@@ -3,7 +3,8 @@
   "type": "module",
   "private": true,
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./types": "./src/types.ts"
   },
   "scripts": {
     "auth:generate": "bunx @better-auth/cli generate --output=../../db/prisma/schema.prisma --y"
@@ -11,13 +12,16 @@
   "devDependencies": {
     "@better-auth/cli": "^1.2.12",
     "@types/bun": "latest",
+    "@types/nodemailer": "^6.4.17",
     "@webcampus/typescript-config": "*"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
   "dependencies": {
+    "@webcampus/db": "*",
+    "@webcampus/common": "*",
     "better-auth": "^1.2.12",
-    "@webcampus/db": "*"
+    "nodemailer": "^7.0.5"
   }
 }
