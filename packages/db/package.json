@@ -3,7 +3,8 @@
   "type": "module",
   "private": true,
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./schemas": "./src/schemas/index.ts"
   },
   "scripts": {
     "check-types": "tsc --noEmit --pretty",
@@ -13,7 +14,8 @@
     "db:deploy": "prisma migrate deploy",
     "db:zod": "prisma generate zod",
     "format:write": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
-    "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache"
+    "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
+    "postinstall": "prisma generate"
   },
   "devDependencies": {
     "@eslint/css": "^0.9.0",
