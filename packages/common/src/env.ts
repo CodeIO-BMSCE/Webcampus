@@ -6,6 +6,7 @@ const commonEnvSchema = z.object({
 
 const frontendEnvSchema = commonEnvSchema.extend({
   NEXT_PUBLIC_API_BASE_URL: z.url(),
+  NEXT_PUBLIC_FRONTEND_URL: z.url(),
 });
 
 const backendEnvSchema = commonEnvSchema.extend({
@@ -13,6 +14,8 @@ const backendEnvSchema = commonEnvSchema.extend({
   BETTER_AUTH_URL: z.url(),
   PORT: z.coerce.number(),
   FRONTEND_URL: z.url(),
+  GMAIL_APP_PASSWORD: z.string(),
+  SENDER_EMAIL: z.string(),
 });
 
 /**
@@ -24,6 +27,7 @@ const backendEnvSchema = commonEnvSchema.extend({
 export function frontendEnv() {
   return frontendEnvSchema.parse({
     NEXT_PUBLIC_API_BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL,
+    NEXT_PUBLIC_FRONTEND_URL: process.env.NEXT_PUBLIC_FRONTEND_URL,
   });
 }
 

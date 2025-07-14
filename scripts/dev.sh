@@ -1,5 +1,10 @@
 #!/bin/bash
 set -e
+
+pushd scripts
+bun tsx banner.ts
+popd
+
 # Start Docker Desktop (only works on Windows WSL/macOS with Docker CLI integration)
 docker desktop start
 
