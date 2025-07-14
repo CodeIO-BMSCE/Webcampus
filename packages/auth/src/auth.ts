@@ -19,11 +19,11 @@ export const auth = betterAuth({
         to: user.email,
         subject: "Reset your password",
         html: `<!DOCTYPE html>
-<html lang="en" style="margin: 0; padding: 0;">
+<html lang='en'>
   <head>
-    <meta charset="UTF-8" />
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
     <title>Reset Your Password</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
       body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -31,7 +31,6 @@ export const auth = betterAuth({
         margin: 0;
         padding: 0;
       }
-
       .container {
         max-width: 600px;
         margin: 40px auto;
@@ -41,17 +40,14 @@ export const auth = betterAuth({
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
         color: #333;
       }
-
       .logo {
         text-align: center;
         margin-bottom: 25px;
       }
-
       .logo img {
         width: 80px;
         height: auto;
       }
-
       .title {
         font-size: 24px;
         font-weight: 700;
@@ -59,26 +55,22 @@ export const auth = betterAuth({
         color: #1a1a1a;
         margin-bottom: 10px;
       }
-
       .subtitle {
         font-size: 16px;
         text-align: center;
         color: #666;
         margin-bottom: 30px;
       }
-
       .content {
         font-size: 15px;
         line-height: 1.7;
         margin-bottom: 30px;
         color: #444;
       }
-
       .button-container {
         text-align: center;
         margin-bottom: 30px;
       }
-
       .button {
         background-color: #0052ff;
         color: #ffffff;
@@ -90,11 +82,9 @@ export const auth = betterAuth({
         display: inline-block;
         transition: background 0.3s ease;
       }
-
       .button:hover {
         background-color: #003dcc;
       }
-
       .footer {
         font-size: 12px;
         text-align: center;
@@ -104,33 +94,32 @@ export const auth = betterAuth({
     </style>
   </head>
   <body>
-    <div class="container">
-      <div class="logo">
-        <!-- Optional Logo -->
-        <img src="https://www.bmscl.ac.in/assets/images/si/Bmseccl.png" alt="BMSCE Logo" />
+    <div class='container'>
+      <div class='logo'>
+        <img src='https://www.bmscl.ac.in/assets/images/si/Bmseccl.png' alt='BMSCE Logo' />
       </div>
-      <div class="title">Reset Your Password</div>
-      <div class="subtitle">Securely change your login credentials</div>
-      <div class="content">
+      <div class='title'>Reset Your Password</div>
+      <div class='subtitle'>Securely change your login credentials</div>
+      <div class='content'>
         Hello,<br /><br />
         We received a request to reset your password for your TechVerse Campus account.<br /><br />
         If you initiated this request, please click the button below to set a new password:
       </div>
-      <div class="button-container">
+      <div class='button-container'>
         <a
-          href="http://localhost:3000/auth/reset-password?token=YOUR_TOKEN_HERE"
-          class="button"
-          target="_blank"
+          href='http://localhost:3000/auth/reset-password?token=YOUR_TOKEN_HERE'
+          class='button'
+          target='_blank'
         >
           Reset Password
         </a>
       </div>
-      <div class="content">
+      <div class='content'>
         If you didn't request this password reset, you can safely ignore this email.
       </div>
-      <div class="footer">
+      <div class='footer'>
         This is an automated message. Please do not reply directly.<br />
-        © 2025 BMSCE Webcampus. All rights reserved.
+        &copy; 2025 BMSCE Webcampus. All rights reserved.
       </div>
     </div>
   </body>
