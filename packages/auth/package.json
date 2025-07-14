@@ -19,8 +19,8 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "@webcampus/db": "*",
     "@webcampus/common": "*",
+    "@webcampus/db": "*",
     "better-auth": "^1.2.12",
     "nodemailer": "^7.0.5"
   }

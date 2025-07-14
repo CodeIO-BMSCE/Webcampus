@@ -1,13 +1,13 @@
 import { backendEnv } from "@webcampus/common/env";
 import nodemailer from "nodemailer";
 
-type sendEmailParams = {
+type SendEmailParams = {
   to: string;
   subject: string;
   html: string;
 };
 
-export const sendEmail = async ({ to, subject, html }: sendEmailParams) => {
+export const sendEmail = async ({ to, subject, html }: SendEmailParams) => {
   /**
    * TODO: Replace with a production grade SMTP service.
    */

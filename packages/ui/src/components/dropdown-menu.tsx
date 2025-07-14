@@ -24,6 +24,7 @@ function DropdownMenuTrigger({
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Trigger>) {
   return (
     <DropdownMenuPrimitive.Trigger
+      className="focus:outline-none"
       data-slot="dropdown-menu-trigger"
       {...props}
     />
