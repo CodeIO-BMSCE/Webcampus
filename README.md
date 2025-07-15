@@ -41,7 +41,13 @@ cd Webcampus
 bun install
 ```
 
-### 3. Start Development Server
+### 3. Environment variables
+
+```bash
+sh scripts/env-setup.sh
+```
+
+### 4. Start Development Server
 
 ```bash
 bun run dev
@@ -52,7 +58,6 @@ bun run dev
 ## Database Setup
 
 ```bash
-cp packages/db/.env.example packages/db/.env
 bunx turbo db:migrate
 bunx turbo db:generate
 bunx turbo db:deploy
