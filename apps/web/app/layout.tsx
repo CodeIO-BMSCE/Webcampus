@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "@webcampus/ui/globals.css";
+import { ThemeProvider } from "@webcampus/ui/providers/theme-provider";
 import { Manrope } from "next/font/google";
 import { ToastContainer } from "react-toastify";
 
@@ -15,15 +16,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={manrope.className}>
-        <ToastContainer
-          toastStyle={{
-            borderStyle: "var(--tw-border-style)",
-            borderWidth: "1px",
-            boxShadow: "none",
-          }}
-        />
+        <ThemeProvider>
+          <ToastContainer
+            hideProgressBar
+            toastStyle={{
+              borderStyle: "var(--tw-border-style)",
+              borderWidth: "1px",
+              boxShadow: "none",
+            }}
+          />
+        </ThemeProvider>
         {children}
       </body>
     </html>

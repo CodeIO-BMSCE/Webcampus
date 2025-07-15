@@ -33,7 +33,7 @@
     "db:deploy": {
       "cache": false
     },
-    "db:zod": {
+    "db:studio": {
       "cache": false
     },
     "format:check": {

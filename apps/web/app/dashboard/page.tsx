@@ -1,4 +1,4 @@
-import { UserButton } from "@/modules/auth/user-button/user-button-main";
+import { UserButton } from "@/modules/auth/user-button/user-button-menu";
 import { AppSidebar } from "@/modules/dashboard/sidebar/app-sidebar";
 import {
   Breadcrumb,

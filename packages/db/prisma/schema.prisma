@@ -9,30 +9,28 @@ datasource db {
 }
 
 model User {
-  id            String    @id
-  name          String
-  email         String
-  emailVerified Boolean
-  image         String?
-  createdAt     DateTime
-  updatedAt     DateTime
-  sessions      Session[]
-  accounts      Account[]
-  role          Role      @default(STUDENT)
-  student       Student?
-  faculty       Faculty?
-  hod           Hod?
-  admin         Admin?
-  Freeze        Freeze[]
-
+  id              String       @id
+  name            String
+  email           String
+  emailVerified   Boolean
+  image           String?
+  createdAt       DateTime
+  updatedAt       DateTime
+  sessions        Session[]
+  accounts        Account[]
+  role            Role         @default(STUDENT)
+  student         Student?
+  faculty         Faculty?
+  hod             Hod?
+  admin           Admin?
+  Freeze          Freeze[]
   username        String?
   displayUsername String?
-  frozenAsFaculty Freeze[] @relation("FrozenByFaculty")
-  frozenAsHod     Freeze[] @relation("FrozenByHod")
-  frozenAsAdmin   Freeze[] @relation("FrozenByAdmin")
-
-  members     Member[]
-  invitations Invitation[]
+  frozenAsFaculty Freeze[]     @relation("FrozenByFaculty")
+  frozenAsHod     Freeze[]     @relation("FrozenByHod")
+  frozenAsAdmin   Freeze[]     @relation("FrozenByAdmin")
+  members         Member[]
+  invitations     Invitation[]
 
   @@unique([email])
   @@unique([username])
@@ -40,16 +38,15 @@ model User {
 }
 
 model Session {
-  id        String   @id
-  expiresAt DateTime
-  token     String
-  createdAt DateTime
-  updatedAt DateTime
-  ipAddress String?
-  userAgent String?
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
+  id                   String   @id
+  expiresAt            DateTime
+  token                String
+  createdAt            DateTime
+  updatedAt            DateTime
+  ipAddress            String?
+  userAgent            String?
+  userId               String
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   activeOrganizationId String?
 
   @@unique([token])
@@ -279,22 +276,21 @@ model Attendance {
 }
 
 model Mark {
-  id        String  @id @default(uuid())
-  student   Student @relation(fields: [studentId], references: [id])
+  id        String            @id @default(uuid())
+  student   Student           @relation(fields: [studentId], references: [id])
   studentId String
-  course    Course  @relation(fields: [courseId], references: [id])
+  course    Course            @relation(fields: [courseId], references: [id])
   courseId  String
-
-  cie1     Float?
-  cie2     Float?
-  cie3     Float?
-  aat1     Float?
-  aat2     Float?
-  lab1     Float?
-  lab2     Float?
-  labTotal Float?
-  cieTotal Float?
-  status   EligibilityStatus
+  cie1      Float?
+  cie2      Float?
+  cie3      Float?
+  aat1      Float?
+  aat2      Float?
+  lab1      Float?
+  lab2      Float?
+  labTotal  Float?
+  cieTotal  Float?
+  status    EligibilityStatus
 
   @@unique([studentId, courseId])
   @@index([courseId])
@@ -304,36 +300,29 @@ model Freeze {
   id                 String           @id @default(uuid())
   courseAssignment   CourseAssignment @relation(fields: [courseAssignmentId], references: [id])
   courseAssignmentId String           @unique
-
-  cie1Frozen   Boolean   @default(false)
-  cie2Frozen   Boolean   @default(false)
-  cie3Frozen   Boolean   @default(false)
-  cie1Deadline DateTime?
-  cie2Deadline DateTime?
-  cie3Deadline DateTime?
-
-  facultyFrozen Boolean @default(false)
-  hodFrozen     Boolean @default(false)
-  adminFrozen   Boolean @default(false)
-
-  facultyFrozenAt DateTime?
-  hodFrozenAt     DateTime?
-  adminFrozenAt   DateTime?
-
-  frozenByFaculty   User?   @relation("FrozenByFaculty", fields: [frozenByFacultyId], references: [id])
-  frozenByFacultyId String?
-
-  frozenByHod   User?   @relation("FrozenByHod", fields: [frozenByHodId], references: [id])
-  frozenByHodId String?
-
-  frozenByAdmin   User?   @relation("FrozenByAdmin", fields: [frozenByAdminId], references: [id])
-  frozenByAdminId String?
-
-  finalFrozen   Boolean   @default(false)
-  finalDeadline DateTime?
-  frozenAt      DateTime?
-  User          User?     @relation(fields: [userId], references: [id])
-  userId        String?
+  cie1Frozen         Boolean          @default(false)
+  cie2Frozen         Boolean          @default(false)
+  cie3Frozen         Boolean          @default(false)
+  cie1Deadline       DateTime?
+  cie2Deadline       DateTime?
+  cie3Deadline       DateTime?
+  facultyFrozen      Boolean          @default(false)
+  hodFrozen          Boolean          @default(false)
+  adminFrozen        Boolean          @default(false)
+  facultyFrozenAt    DateTime?
+  hodFrozenAt        DateTime?
+  adminFrozenAt      DateTime?
+  frozenByFaculty    User?            @relation("FrozenByFaculty", fields: [frozenByFacultyId], references: [id])
+  frozenByFacultyId  String?
+  frozenByHod        User?            @relation("FrozenByHod", fields: [frozenByHodId], references: [id])
+  frozenByHodId      String?
+  frozenByAdmin      User?            @relation("FrozenByAdmin", fields: [frozenByAdminId], references: [id])
+  frozenByAdminId    String?
+  finalFrozen        Boolean          @default(false)
+  finalDeadline      DateTime?
+  frozenAt           DateTime?
+  User               User?            @relation(fields: [userId], references: [id])
+  userId             String?
 }
 
 model Organization {
