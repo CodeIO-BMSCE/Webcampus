@@ -11,7 +11,6 @@ import {
 import {
   BookCopy,
   BookOpenText,
-  Command,
   Fingerprint,
   LayoutDashboard,
   LifeBuoy,
@@ -19,6 +18,8 @@ import {
   SquareUserRound,
   User,
 } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 import * as React from "react";
 import { NavMain } from "./nav-main";
 import { NavSecondary } from "./nav-secondary";
@@ -77,15 +78,20 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <a href="#">
-                <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                  <Command className="size-4" />
+              <Link href="/" className="flex items-center gap-2">
+                <div className="text-sidebar-primary-foreground relative flex aspect-square size-8 items-center justify-center rounded-lg">
+                  <Image
+                    src="/bmsce.svg"
+                    alt="BMSCE Logo"
+                    fill
+                    className="object-cover"
+                  />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">BMSCE</span>
                   <span className="truncate text-xs">Student</span>
                 </div>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
