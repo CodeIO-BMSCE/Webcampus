@@ -36,7 +36,7 @@ export const useSignUpForm = () => {
       },
       onSuccess: () => {
         toast.success("Signed up successfully!");
-        router.push("/dashboard");
+        router.push("/student/dashboard");
       },
       onRetry: () => {
         toast.info("Retrying sign up...");

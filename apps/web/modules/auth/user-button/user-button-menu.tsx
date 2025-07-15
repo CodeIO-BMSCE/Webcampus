@@ -54,7 +54,7 @@ export const UserButton = () => {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem onClick={() => router.push("/dashboard")}>
+          <DropdownMenuItem onClick={() => router.push("/student/dashboard")}>
             Dashboard
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => router.push("/account")}>

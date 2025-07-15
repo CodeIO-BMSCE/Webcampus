@@ -45,7 +45,7 @@ const data = {
     },
     {
       name: "Courses",
-      url: "#",
+      url: "/student/courses",
       icon: BookCopy,
     },
     {

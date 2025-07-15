@@ -31,6 +31,7 @@
     "dotenv": "^17.1.0",
     "express": "^5.1.0",
     "@webcampus/auth": "*",
-    "@webcampus/common": "*"
+    "@webcampus/common": "*",
+    "@webcampus/backend-utils": "*"
   }
 }

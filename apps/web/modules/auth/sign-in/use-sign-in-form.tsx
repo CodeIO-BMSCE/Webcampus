@@ -29,7 +29,7 @@ export const useSignInForm = () => {
       },
       onSuccess: () => {
         toast.success("Signed in successfully!");
-        router.push("/dashboard");
+        router.push("/student/dashboard");
       },
       onRetry: () => {
         toast.info("Retrying sign in...");

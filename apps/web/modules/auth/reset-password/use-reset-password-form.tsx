@@ -40,7 +40,7 @@ export const useResetPasswordForm = () => {
         },
         onSuccess: () => {
           toast.success("Password reset successfully!");
-          router.push("/dashboard");
+          router.push("/student/dashboard");
         },
         onRetry: () => {
           toast.info("Retrying password reset...");
