@@ -8,7 +8,17 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@webcampus/ui/components/sidebar";
-import { Command, Frame, LifeBuoy, Map, PieChart, Send } from "lucide-react";
+import {
+  BookCopy,
+  BookOpenText,
+  Command,
+  Fingerprint,
+  LayoutDashboard,
+  LifeBuoy,
+  Send,
+  SquareUserRound,
+  User,
+} from "lucide-react";
 import * as React from "react";
 import { NavMain } from "./nav-main";
 import { NavSecondary } from "./nav-secondary";
@@ -28,44 +38,34 @@ const data = {
   ],
   navMain: [
     {
-      name: "Design Engineering",
+      name: "Dashboard",
       url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
+      icon: LayoutDashboard,
     },
     {
       name: "Courses",
       url: "#",
-      icon: Map,
+      icon: BookCopy,
     },
     {
       name: "Attendance",
       url: "#",
-      icon: Map,
+      icon: Fingerprint,
     },
     {
       name: "CIE",
       url: "#",
-      icon: Map,
+      icon: BookOpenText,
     },
     {
       name: "Proctor",
       url: "#",
-      icon: Map,
+      icon: SquareUserRound,
     },
     {
       name: "Profile",
       url: "#",
-      icon: Map,
+      icon: User,
     },
   ],
 };
@@ -82,8 +82,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <Command className="size-4" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">Acme Inc</span>
-                  <span className="truncate text-xs">Enterprise</span>
+                  <span className="truncate font-medium">BMSCE</span>
+                  <span className="truncate text-xs">Student</span>
                 </div>
               </a>
             </SidebarMenuButton>
