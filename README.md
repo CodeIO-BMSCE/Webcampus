@@ -1,4 +1,8 @@
-# BMSCE WebCampus Monorepo
+<p align="center">
+  <img src="https://github.com/CodeIO-BMSCE/Webcampus/blob/main/apps/web/public/bmsce.svg" alt="BMSCE Logo" width="120" />
+</p>
+
+<h1 align="center">BMSCE WebCampus</h1>
 
 ## Prerequisites
 
