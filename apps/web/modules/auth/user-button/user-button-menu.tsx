@@ -49,7 +49,7 @@ export const UserButton = () => {
             {session?.user.name}
           </span>
           <span className="text-muted-foreground max-w-[16rem] truncate text-xs">
-            {session?.user.username?.toUpperCase()}
+            {session?.user.displayUsername}
           </span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
