@@ -46,7 +46,7 @@ export const ForgotPassword = () => {
         </div>
         <div className="text-muted-foreground text-center text-sm">
           Remembered your password?{" "}
-          <Link href="/auth/sign-in" className="underline underline-offset-4">
+          <Link href="/sign-in" className="underline underline-offset-4">
             Sign in
           </Link>
         </div>

@@ -4,7 +4,8 @@
   "private": true,
   "exports": {
     ".": "./src/index.ts",
-    "./types": "./src/types.ts"
+    "./types": "./src/types.ts",
+    "./rbac": "./src/rbac/permissions.ts"
   },
   "scripts": {
     "auth:generate": "bunx @better-auth/cli generate --output=../db/prisma/schema.prisma --y"

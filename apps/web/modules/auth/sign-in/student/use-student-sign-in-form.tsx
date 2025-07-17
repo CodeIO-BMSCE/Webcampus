@@ -12,7 +12,7 @@ const signInSchema = z.object({
   password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
-export const useSignInForm = () => {
+export const useStudentSignInForm = () => {
   const router = useRouter();
   const form = useForm({
     resolver: zodResolver(signInSchema),
@@ -27,7 +27,9 @@ export const useSignInForm = () => {
       onError: (error) => {
         toast.error(error.error.message);
       },
-      onSuccess: () => {
+      onSuccess: (data) => {
+        console.log(data);
+
         toast.success("Signed in successfully!");
         router.push("/student/dashboard");
       },

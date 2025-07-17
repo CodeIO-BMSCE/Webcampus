@@ -3,7 +3,7 @@ import type { Session } from "@webcampus/auth/types";
 import { frontendEnv } from "@webcampus/common/env";
 import { NextRequest, NextResponse } from "next/server";
 
-const PUBLIC_PAGES = ["/auth/sign-in", "/auth/sign-up"];
+const PUBLIC_PAGES = ["/student/sign-in", "/sign-up"];
 const PROTECTED_PAGES = ["/student/dashboard"];
 
 export async function middleware(request: NextRequest) {
@@ -26,7 +26,7 @@ export async function middleware(request: NextRequest) {
   }
 
   if (!session && isProtectedPage) {
-    return NextResponse.redirect(new URL("/auth/sign-in", request.url));
+    return NextResponse.redirect(new URL("/student/sign-in", request.url));
   }
 
   return NextResponse.next();

@@ -5,6 +5,7 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 import { organization, username } from "better-auth/plugins";
 import { getFileContent } from "./mail/get-file-content";
 import { sendEmail } from "./mail/send-mail";
+import { ac, roles } from "./rbac/permissions";
 
 /**
  * To fix the typescript error here,
@@ -22,7 +23,7 @@ export const auth = betterAuth({
     enabled: true,
     sendResetPassword: async ({ user, token }) => {
       const resetUrl = new URL(
-        `${backendEnv().FRONTEND_URL}/auth/reset-password?token=${token}`
+        `${backendEnv().FRONTEND_URL}/reset-password?token=${token}`
       );
       await sendEmail({
         to: user.email,
@@ -37,5 +38,11 @@ export const auth = betterAuth({
       });
     },
   },
-  plugins: [username(), organization()],
+  plugins: [
+    username(),
+    organization({
+      ac,
+      roles,
+    }),
+  ],
 });

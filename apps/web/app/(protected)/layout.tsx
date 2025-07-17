@@ -5,7 +5,7 @@ import {
   SidebarProvider,
 } from "@webcampus/ui/components/sidebar";
 
-export default function StudentLayout({
+export default function ProtectedLayout({
   children,
 }: {
   children: React.ReactNode;

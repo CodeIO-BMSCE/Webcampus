@@ -23,7 +23,7 @@ export const useForgotPasswordForm = () => {
     await authClient.requestPasswordReset(
       {
         email: data.email,
-        redirectTo: `${frontendEnv().NEXT_PUBLIC_FRONTEND_URL}/auth/reset-password`,
+        redirectTo: `${frontendEnv().NEXT_PUBLIC_FRONTEND_URL}/reset-password`,
       },
       {
         onError: (error) => {
