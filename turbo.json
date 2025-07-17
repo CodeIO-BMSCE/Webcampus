@@ -49,6 +49,9 @@
     },
     "auth:generate": {
       "cache": false
+    },
+    "bootstrap": {
+      "cache": false
     }
   }
 }

@@ -17,6 +17,9 @@ docker compose up -d
 # Return to the previous directory
 popd
 
+#Boostrap the required resources
+bun run bootstrap
+
 # Free up common development ports before starting the dev server
 pushd scripts
 sh kill-ports.sh

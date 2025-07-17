@@ -37,6 +37,7 @@
     "build": "turbo run build",
     "dev": "sh scripts/dev.sh",
     "lint": "turbo run lint",
+    "bootstrap": "turbo run bootstrap",
     "format:write": "turbo run format:write",
     "format:check": "turbo run format:check",
     "check-types": "turbo run check-types",
