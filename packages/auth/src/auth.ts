@@ -1,11 +1,11 @@
+import "dotenv/config";
 import { backendEnv } from "@webcampus/common/env";
 import { db } from "@webcampus/db";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { organization, username } from "better-auth/plugins";
+import { username } from "better-auth/plugins";
 import { getFileContent } from "./mail/get-file-content";
 import { sendEmail } from "./mail/send-mail";
-import { ac, roles } from "./rbac/permissions";
 
 /**
  * To fix the typescript error here,
@@ -38,11 +38,5 @@ export const auth = betterAuth({
       });
     },
   },
-  plugins: [
-    username(),
-    organization({
-      ac,
-      roles,
-    }),
-  ],
+  plugins: [username()],
 });
