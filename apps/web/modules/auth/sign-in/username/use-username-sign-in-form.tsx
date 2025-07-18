@@ -8,22 +8,22 @@ import { toast } from "react-toastify";
 import z from "zod";
 
 const signInSchema = z.object({
-  email: z.email("Enter a valid email address"),
+  username: z.string().min(1, "USN is required"),
   password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
-export const useFacultySignInForm = () => {
+export const useUsernameSignInForm = () => {
   const router = useRouter();
   const form = useForm({
     resolver: zodResolver(signInSchema),
     defaultValues: {
-      email: "",
+      username: "",
       password: "",
     },
   });
 
   const onSubmit = async (data: z.infer<typeof signInSchema>) => {
-    await authClient.signIn.email(data, {
+    await authClient.signIn.username(data, {
       onError: (error) => {
         toast.error(error.error.message);
       },

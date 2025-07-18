@@ -1,4 +1,5 @@
-import { SignIn } from "@/modules/auth/sign-in/sign-in-view";
+import { EmailSignIn } from "@/modules/auth/sign-in/email/email-sign-in-view";
+import { UsernameSignIn } from "@/modules/auth/sign-in/username/username-sign-in-view";
 import { roles } from "@webcampus/types/rbac";
 import { notFound } from "next/navigation";
 import React from "react";
@@ -12,13 +13,17 @@ const SignInPage = async ({
   const roleSchema = z.object({
     role: z.enum(roles),
   });
-  const result = await roleSchema.safeParseAsync(await params);
+  const { data, success } = await roleSchema.safeParseAsync(await params);
 
-  if (!result.success) {
+  if (!success) {
     notFound();
   }
 
-  return <SignIn role={result.data.role} />;
+  if (data.role === "student") {
+    return <UsernameSignIn />;
+  } else {
+    return <EmailSignIn />;
+  }
 };
 
 export default SignInPage;

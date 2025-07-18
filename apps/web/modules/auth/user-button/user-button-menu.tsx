@@ -29,7 +29,7 @@ export const UserButton = () => {
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
-          router.push("/student/sign-in");
+          router.push("/");
         },
       },
     });

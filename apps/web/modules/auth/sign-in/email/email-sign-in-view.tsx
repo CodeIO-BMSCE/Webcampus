@@ -1,5 +1,6 @@
 "use client";
 
+import { Role } from "@webcampus/types/rbac";
 import { Button } from "@webcampus/ui/components/button";
 import {
   Form,
@@ -10,12 +11,15 @@ import {
   FormMessage,
 } from "@webcampus/ui/components/form";
 import { Input } from "@webcampus/ui/components/input";
+import { capitalize } from "@webcampus/ui/lib/utils";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import React from "react";
-import { useCoordinatorSignInForm } from "./use-coordinator-sign-in-form";
+import { useEmailSignInForm } from "./use-email-sign-in-form";
 
-export const CoordinatorSignIn = () => {
-  const { form, onSubmit } = useCoordinatorSignInForm();
+export const EmailSignIn = () => {
+  const { role } = useParams<{ role: Role }>();
+  const { form, onSubmit } = useEmailSignInForm({ role });
 
   return (
     <Form {...form}>
@@ -24,7 +28,7 @@ export const CoordinatorSignIn = () => {
         className={"flex flex-col gap-6"}
       >
         <div className="flex flex-col items-center gap-2 text-center">
-          <h1 className="text-2xl font-bold">Coordinator sign in</h1>
+          <h1 className="text-2xl font-bold">{capitalize(role)} sign in</h1>
           <p className="text-muted-foreground text-sm text-balance">
             Welcome back! Please sign in to continue.
           </p>

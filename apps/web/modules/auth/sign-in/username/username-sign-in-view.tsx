@@ -12,10 +12,10 @@ import {
 import { Input } from "@webcampus/ui/components/input";
 import Link from "next/link";
 import React from "react";
-import { useFacultySignInForm } from "./use-faculty-sign-in-form";
+import { useUsernameSignInForm } from "./use-username-sign-in-form";
 
-export const FacultySignIn = () => {
-  const { form, onSubmit } = useFacultySignInForm();
+export const UsernameSignIn = () => {
+  const { form, onSubmit } = useUsernameSignInForm();
 
   return (
     <Form {...form}>
@@ -24,7 +24,7 @@ export const FacultySignIn = () => {
         className={"flex flex-col gap-6"}
       >
         <div className="flex flex-col items-center gap-2 text-center">
-          <h1 className="text-2xl font-bold">Faculty sign in</h1>
+          <h1 className="text-2xl font-bold">Student sign in</h1>
           <p className="text-muted-foreground text-sm text-balance">
             Welcome back! Please sign in to continue.
           </p>
@@ -32,12 +32,12 @@ export const FacultySignIn = () => {
         <div className="grid gap-6">
           <FormField
             control={form.control}
-            name="email"
+            name="username"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>USN</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Enter your email" />
+                  <Input {...field} placeholder="Enter your usn" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
