@@ -26,12 +26,14 @@ export const roles = {
   }),
   hod: ac.newRole({
     attendance: ["read"],
+    ...adminAc.statements,
   }),
   coe: ac.newRole({
     attendance: ["read"],
   }),
   department: ac.newRole({
     attendance: ["read"],
+    ...adminAc.statements,
   }),
 } satisfies Record<Role, unknown>;
 
