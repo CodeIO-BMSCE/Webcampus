@@ -7,7 +7,7 @@
     "./types": "./src/types.ts"
   },
   "scripts": {
-    "auth:generate": "bunx @better-auth/cli generate --output=../../db/prisma/schema.prisma --y"
+    "auth:generate": "bunx @better-auth/cli generate --output=../db/prisma/schema.prisma --y"
   },
   "devDependencies": {
     "@better-auth/cli": "^1.2.12",
@@ -19,8 +19,8 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "@webcampus/db": "*",
     "@webcampus/common": "*",
+    "@webcampus/db": "*",
     "better-auth": "^1.2.12",
     "nodemailer": "^7.0.5"
   }

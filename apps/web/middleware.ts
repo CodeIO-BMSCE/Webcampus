@@ -4,7 +4,7 @@ import { frontendEnv } from "@webcampus/common/env";
 import { NextRequest, NextResponse } from "next/server";
 
 const PUBLIC_PAGES = ["/auth/sign-in", "/auth/sign-up"];
-const PROTECTED_PAGES = ["/dashboard"];
+const PROTECTED_PAGES = ["/student/dashboard"];
 
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
@@ -22,7 +22,7 @@ export async function middleware(request: NextRequest) {
   const isProtectedPage = PROTECTED_PAGES.includes(pathname);
 
   if (session && isPublicPage) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+    return NextResponse.redirect(new URL("/student/dashboard", request.url));
   }
 
   if (!session && isProtectedPage) {
