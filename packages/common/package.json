@@ -6,6 +6,10 @@
     "./env": "./src/env.ts",
     "./logger": "./src/logger.ts"
   },
+  "scripts": {
+    "check-types": "tsc --noEmit --pretty",
+    "build": "rm -rf dist && tsc"
+  },
   "devDependencies": {
     "@types/bun": "latest",
     "@webcampus/typescript-config": "*"
