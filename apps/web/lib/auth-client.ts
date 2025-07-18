@@ -21,9 +21,6 @@ export const authClient = createAuthClient({
   ],
 });
 
-authClient.organization.checkRolePermission({
-  permissions: {
-    attendance: ["create"],
-  },
-  role: "coordinator",
+await authClient.organization.setActive({
+  organizationSlug: "BMSCE",
 });

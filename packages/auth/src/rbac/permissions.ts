@@ -20,3 +20,7 @@ export const roles = {
 
 export type Role = keyof typeof roles;
 export const roleTypes = Object.keys(roles) as Role[];
+export type Permissions = Record<
+  keyof typeof statement,
+  (typeof statement)[keyof typeof statement][number][]
+>;

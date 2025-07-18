@@ -5,12 +5,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { v7 as uuid } from "uuid";
 import z from "zod";
 
 const signUpSchema = z.object({
-  /**
-   * TODO: Verify whether an (USN, email) pair exists using actual data.
-   */
   email: z.email("Invalid email address"),
   username: z.string().min(10, "USN is required"),
   password: z.string().min(8, "Password must be at least 8 characters"),
@@ -24,7 +22,7 @@ export const useSignUpForm = () => {
     defaultValues: {
       email: "",
       username: "",
-      password: "",
+      password: uuid(),
       name: "",
     },
   });
