@@ -1,10 +1,10 @@
 "use client";
 
-import { authClient } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
+import { roles, type Role } from "@webcampus/types/rbac";
+import axios from "axios";
+import { useParams } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 import { v7 as uuid } from "uuid";
 import z from "zod";
 
@@ -13,33 +13,31 @@ const signUpSchema = z.object({
   username: z.string().min(10, "USN is required"),
   password: z.string().min(8, "Password must be at least 8 characters"),
   name: z.string().min(1, "Name is required"),
+  role: z.enum(roles),
 });
 
 export const useSignUpForm = () => {
-  const router = useRouter();
-  const form = useForm({
+  /**
+   * TODO: modify this
+   */
+  const { role = "student" } = useParams<{ role: Role }>();
+  const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
       email: "",
-      username: "",
-      password: uuid(),
       name: "",
+      password: uuid(),
+      role,
+      username: "",
     },
   });
 
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
-    await authClient.signUp.email(data, {
-      onError: (error) => {
-        toast.error(error.error.message);
-      },
-      onSuccess: () => {
-        toast.success("Signed up successfully!");
-        router.push("/student/dashboard");
-      },
-      onRetry: () => {
-        toast.info("Retrying sign up...");
-      },
+    const response = await axios.post("http://localhost:8080/user", data, {
+      withCredentials: true,
     });
+
+    console.log(response);
   };
 
   return {

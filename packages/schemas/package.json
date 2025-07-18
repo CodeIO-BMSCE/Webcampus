@@ -1,10 +1,9 @@
 {
-  "name": "@webcampus/common",
+  "name": "@webcampus/schemas",
   "type": "module",
   "private": true,
   "exports": {
-    "./env": "./src/env.ts",
-    "./logger": "./src/logger.ts"
+    ".": "./src/index.ts"
   },
   "devDependencies": {
     "@types/bun": "latest",
@@ -14,7 +13,7 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "winston": "^3.17.0",
-    "zod": "^4.0.5"
+    "zod": "^4.0.5",
+    "@webcampus/types": "*"
   }
 }

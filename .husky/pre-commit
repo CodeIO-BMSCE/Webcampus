@@ -1,3 +1,7 @@
+pushd apps/web
+rm -rf .next
+popd
+
 bunx turbo check-types
 
 bunx lint-staged

@@ -1,14 +1,22 @@
+import { type Role } from "@webcampus/types/rbac";
 import { createAccessControl } from "better-auth/plugins/access";
+import { adminAc, defaultStatements } from "better-auth/plugins/admin/access";
 
 const statement = {
-  attendance: ["create", "share", "update", "delete"],
+  ...defaultStatements,
+  attendance: ["create", "read", "update", "delete"],
 } as const;
 
 export const ac = createAccessControl(statement);
 
 export const roles = {
+  admin: ac.newRole({
+    attendance: ["read"],
+    ...adminAc.statements,
+  }),
   student: ac.newRole({
-    attendance: ["create"],
+    attendance: ["read"],
+    user: [],
   }),
   faculty: ac.newRole({
     attendance: ["create", "update"],
@@ -16,11 +24,17 @@ export const roles = {
   coordinator: ac.newRole({
     attendance: ["create", "update", "delete"],
   }),
-};
+  hod: ac.newRole({
+    attendance: ["read"],
+  }),
+  coe: ac.newRole({
+    attendance: ["read"],
+  }),
+  department: ac.newRole({
+    attendance: ["read"],
+  }),
+} satisfies Record<Role, unknown>;
 
-export type Role = keyof typeof roles;
-export const roleTypes = Object.keys(roles) as Role[];
-export type Permissions = Record<
-  keyof typeof statement,
-  (typeof statement)[keyof typeof statement][number][]
->;
+export type Permissions = {
+  [K in keyof typeof statement]: (typeof statement)[K][number][];
+};

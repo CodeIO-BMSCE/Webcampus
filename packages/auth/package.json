@@ -8,7 +8,8 @@
     "./rbac": "./src/rbac/permissions.ts"
   },
   "scripts": {
-    "auth:generate": "bunx @better-auth/cli generate --output=../db/prisma/schema.prisma --y"
+    "auth:generate": "bunx @better-auth/cli generate --output=../db/prisma/schema.prisma --y",
+    "build": "rm -rf ./dist && tsc"
   },
   "devDependencies": {
     "@better-auth/cli": "^1.2.12",
@@ -22,8 +23,8 @@
   "dependencies": {
     "@webcampus/common": "*",
     "@webcampus/db": "*",
+    "@webcampus/types": "*",
     "better-auth": "^1.2.12",
-    "dotenv": "^17.2.0",
     "nodemailer": "^7.0.5"
   }
 }

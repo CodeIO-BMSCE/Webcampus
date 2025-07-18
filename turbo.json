@@ -47,6 +47,10 @@
       "cache": false,
       "outputs": []
     },
+    "bootstrap": {
+      "cache": false,
+      "outputs": []
+    },
     "auth:generate": {
       "cache": false
     }

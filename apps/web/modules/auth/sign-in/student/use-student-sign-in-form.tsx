@@ -27,9 +27,7 @@ export const useStudentSignInForm = () => {
       onError: (error) => {
         toast.error(error.error.message);
       },
-      onSuccess: (data) => {
-        console.log(data);
-
+      onSuccess: () => {
         toast.success("Signed in successfully!");
         router.push("/student/dashboard");
       },

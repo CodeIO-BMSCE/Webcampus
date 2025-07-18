@@ -1,4 +1,4 @@
-import { roleTypes } from "@webcampus/auth/rbac";
+import { roles } from "@webcampus/types/rbac";
 import { Button } from "@webcampus/ui/components/button";
 import { capitalize } from "@webcampus/ui/lib/utils";
 import Link from "next/link";
@@ -14,7 +14,7 @@ const HomePage = () => {
         </p>
       </div>
       <div className="flex flex-col gap-2.5">
-        {roleTypes.map((role) => (
+        {roles.map((role) => (
           <Button key={role} size={"lg"} variant={"outline"}>
             <Link href={`${role}/sign-in`}>{capitalize(role)} Sign In</Link>
           </Button>

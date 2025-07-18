@@ -26,6 +26,8 @@
     "@tanstack/react-table": "^8.21.3",
     "@webcampus/common": "*",
     "@webcampus/ui": "*",
+    "@webcampus/types": "*",
+    "axios": "^1.10.0",
     "better-auth": "^1.2.12",
     "class-variance-authority": "^0.7.1",
     "lucide-react": "^0.525.0",

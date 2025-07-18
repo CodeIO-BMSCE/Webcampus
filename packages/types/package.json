@@ -1,10 +1,9 @@
 {
-  "name": "@webcampus/common",
+  "name": "@webcampus/types",
   "type": "module",
   "private": true,
   "exports": {
-    "./env": "./src/env.ts",
-    "./logger": "./src/logger.ts"
+    "./rbac": "./src/rbac.ts"
   },
   "devDependencies": {
     "@types/bun": "latest",
@@ -12,9 +11,5 @@
   },
   "peerDependencies": {
     "typescript": "^5"
-  },
-  "dependencies": {
-    "winston": "^3.17.0",
-    "zod": "^4.0.5"
   }
 }

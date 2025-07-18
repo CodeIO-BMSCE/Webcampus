@@ -1,1 +1,1 @@
-export { sendResponse } from "./send-response";
+export * from "./send-response";

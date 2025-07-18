@@ -1,11 +1,11 @@
-import "dotenv/config";
 import { backendEnv } from "@webcampus/common/env";
 import { db } from "@webcampus/db";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { username } from "better-auth/plugins";
+import { admin, username } from "better-auth/plugins";
 import { getFileContent } from "./mail/get-file-content";
 import { sendEmail } from "./mail/send-mail";
+import { ac, roles } from "./rbac/permissions";
 
 /**
  * To fix the typescript error here,
@@ -18,6 +18,11 @@ export const auth = betterAuth({
   database: prismaAdapter(db, {
     provider: "postgresql",
   }),
+  user: {
+    deleteUser: {
+      enabled: true,
+    },
+  },
   trustedOrigins: [backendEnv().FRONTEND_URL],
   emailAndPassword: {
     enabled: true,
@@ -38,5 +43,11 @@ export const auth = betterAuth({
       });
     },
   },
-  plugins: [username()],
+  plugins: [
+    username(),
+    admin({
+      ac,
+      roles,
+    }),
+  ],
 });
