@@ -47,7 +47,14 @@ sh scripts/env-setup.sh
 bun install
 ```
 
-### 4.  Database Setup
+### 4. Start Development Server
+
+```bash
+bun run dev
+```
+
+
+### 5.  Database Setup
 
 ```bash
 bunx turbo db:migrate
@@ -56,12 +63,6 @@ bunx turbo db:deploy
 ```
 
 Follow the [pgAdmin Setup Guide](./pgadmin.md) to connect to the PostgreSQL database.
-
-### 5. Start Development Server
-
-```bash
-bun run dev
-```
 
 ---
 
