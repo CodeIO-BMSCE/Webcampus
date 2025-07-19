@@ -40,6 +40,7 @@ cd Webcampus
 ```bash
 sh scripts/env-setup.sh
 ```
+> Make sure all the required envs are configured.
 
 ### 3. Install Dependencies
 
@@ -47,22 +48,22 @@ sh scripts/env-setup.sh
 bun install
 ```
 
-### 4. Start Development Server
+### 4.  Database Setup
 
 ```bash
-bun run dev
-```
-
-
-### 5.  Database Setup
-
-```bash
+sh scripts/docker.sh
 bunx turbo db:migrate
 bunx turbo db:generate
 bunx turbo db:deploy
 ```
 
-Follow the [pgAdmin Setup Guide](./pgadmin.md) to connect to the PostgreSQL database.
+Follow the [pgAdmin Setup Guide](./pgadmin.md) to connect to the PostgreSQL database (optional).
+
+### 5. Start Development Server
+
+```bash
+bun run dev
+```
 
 ---
 
