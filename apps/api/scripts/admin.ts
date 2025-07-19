@@ -40,7 +40,7 @@ export class AdminBootstrap {
       return Boolean(existingAdmin);
     } catch (error) {
       logger.error("Error checking existing admin", { error });
-      throw new Error("Error checking existing admin");
+      throw new Error("Error checking existing admin", { cause: error });
     }
   }
 
@@ -83,10 +83,14 @@ export class AdminBootstrap {
     } catch (error) {
       if (error instanceof APIError) {
         logger.error("Sign up error:", { error });
-        throw new Error("Sign up error while creating student");
+        throw new Error("Sign up error while creating student", {
+          cause: error,
+        });
       } else {
         logger.error("Unexpected error during sign up:", { error });
-        throw new Error("Unexpected error while creating student");
+        throw new Error("Unexpected error while creating student", {
+          cause: error,
+        });
       }
     }
   }
@@ -110,9 +114,15 @@ export class AdminBootstrap {
       logger.info(`Admin role assigned successfully to`, { user: updatedUser });
     } catch (error) {
       logger.error({ "Error updating user role": error });
-      throw new Error("Error updating user role");
+      throw new Error("Error updating user role", { cause: error });
     }
   }
 }
 
-new AdminBootstrap().run();
+(async () => {
+  try {
+    await new AdminBootstrap().run();
+  } catch (error) {
+    logger.error("Error during AdminBootstrap:", { error });
+  }
+})();
