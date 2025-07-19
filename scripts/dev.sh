@@ -1,9 +1,7 @@
 #!/bin/bash
 set -e
 
-pushd scripts
-bun tsx banner.ts
-popd
+bunx tsx scripts/banner.ts
 
 # Start the required docker resources
 sh scripts/docker.sh

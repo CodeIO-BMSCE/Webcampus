@@ -2,9 +2,9 @@ import chalk from 'chalk';
 import figlet from "figlet";
 
 const bannerText = figlet.textSync("BMSCE", {
-  font: "Ansi Shadow",
+  font: "ANSI Shadow",
   horizontalLayout: "default",
   verticalLayout: "default",
 });
 
-console.log(chalk.red.bold(bannerText));
+console.log(chalk.yellow.bold(bannerText));
