@@ -16,6 +16,10 @@ const backendEnvSchema = commonEnvSchema.extend({
   FRONTEND_URL: z.url(),
   GMAIL_APP_PASSWORD: z.string(),
   SENDER_EMAIL: z.string(),
+  ADMIN_USER_NAME: z.string(),
+  ADMIN_USER_EMAIL: z.string(),
+  ADMIN_USER_PASSWORD: z.string(),
+  ADMIN_USER_USERNAME: z.string(),
 });
 
 /**

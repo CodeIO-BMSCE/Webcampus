@@ -5,9 +5,11 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "lint": "eslint .",
+    "build": "rm -rf dist && tsc",
     "check-types": "tsc --noEmit --pretty",
     "format:write": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
-    "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache"
+    "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
+    "bootstrap": "bun tsx scripts/admin.ts"
   },
   "devDependencies": {
     "@eslint/css": "^0.9.0",
@@ -31,7 +33,10 @@
     "dotenv": "^17.1.0",
     "express": "^5.1.0",
     "@webcampus/auth": "*",
+    "@webcampus/types": "*",
     "@webcampus/common": "*",
+    "@webcampus/schemas": "*",
+    "@webcampus/db": "*",
     "@webcampus/backend-utils": "*"
   }
 }

@@ -35,35 +35,35 @@ git clone https://github.com/CodeIO-BMSCE/Webcampus.git
 cd Webcampus
 ```
 
-### 2. Install Dependencies
+### 2. Environment variables
+
+```bash
+sh scripts/env-setup.sh
+```
+> Make sure all the required envs are configured.
+
+### 3. Install Dependencies
 
 ```bash
 bun install
 ```
 
-### 3. Environment variables
+### 4.  Database Setup
 
 ```bash
-sh scripts/env-setup.sh
-```
-
-### 4. Start Development Server
-
-```bash
-bun run dev
-```
-
----
-
-## Database Setup
-
-```bash
+sh scripts/docker.sh
 bunx turbo db:migrate
 bunx turbo db:generate
 bunx turbo db:deploy
 ```
 
-Follow the [pgAdmin Setup Guide](./pgadmin.md) to connect to the PostgreSQL database.
+Follow the [pgAdmin Setup Guide](./pgadmin.md) to connect to the PostgreSQL database (optional).
+
+### 5. Start Development Server
+
+```bash
+bun run dev
+```
 
 ---
 

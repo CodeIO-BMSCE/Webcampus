@@ -29,7 +29,7 @@ export const UserButton = () => {
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
-          router.push("/auth/sign-in");
+          router.push("/");
         },
       },
     });
@@ -49,7 +49,7 @@ export const UserButton = () => {
             {session?.user.name}
           </span>
           <span className="text-muted-foreground max-w-[16rem] truncate text-xs">
-            {session?.user.username?.toUpperCase()}
+            {session?.user.displayUsername}
           </span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
@@ -75,11 +75,11 @@ export const UserButton = () => {
           <Home className="h-4 w-4 opacity-50" />
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="flex items-center justify-between text-red-600 hover:bg-red-600 hover:text-white focus:bg-red-600 focus:text-white"
+          className="text-destructive hover:text-destructive-foreground flex items-center justify-between"
           onClick={handleLogout}
         >
-          <span>Sign out</span>
-          <LogOut className="h-4 w-4 opacity-80" />
+          <span>Log Out</span>
+          <LogOut className="h-4 w-4 opacity-50" />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

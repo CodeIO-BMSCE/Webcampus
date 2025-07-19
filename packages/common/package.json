@@ -3,7 +3,12 @@
   "type": "module",
   "private": true,
   "exports": {
-    "./env": "./src/env.ts"
+    "./env": "./src/env.ts",
+    "./logger": "./src/logger.ts"
+  },
+  "scripts": {
+    "check-types": "tsc --noEmit --pretty",
+    "build": "rm -rf dist && tsc"
   },
   "devDependencies": {
     "@types/bun": "latest",
@@ -13,6 +18,7 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "winston": "^3.17.0",
     "zod": "^4.0.5"
   }
 }

@@ -1,5 +1,6 @@
+import { ac, roles } from "@webcampus/auth/rbac";
 import { frontendEnv } from "@webcampus/common/env";
-import { organizationClient, usernameClient } from "better-auth/client/plugins";
+import { adminClient, usernameClient } from "better-auth/client/plugins";
 import { createAuthClient } from "better-auth/react";
 
 /**
@@ -11,5 +12,11 @@ import { createAuthClient } from "better-auth/react";
  */
 export const authClient = createAuthClient({
   baseURL: frontendEnv().NEXT_PUBLIC_API_BASE_URL,
-  plugins: [usernameClient(), organizationClient()],
+  plugins: [
+    usernameClient(),
+    adminClient({
+      ac,
+      roles,
+    }),
+  ],
 });

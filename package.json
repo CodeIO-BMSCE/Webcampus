@@ -15,7 +15,8 @@
     "lint-staged": "^16.1.2",
     "prettier": "3.6.2",
     "prettier-plugin-tailwindcss": "^0.6.13",
-    "turbo": "^2.5.4",
+    "tsx": "^4.7.0",
+    "turbo": "^2.5.5",
     "typescript": "5.8.3",
     "typescript-eslint": "^8.36.0"
   },
@@ -40,14 +41,11 @@
     "format:write": "turbo run format:write",
     "format:check": "turbo run format:check",
     "check-types": "turbo run check-types",
+    "bootstrap": "turbo run bootstrap",
     "prepare": "husky"
   },
   "workspaces": [
     "apps/*",
     "packages/*"
-  ],
-  "dependencies": {
-    "jspdf": "^3.0.1",
-    "jspdf-autotable": "^5.0.2"
-  }
+  ]
 }

@@ -1,0 +1,23 @@
+{
+  "name": "@webcampus/schemas",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "check-types": "tsc --noEmit --pretty",
+    "build": "rm -rf dist && tsc"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@webcampus/typescript-config": "*"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "zod": "^4.0.5",
+    "@webcampus/types": "*"
+  }
+}
