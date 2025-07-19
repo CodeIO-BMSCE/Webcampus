@@ -7,7 +7,11 @@ export const logger = winston.createLogger({
       format: winston.format.combine(
         winston.format.colorize({ all: true }),
         winston.format.timestamp(),
-        winston.format.align()
+        winston.format.printf(({ timestamp, level, message, ...meta }) => {
+          return `${timestamp} [${level}]: ${message} ${
+            Object.keys(meta).length ? JSON.stringify(meta, null, 2) : ""
+          }`;
+        })
       ),
     }),
   ],

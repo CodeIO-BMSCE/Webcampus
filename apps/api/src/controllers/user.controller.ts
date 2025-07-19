@@ -31,7 +31,7 @@ export const createUser = async (
       statusCode: 201,
     });
   } catch (error) {
-    logger.error("Error creating user:", error);
+    logger.error("Error creating user:", { error });
     sendResponse({
       res,
       message: ERRORS.INTERNAL_SERVER_ERROR,

@@ -39,8 +39,8 @@ export class AdminBootstrap {
       });
       return Boolean(existingAdmin);
     } catch (error) {
-      logger.error("Error checking existing admin:", error);
-      return false;
+      logger.error("Error checking existing admin", { error });
+      throw new Error("Error checking existing admin");
     }
   }
 
@@ -54,13 +54,11 @@ export class AdminBootstrap {
       logger.info("Admin user already exists.");
       return;
     }
-
     const created = await this.createUser();
     if (!created) {
       logger.error("Failed to create admin user.");
       return;
     }
-
     await this.promoteToAdmin();
   }
 
@@ -79,17 +77,17 @@ export class AdminBootstrap {
           username: ADMIN_USER_USERNAME,
         },
       });
-
       this.userId = response.user.id;
-      logger.info("User created:", this.userId);
+      logger.info("User created:", { user: response.user });
       return true;
     } catch (error) {
       if (error instanceof APIError) {
-        logger.info("Sign up error:", error.message);
+        logger.error("Sign up error:", { error });
+        throw new Error("Sign up error while creating student");
       } else {
-        logger.error("Unexpected error during sign up:", error);
+        logger.error("Unexpected error during sign up:", { error });
+        throw new Error("Unexpected error while creating student");
       }
-      return false;
     }
   }
 
@@ -109,13 +107,12 @@ export class AdminBootstrap {
         where: { id: this.userId },
         data: { role: "admin" },
       });
-
-      logger.info("Admin role assigned to user:", updatedUser.id);
+      logger.info(`Admin role assigned successfully to`, { user: updatedUser });
     } catch (error) {
-      logger.error("Error updating user role:", error);
+      logger.error({ "Error updating user role": error });
+      throw new Error("Error updating user role");
     }
   }
 }
 
-// Kick off the bootstrap process
 new AdminBootstrap().run();

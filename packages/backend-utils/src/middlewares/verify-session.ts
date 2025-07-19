@@ -41,7 +41,7 @@ export const verifySession = async (
     }
     next();
   } catch (error) {
-    logger.error("Session verification error:", error);
+    logger.error("Session verification error:", { error });
     sendResponse({
       res,
       statusCode: 500,

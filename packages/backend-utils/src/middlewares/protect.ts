@@ -73,7 +73,7 @@ export const protect =
 
       next();
     } catch (error) {
-      logger.error("Authorization error:", error);
+      logger.error("Authorization error", { error });
       sendResponse({
         res,
         statusCode: 500,

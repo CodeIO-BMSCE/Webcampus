@@ -26,7 +26,7 @@ export const validateRequest =
     const result = schema.safeParse(req[source]);
 
     if (!result.success) {
-      logger.info("Validation error", {
+      logger.error("Validation error", {
         path: req.path,
         source,
         issues: result.error.issues,

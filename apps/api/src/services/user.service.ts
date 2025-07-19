@@ -46,8 +46,8 @@ export class User {
       } else {
         return await this.createUserWithAdminAPI();
       }
-    } catch (err) {
-      logger.error("User creation failed:", err);
+    } catch (error) {
+      logger.error("User creation failed:", { error });
       throw new Error("User creation failed.");
     }
   }
@@ -67,7 +67,7 @@ export class User {
         message: "Student created successfully.",
       };
     } catch (error) {
-      logger.error("Failed to create student user:", error);
+      logger.error("Failed to create student user:", { error });
       throw new Error("Failed to create student user.");
     }
   }
@@ -84,9 +84,9 @@ export class User {
         body: this.body,
       });
       this.userId = user.id;
-      logger.info("Student USN reated using signUpEmail: ", user);
+      logger.info("Student USN reated using signUpEmail", { user });
     } catch (error) {
-      logger.error("signUpEmail failed:", error);
+      logger.error("signUpEmail failed", { error });
       throw new Error("Failed to sign up user with username.");
     }
   }
@@ -109,7 +109,7 @@ export class User {
           role: this.body.role,
         },
       });
-      logger.info("User Role updated using Admin API: ", user);
+      logger.info("User Role updated using Admin API", { user });
     } catch (error) {
       /**
        * TODO: Check whether this works or not
@@ -120,7 +120,7 @@ export class User {
           password: this.body.password,
         },
       });
-      logger.error("Failed to update user role:", error);
+      logger.error("Failed to update user role", { error });
       throw new Error("Failed to assign role to user.");
     }
   }
@@ -137,12 +137,12 @@ export class User {
         headers: fromNodeHeaders(this.req.headers),
         body: this.body,
       });
-      logger.info("User Created using Admin API: ", user);
+      logger.info("User Created using Admin API ", { user });
       return {
         message: `${this.body.role} created successfully`,
       };
     } catch (error) {
-      logger.error("createUser via admin API failed:", error);
+      logger.error("createUser via admin API failed:", { error });
       throw new Error("Failed to create user via admin API.");
     }
   }
