@@ -48,5 +48,8 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "syncpack": "^14.0.0-alpha.18"
+  }
 }
