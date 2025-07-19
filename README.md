@@ -40,7 +40,23 @@ cd Webcampus
 ```bash
 sh scripts/env-setup.sh
 ```
-> Make sure all the required envs are configured.
+
+> This script will copy example `.env` files into the appropriate directories:
+>
+> * `packages/db/.env`
+> * `apps/api/.env`
+> * `apps/web/.env`
+
+After this, open **`apps/api/.env`** and **fill in the required values** for the following fields:
+
+```env
+# You can get this from your google account (2FA should be enabled)
+GMAIL_APP_PASSWORD=''
+SENDER_EMAIL=''
+```
+
+> ⚠️ These values are used to send emails. Make sure they are valid.
+
 
 ### 3. Install Dependencies
 
