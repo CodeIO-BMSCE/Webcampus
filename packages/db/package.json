@@ -34,9 +34,6 @@
   },
   "dependencies": {
     "@prisma/client": "^6.11.1",
-    "bun": "^1.2.18",
-    "install": "^0.13.0",
-    "prisma": "^6.11.1",
-    "zod-prisma-types": "^3.2.4"
+    "prisma": "^6.11.1"
   }
 }

@@ -29,6 +29,7 @@ export const useCreateUserForm = ({ role }: UseCreateUserFormProps) => {
     });
     console.log(response);
     form.reset();
+    form.setValue("password", nanoid());
   };
 
   return {

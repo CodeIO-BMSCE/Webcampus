@@ -57,7 +57,7 @@ export class AdminBootstrap {
 
     const created = await this.createUser();
     if (!created) {
-      logger.info("Failed to create admin user.");
+      logger.error("Failed to create admin user.");
       return;
     }
 
@@ -81,11 +81,11 @@ export class AdminBootstrap {
       });
 
       this.userId = response.user.id;
-      logger.log("User created:", this.userId);
+      logger.info("User created:", this.userId);
       return true;
     } catch (error) {
       if (error instanceof APIError) {
-        logger.log("Sign up error:", error.message);
+        logger.info("Sign up error:", error.message);
       } else {
         logger.error("Unexpected error during sign up:", error);
       }
@@ -110,7 +110,7 @@ export class AdminBootstrap {
         data: { role: "admin" },
       });
 
-      logger.log("Admin role assigned to user:", updatedUser.id);
+      logger.info("Admin role assigned to user:", updatedUser.id);
     } catch (error) {
       logger.error("Error updating user role:", error);
     }
