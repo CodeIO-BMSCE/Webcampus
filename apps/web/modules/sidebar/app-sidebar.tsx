@@ -1,5 +1,6 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import {
   Sidebar,
   SidebarContent,
@@ -8,6 +9,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@webcampus/ui/components/sidebar";
+import { capitalize } from "@webcampus/ui/lib/utils";
 import {
   BookCopy,
   BookOpenText,
@@ -72,6 +74,7 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { data: session } = authClient.useSession();
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>
@@ -89,7 +92,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">BMSCE</span>
-                  <span className="truncate text-xs">Student</span>
+                  <span className="truncate text-xs">
+                    {capitalize(String(session?.user.role))}
+                  </span>
                 </div>
               </Link>
             </SidebarMenuButton>
