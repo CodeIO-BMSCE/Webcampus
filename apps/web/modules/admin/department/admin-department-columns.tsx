@@ -5,11 +5,19 @@ import { UserWithRole } from "better-auth/plugins";
 
 export const adminDepartmentColumns: ColumnDef<UserWithRole>[] = [
   {
+    accessorKey: "id",
+    header: "ID",
+  },
+  {
     accessorKey: "name",
     header: "Name",
   },
   {
     accessorKey: "email",
     header: "Email",
+  },
+  {
+    accessorKey: "emailVerified",
+    header: "Email Verified",
   },
 ];

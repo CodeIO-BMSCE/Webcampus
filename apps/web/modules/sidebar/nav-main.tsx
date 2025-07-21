@@ -7,17 +7,9 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@webcampus/ui/components/sidebar";
-import { type LucideIcon } from "lucide-react";
+import { NavMainProps } from "./sidebar-types";
 
-export function NavMain({
-  items,
-}: {
-  items: {
-    name: string;
-    url: string;
-    icon: LucideIcon;
-  }[];
-}) {
+export function NavMain({ items }: NavMainProps) {
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>Platform</SidebarGroupLabel>

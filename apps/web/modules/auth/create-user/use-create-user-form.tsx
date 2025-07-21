@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createUserSchema, type CreateUserType } from "@webcampus/schemas";
 import { type Role } from "@webcampus/types/rbac";
 import axios from "axios";
@@ -12,6 +13,7 @@ interface UseCreateUserFormProps {
 }
 
 export const useCreateUserForm = ({ role }: UseCreateUserFormProps) => {
+  const queryClient = useQueryClient();
   const form = useForm<CreateUserType>({
     resolver: zodResolver(createUserSchema),
     defaultValues: {
@@ -23,13 +25,18 @@ export const useCreateUserForm = ({ role }: UseCreateUserFormProps) => {
     },
   });
 
-  const onSubmit = async (data: CreateUserType) => {
-    const response = await axios.post("http://localhost:8080/user", data, {
-      withCredentials: true,
-    });
-    console.log(response);
-    form.reset();
-    form.setValue("password", nanoid());
+  const mutation = useMutation({
+    mutationFn: (data: CreateUserType) =>
+      axios.post("http://localhost:8080/user", data, { withCredentials: true }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["Departments"] });
+      form.reset();
+      form.setValue("password", nanoid());
+    },
+  });
+
+  const onSubmit = (data: CreateUserType) => {
+    mutation.mutate(data);
   };
 
   return {
