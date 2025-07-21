@@ -1,0 +1,20 @@
+import { z } from "zod";
+
+export const createCourseRegistrationSchema = z.object({
+  studentId: z.string().uuid("Invalid student ID"),
+  courseId: z.string().uuid("Invalid course ID"),
+  semester: z.number().int().positive("Semester must be a positive integer"),
+  academicYear: z.string().min(1, "Academic year is required"),
+  hasDropped: z.boolean().default(false).optional(),
+});
+
+export const updateCourseRegistrationSchema = z.object({
+  hasDropped: z.boolean(),
+});
+
+export type CreateCourseRegistrationType = z.infer<
+  typeof createCourseRegistrationSchema
+>;
+export type UpdateCourseRegistrationType = z.infer<
+  typeof updateCourseRegistrationSchema
+>;
