@@ -4,6 +4,9 @@ import { protect } from "@webcampus/backend-utils/middlewares";
 import { backendEnv } from "@webcampus/common/env";
 import cors from "cors";
 import express from "express";
+import courseAssignmentRouter from "./routers/course-assignment.router";
+import courseRegistrationRouter from "./routers/course-registration.router";
+import facultyRouter from "./routers/faculty.router";
 import userRouter from "./routers/user.router";
 
 const app = express();
@@ -32,6 +35,10 @@ app.use(
   }),
   userRouter
 );
+
+app.use("/faculty", facultyRouter);
+app.use("/course-registration", courseRegistrationRouter);
+app.use("/course-assignment", courseAssignmentRouter);
 
 app.get("/", (req, res) => {
   res.send({
