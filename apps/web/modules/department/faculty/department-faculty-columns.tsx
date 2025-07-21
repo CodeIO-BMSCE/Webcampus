@@ -15,7 +15,7 @@ import axios from "axios";
 import { UserWithRole } from "better-auth/plugins";
 import { MoreHorizontal } from "lucide-react";
 
-export const adminDepartmentColumns: ColumnDef<UserWithRole>[] = [
+export const departmentFacultyColumns: ColumnDef<UserWithRole>[] = [
   {
     accessorKey: "id",
     header: "ID",

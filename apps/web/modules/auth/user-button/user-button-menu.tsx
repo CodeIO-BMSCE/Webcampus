@@ -75,7 +75,7 @@ export const UserButton = () => {
           <Home className="h-4 w-4 opacity-50" />
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="text-destructive hover:text-destructive-foreground flex items-center justify-between"
+          className="flex items-center justify-between"
           onClick={handleLogout}
         >
           <span>Log Out</span>

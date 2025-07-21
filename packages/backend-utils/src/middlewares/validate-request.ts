@@ -1,6 +1,6 @@
 import { logger } from "@webcampus/common/logger";
 import type { NextFunction, Request, Response } from "express";
-import type { z, ZodType } from "zod";
+import { z, ZodType } from "zod";
 import { sendResponse } from "../helpers";
 
 type RequestPart = "body" | "query" | "params";
@@ -36,17 +36,10 @@ export const validateRequest =
         res,
         statusCode: 400,
         message: "Validation failed",
-        error: formatZodErrors(result.error.issues),
+        error: z.treeifyError(result.error),
       });
     }
 
     req[source] = result.data;
     next();
   };
-
-function formatZodErrors(issues: z.core.$ZodIssue[]) {
-  return issues.map((issue) => ({
-    path: issue.path.join("."),
-    message: issue.message,
-  }));
-}

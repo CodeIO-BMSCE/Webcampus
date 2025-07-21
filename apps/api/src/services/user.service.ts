@@ -1,8 +1,7 @@
-import { auth, fromNodeHeaders } from "@webcampus/auth";
+import { auth } from "@webcampus/auth";
 import { BaseResponse } from "@webcampus/backend-utils/helpers";
 import { logger } from "@webcampus/common/logger";
 import { CreateUserType } from "@webcampus/schemas";
-import { Request } from "express";
 
 /**
  * Custom User Service for Better Auth Integration
@@ -23,14 +22,11 @@ import { Request } from "express";
  */
 export class User {
   private body: CreateUserType;
-  private req: Request;
   private userId: string | null = null;
 
-  constructor(req: Request) {
-    this.req = req;
-    this.body = req.body;
+  constructor({ request }: { request: CreateUserType }) {
+    this.body = request;
   }
-
   /**
    * Main method to create a user.
    *
@@ -103,7 +99,6 @@ export class User {
     }
     try {
       const { user } = await auth.api.setRole({
-        headers: fromNodeHeaders(this.req.headers),
         body: {
           userId: this.userId,
           role: this.body.role,
@@ -115,7 +110,6 @@ export class User {
        * TODO: Check whether this works or not
        */
       await auth.api.deleteUser({
-        headers: fromNodeHeaders(this.req.headers),
         body: {
           password: this.body.password,
         },
@@ -134,7 +128,6 @@ export class User {
   private async createUserWithAdminAPI(): Promise<BaseResponse<null>> {
     try {
       const { user } = await auth.api.createUser({
-        headers: fromNodeHeaders(this.req.headers),
         body: this.body,
       });
       logger.info("User Created using Admin API ", { user });

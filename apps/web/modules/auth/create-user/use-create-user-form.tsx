@@ -29,7 +29,7 @@ export const useCreateUserForm = ({ role }: UseCreateUserFormProps) => {
     mutationFn: (data: CreateUserType) =>
       axios.post("http://localhost:8080/user", data, { withCredentials: true }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["Departments"] });
+      queryClient.invalidateQueries({ queryKey: ["Departments", "Faculties"] });
       form.reset();
       form.setValue("password", nanoid());
     },

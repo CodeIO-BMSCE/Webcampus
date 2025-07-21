@@ -6,17 +6,17 @@ import { DataTable } from "@/modules/student/courses/data-table";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@webcampus/ui/components/skeleton";
 import React from "react";
-import { adminDepartmentColumns } from "./admin-department-columns";
+import { departmentFacultyColumns } from "./department-faculty-columns";
 
-export const AdminDepartmentView = () => {
+export const DepartmentFacultyView = () => {
   const response = useQuery({
-    queryKey: ["Departments"],
+    queryKey: ["Faculties"],
     queryFn: async () => {
       return await authClient.admin.listUsers({
         query: {
           limit: 10,
           filterField: "role",
-          filterValue: "department",
+          filterValue: "faculty",
           filterOperator: "eq",
         },
       });
@@ -46,10 +46,10 @@ export const AdminDepartmentView = () => {
   return (
     <div className="space-y-4">
       <div className="flex justify-end">
-        <CreateUserDialog role="department" />
+        <CreateUserDialog role="faculty" />
       </div>
       <DataTable
-        columns={adminDepartmentColumns}
+        columns={departmentFacultyColumns}
         data={response.data?.data?.users}
       />
     </div>

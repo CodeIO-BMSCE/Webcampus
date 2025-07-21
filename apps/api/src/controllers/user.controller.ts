@@ -1,6 +1,8 @@
+import { auth, fromNodeHeaders } from "@webcampus/auth";
 import { ERRORS } from "@webcampus/backend-utils/errors";
 import { sendResponse } from "@webcampus/backend-utils/helpers";
 import { logger } from "@webcampus/common/logger";
+import { CreateUserType } from "@webcampus/schemas";
 import { Request, Response } from "express";
 import { User } from "../services/user.service";
 
@@ -24,7 +26,10 @@ export const createUser = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { message } = await new User(req).create();
+    const request: CreateUserType = req.body;
+    const { message } = await new User({
+      request,
+    }).create();
     sendResponse({
       res,
       message,
@@ -32,6 +37,34 @@ export const createUser = async (
     });
   } catch (error) {
     logger.error("Error creating user:", { error });
+    sendResponse({
+      res,
+      message: ERRORS.INTERNAL_SERVER_ERROR,
+      statusCode: 500,
+      error,
+    });
+  }
+};
+
+export const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const request: { userId: string } = req.body;
+    const { success } = await auth.api.removeUser({
+      headers: fromNodeHeaders(req.headers),
+      body: request,
+    });
+    if (success) {
+      logger.info("Deleted user", {
+        userId: request.userId,
+      });
+      sendResponse({
+        res,
+        message: "Deleted user",
+        statusCode: 200,
+      });
+    }
+  } catch (error) {
+    logger.error("Error deleting user:", { error });
     sendResponse({
       res,
       message: ERRORS.INTERNAL_SERVER_ERROR,

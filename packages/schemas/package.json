@@ -3,7 +3,8 @@
   "type": "module",
   "private": true,
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./admin": "./src/admin/index.ts"
   },
   "scripts": {
     "check-types": "tsc --noEmit --pretty",
