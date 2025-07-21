@@ -1,0 +1,31 @@
+{
+  "name": "@webcampus/auth",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts",
+    "./types": "./src/types.ts",
+    "./rbac": "./src/rbac/permissions.ts"
+  },
+  "scripts": {
+    "auth:generate": "bunx @better-auth/cli generate --output=../db/prisma/schema.prisma --y",
+    "build": "rm -rf ./dist && tsc",
+    "check-types": "tsc --noEmit --pretty"
+  },
+  "devDependencies": {
+    "@better-auth/cli": "^1.2.12",
+    "@types/bun": "latest",
+    "@types/nodemailer": "^6.4.17",
+    "@webcampus/typescript-config": "*"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@webcampus/common": "*",
+    "@webcampus/db": "*",
+    "@webcampus/types": "*",
+    "better-auth": "^1.2.12",
+    "nodemailer": "^7.0.5"
+  }
+}

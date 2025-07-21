@@ -1,0 +1,28 @@
+{
+  "name": "@webcampus/backend-utils",
+  "type": "module",
+  "exports": {
+    "./middlewares": "./src/middlewares/index.ts",
+    "./helpers": "./src/helpers/index.ts",
+    "./errors": "./src/errors.ts"
+  },
+  "scripts": {
+    "check-types": "tsc --noEmit --pretty",
+    "build": "rm -rf dist && tsc"
+  },
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/express": "^5.0.3",
+    "@webcampus/typescript-config": "*"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@webcampus/common": "*",
+    "@webcampus/auth": "*",
+    "@webcampus/types": "*",
+    "zod": "^4.0.5"
+  }
+}
