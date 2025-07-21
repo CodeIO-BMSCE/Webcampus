@@ -153,6 +153,9 @@ model Section {
   @@index([branchId, semester])
 }
 
+/**
+* TODO Change the Name of this model to support L-T-P
+*/
 model Batch {
   id               String             @id @default(uuid())
   name             String

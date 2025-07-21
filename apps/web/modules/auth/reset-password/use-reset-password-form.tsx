@@ -22,9 +22,6 @@ export const useResetPasswordForm = () => {
   });
 
   const onSubmit = async (data: z.infer<typeof forgotPasswordSchema>) => {
-    /**
-     * TODO: Verify that the token is valid and not a random value which user can manipulate.
-     */
     const token = searchParams.get("token");
     if (!token || token === "undefined") {
       redirect("/auth/forgot-password");

@@ -1,9 +1,9 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Session } from "@webcampus/auth/types";
+import { UserWithRole } from "better-auth/plugins";
 
-export const adminDepartmentColumns: ColumnDef<Session["user"]>[] = [
+export const adminDepartmentColumns: ColumnDef<UserWithRole>[] = [
   {
     accessorKey: "name",
     header: "Name",

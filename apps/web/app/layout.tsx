@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "@webcampus/ui/globals.css";
+import { QueryClientProvider } from "@/modules/providers/query-client-provider";
 import { ThemeProvider } from "@webcampus/ui/providers/theme-provider";
 import { Manrope } from "next/font/google";
 import { ToastContainer } from "react-toastify";
@@ -27,8 +28,8 @@ export default function RootLayout({
               boxShadow: "none",
             }}
           />
+          <QueryClientProvider>{children}</QueryClientProvider>
         </ThemeProvider>
-        {children}
       </body>
     </html>
   );
