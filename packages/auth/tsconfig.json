@@ -1,9 +1,0 @@
-{
-  "extends": "@webcampus/typescript-config/base.json",
-  "compilerOptions": {
-    "declaration": false,
-    "declarationMap": false,
-    "rootDir": ".",
-    "outDir": "dist"
-  }
-}
