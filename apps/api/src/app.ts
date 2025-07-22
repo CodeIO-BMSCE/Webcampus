@@ -1,4 +1,5 @@
 import "dotenv/config";
+import DepartmentRouter from "@/src/routers/department/department.router";
 import { auth, toNodeHandler } from "@webcampus/auth";
 import { protect } from "@webcampus/backend-utils/middlewares";
 import { backendEnv } from "@webcampus/common/env";
@@ -8,6 +9,7 @@ import semesterRouter from "./routers/admin/semester.router";
 import courseAssignmentRouter from "./routers/course-assignment.router";
 import courseRegistrationRouter from "./routers/course-registration.router";
 import facultyRouter from "./routers/faculty.router";
+import sectionRouter from "./routers/section.router";
 import userRouter from "./routers/user.router";
 
 const app = express();
@@ -37,22 +39,17 @@ app.use(
   userRouter
 );
 
-app.use("/faculty", facultyRouter);
+app.use("/api/faculty", facultyRouter);
 
-app.use("/course-registration", courseRegistrationRouter);
+app.use("/api/course-registration", courseRegistrationRouter);
 
-app.use("/course-assignment", courseAssignmentRouter);
+app.use("/api/course-assignment", courseAssignmentRouter);
 
-app.use(
-  "/semester",
-  protect({
-    role: "admin",
-    permissions: {
-      semester: ["create"],
-    },
-  }),
-  semesterRouter
-);
+app.use("/api/sections", sectionRouter);
+
+app.use("/semester", semesterRouter);
+
+app.use("/department", DepartmentRouter);
 
 app.get("/", (req, res) => {
   res.send({

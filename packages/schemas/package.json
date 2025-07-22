@@ -4,7 +4,9 @@
   "private": true,
   "exports": {
     ".": "./src/index.ts",
-    "./admin": "./src/admin/index.ts"
+    "./admin": "./src/admin/index.ts",
+    "./department": "./src/department/index.ts",
+    "./common": "./src/common.schemas.ts"
   },
   "scripts": {
     "check-types": "tsc --noEmit --pretty",

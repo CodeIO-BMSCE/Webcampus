@@ -115,13 +115,6 @@ enum Role {
   ADMIN
 }
 
-enum CourseType {
-  PROFESSIONAL_CORE
-  NON_CREDIT
-  BASIC_SCIENCE
-  ABILITY_ENHANCEMENT
-}
-
 enum CondonationStatus {
   NOT_REQUESTED
   PENDING
@@ -241,7 +234,7 @@ model Course {
   id            String               @id @default(uuid())
   code          String               @unique
   name          String
-  type          CourseType
+  type          String
   credits       Int
   hasLab        Boolean              @default(false)
   assignments   CourseAssignment[]
