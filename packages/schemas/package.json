@@ -3,7 +3,10 @@
   "type": "module",
   "private": true,
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./admin": "./src/admin/index.ts",
+    "./department": "./src/department/index.ts",
+    "./common": "./src/common.schemas.ts"
   },
   "scripts": {
     "check-types": "tsc --noEmit --pretty",

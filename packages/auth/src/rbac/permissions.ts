@@ -5,6 +5,8 @@ import { adminAc, defaultStatements } from "better-auth/plugins/admin/access";
 const statement = {
   ...defaultStatements,
   attendance: ["create", "read", "update", "delete"],
+  semester: ["create", "read", "update", "delete"],
+  courses: ["create"],
 } as const;
 
 export const ac = createAccessControl(statement);
@@ -12,6 +14,7 @@ export const ac = createAccessControl(statement);
 export const roles = {
   admin: ac.newRole({
     attendance: ["read"],
+    semester: ["create", "read", "update", "delete"],
     ...adminAc.statements,
   }),
   student: ac.newRole({
@@ -33,6 +36,7 @@ export const roles = {
   }),
   department: ac.newRole({
     attendance: ["read"],
+    courses: ["create"],
     ...adminAc.statements,
   }),
 } satisfies Record<Role, unknown>;

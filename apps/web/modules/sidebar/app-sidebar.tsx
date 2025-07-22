@@ -20,7 +20,7 @@ import { sidebarConfig } from "./sidebar-config";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: session, isPending } = authClient.useSession();
-  if (isPending) {
+  if (isPending || !session) {
     return <SidebarSkeleton />;
   }
   const { navMain, navSecondary } = sidebarConfig[session?.user.role as Role];

@@ -10,11 +10,14 @@ import { adminDepartmentColumns } from "./admin-department-columns";
 
 export const AdminDepartmentView = () => {
   const response = useQuery({
-    queryKey: ["Departments"],
+    queryKey: ["department"],
     queryFn: async () => {
       return await authClient.admin.listUsers({
         query: {
           limit: 10,
+          filterField: "role",
+          filterValue: "department",
+          filterOperator: "eq",
         },
       });
     },
@@ -41,12 +44,14 @@ export const AdminDepartmentView = () => {
   }
 
   return (
-    <div>
+    <div className="space-y-4">
+      <div className="flex justify-end">
+        <CreateUserDialog role="department" />
+      </div>
       <DataTable
         columns={adminDepartmentColumns}
         data={response.data?.data?.users}
       />
-      <CreateUserDialog role="department" />
     </div>
   );
 };

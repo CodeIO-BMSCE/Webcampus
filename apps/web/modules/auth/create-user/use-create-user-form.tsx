@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createUserSchema, type CreateUserType } from "@webcampus/schemas";
-import { type Role } from "@webcampus/types/rbac";
+import { roles, type Role } from "@webcampus/types/rbac";
 import axios from "axios";
 import { nanoid } from "nanoid";
 import { useForm } from "react-hook-form";
@@ -29,7 +29,9 @@ export const useCreateUserForm = ({ role }: UseCreateUserFormProps) => {
     mutationFn: (data: CreateUserType) =>
       axios.post("http://localhost:8080/user", data, { withCredentials: true }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["Departments"] });
+      roles.forEach((role) => {
+        queryClient.invalidateQueries({ queryKey: [role] });
+      });
       form.reset();
       form.setValue("password", nanoid());
     },

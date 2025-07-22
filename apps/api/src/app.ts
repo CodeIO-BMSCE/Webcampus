@@ -1,9 +1,11 @@
 import "dotenv/config";
+import DepartmentRouter from "@/src/routers/department/department.router";
 import { auth, toNodeHandler } from "@webcampus/auth";
 import { protect } from "@webcampus/backend-utils/middlewares";
 import { backendEnv } from "@webcampus/common/env";
 import cors from "cors";
 import express from "express";
+import semesterRouter from "./routers/admin/semester.router";
 import courseAssignmentRouter from "./routers/course-assignment.router";
 import courseRegistrationRouter from "./routers/course-registration.router";
 import facultyRouter from "./routers/faculty.router";
@@ -38,10 +40,16 @@ app.use(
 );
 
 app.use("/api/faculty", facultyRouter);
+
 app.use("/api/course-registration", courseRegistrationRouter);
+
 app.use("/api/course-assignment", courseAssignmentRouter);
 
 app.use("/api/sections", sectionRouter);
+
+app.use("/semester", semesterRouter);
+
+app.use("/department", DepartmentRouter);
 
 app.get("/", (req, res) => {
   res.send({

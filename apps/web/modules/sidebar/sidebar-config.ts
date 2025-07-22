@@ -7,10 +7,12 @@ import {
   Fingerprint,
   GraduationCap,
   LayoutDashboard,
+  Library,
   LifeBuoy,
   Send,
   User,
   Users,
+  UserSearch,
 } from "lucide-react";
 import { NavSecondaryProps, SidebarData } from "./sidebar-types";
 
@@ -71,14 +73,19 @@ export const sidebarConfig: Record<Role, SidebarData> = {
           icon: Users,
         },
         {
-          name: "Students",
-          url: "/department/students",
+          name: "Student",
+          url: "/department/student",
           icon: GraduationCap,
         },
         {
-          name: "Reports",
-          url: "/department/reports",
-          icon: BookOpenText,
+          name: "Courses",
+          url: "/department/courses",
+          icon: Library,
+        },
+        {
+          name: "Sections",
+          url: "/department/sections",
+          icon: UserSearch,
         },
       ],
     },

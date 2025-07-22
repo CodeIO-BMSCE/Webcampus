@@ -2,7 +2,6 @@ import { Role, roles } from "@webcampus/types/rbac";
 import { normalize } from "@webcampus/ui/lib/utils";
 
 export const AUTH_ROUTES = roles.map((role) => `/${role}/sign-in`);
-
 export const DASHBOARD_REDIRECTS: Record<Role, string> = Object.fromEntries(
   roles.map((role) => [role, `/${role}/dashboard`])
 ) as Record<Role, string>;

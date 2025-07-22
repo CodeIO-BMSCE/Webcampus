@@ -1,8 +1,13 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
+  const pathname = usePathname();
+
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">
@@ -28,7 +33,7 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
         <Image
           fill
           quality={100}
-          src="/auth-hero.svg"
+          src={pathname === "/" ? "/auth-hero-home.svg" : "/auth-hero.svg"}
           alt="Background Image"
           className="h-full w-full object-cover"
         />
