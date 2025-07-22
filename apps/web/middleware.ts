@@ -7,19 +7,15 @@ import { NextRequest, NextResponse } from "next/server";
 import {
   DASHBOARD_REDIRECTS,
   getRoleFromPathname,
-  isPublicRoute,
   isSignInRoute,
 } from "./lib/middleware-config";
 
 export async function middleware(request: NextRequest) {
   const pathname = normalize(request.nextUrl.pathname);
   const url = request.nextUrl.clone();
-
-  if (isPublicRoute(pathname)) {
-    return NextResponse.next();
-  }
   const roleFromPath = getRoleFromPathname(pathname);
   const isSignInPage = isSignInRoute(pathname);
+  const isHomePage = pathname === "/" || pathname === "";
 
   const { data: session } = await betterFetch<Session>(
     `${frontendEnv().NEXT_PUBLIC_API_BASE_URL}/api/auth/get-session`,
@@ -36,9 +32,11 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  if (!session && roleFromPath && !isSignInPage) {
-    url.pathname = `/${roleFromPath}/sign-in`;
-    return NextResponse.redirect(url);
+  if (!session && !isSignInPage && !isHomePage) {
+    if (roleFromPath) {
+      url.pathname = `/${roleFromPath}/sign-in`;
+      return NextResponse.redirect(url);
+    }
   }
 
   if (session && roleFromPath && session.user.role !== roleFromPath) {
