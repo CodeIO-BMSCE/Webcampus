@@ -7,12 +7,17 @@ import { NextRequest, NextResponse } from "next/server";
 import {
   DASHBOARD_REDIRECTS,
   getRoleFromPathname,
+  isPublicRoute,
   isSignInRoute,
 } from "./lib/middleware-config";
 
 export async function middleware(request: NextRequest) {
   const pathname = normalize(request.nextUrl.pathname);
   const url = request.nextUrl.clone();
+
+  if (isPublicRoute(pathname)) {
+    return NextResponse.next();
+  }
   const roleFromPath = getRoleFromPathname(pathname);
   const isSignInPage = isSignInRoute(pathname);
 
