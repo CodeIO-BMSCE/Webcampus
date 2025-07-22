@@ -2,13 +2,13 @@ import { z } from "zod";
 
 export const createSectionSchema = z.object({
   name: z.string().min(1, "Section name is required"),
-  branchId: z.string().uuid("Invalid branch ID"),
+  branchId: z.uuid("Invalid branch ID"),
   semester: z.number().int().positive("Semester must be a positive integer"),
 });
 
 export const updateSectionSchema = z.object({
   name: z.string().min(1, "Section name is required").optional(),
-  branchId: z.string().uuid("Invalid branch ID").optional(),
+  branchId: z.uuid("Invalid branch ID").optional(),
   semester: z
     .number()
     .int()

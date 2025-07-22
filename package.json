@@ -50,7 +50,6 @@
     "packages/*"
   ],
   "dependencies": {
-    "@tanstack/react-query": "^5.83.0",
     "syncpack": "^14.0.0-alpha.18"
   }
 }

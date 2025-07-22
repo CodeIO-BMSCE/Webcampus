@@ -13,8 +13,8 @@ export const createCourseAssignmentSchema = z.object({
 });
 
 export const updateCourseAssignmentSchema = z.object({
-  facultyId: z.string().uuid("Invalid faculty ID").optional(),
-  batchId: z.string().uuid("Invalid batch ID").optional().nullable(),
+  facultyId: z.uuid("Invalid faculty ID").optional(),
+  batchId: z.uuid("Invalid batch ID").optional().nullable(),
 });
 
 export type CreateCourseAssignmentType = z.infer<
