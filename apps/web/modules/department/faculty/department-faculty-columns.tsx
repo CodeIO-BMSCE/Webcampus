@@ -7,8 +7,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@webcampus/ui/components/dropdown-menu";
 import axios from "axios";
@@ -46,7 +44,6 @@ export const departmentFacultyColumns: ColumnDef<UserWithRole>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
               onClick={async () => {
                 const response = await axios.delete(
@@ -63,9 +60,6 @@ export const departmentFacultyColumns: ColumnDef<UserWithRole>[] = [
             >
               Delete
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

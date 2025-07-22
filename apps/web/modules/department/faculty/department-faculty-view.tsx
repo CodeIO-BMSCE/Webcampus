@@ -10,7 +10,7 @@ import { departmentFacultyColumns } from "./department-faculty-columns";
 
 export const DepartmentFacultyView = () => {
   const response = useQuery({
-    queryKey: ["Faculties"],
+    queryKey: ["faculty"],
     queryFn: async () => {
       return await authClient.admin.listUsers({
         query: {

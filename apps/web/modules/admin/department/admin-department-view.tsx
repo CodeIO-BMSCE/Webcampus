@@ -10,7 +10,7 @@ import { adminDepartmentColumns } from "./admin-department-columns";
 
 export const AdminDepartmentView = () => {
   const response = useQuery({
-    queryKey: ["Departments"],
+    queryKey: ["department"],
     queryFn: async () => {
       return await authClient.admin.listUsers({
         query: {
