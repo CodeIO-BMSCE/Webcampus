@@ -59,7 +59,11 @@ export const UsernameSignIn = () => {
                     </Link>
                   </div>
                   <FormControl>
-                    <Input {...field} placeholder="Enter your password" />
+                    <Input
+                      {...field}
+                      type="password"
+                      placeholder="Enter your password"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

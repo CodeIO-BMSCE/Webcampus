@@ -11,6 +11,7 @@ import {
   FormMessage,
 } from "@webcampus/ui/components/form";
 import { Input } from "@webcampus/ui/components/input";
+import { PasswordInput } from "@webcampus/ui/components/password-input";
 import { capitalize } from "@webcampus/ui/lib/utils";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -63,7 +64,11 @@ export const EmailSignIn = () => {
                     </Link>
                   </div>
                   <FormControl>
-                    <Input {...field} placeholder="Enter your password" />
+                    <PasswordInput
+                      {...field}
+                      type="password"
+                      placeholder="Enter your password"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
