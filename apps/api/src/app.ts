@@ -7,6 +7,7 @@ import express from "express";
 import courseAssignmentRouter from "./routers/course-assignment.router";
 import courseRegistrationRouter from "./routers/course-registration.router";
 import facultyRouter from "./routers/faculty.router";
+import sectionRouter from "./routers/section.router";
 import userRouter from "./routers/user.router";
 
 const app = express();
@@ -36,9 +37,11 @@ app.use(
   userRouter
 );
 
-app.use("/faculty", facultyRouter);
-app.use("/course-registration", courseRegistrationRouter);
-app.use("/course-assignment", courseAssignmentRouter);
+app.use("/api/faculty", facultyRouter);
+app.use("/api/course-registration", courseRegistrationRouter);
+app.use("/api/course-assignment", courseAssignmentRouter);
+
+app.use("/api/sections", sectionRouter);
 
 app.get("/", (req, res) => {
   res.send({
