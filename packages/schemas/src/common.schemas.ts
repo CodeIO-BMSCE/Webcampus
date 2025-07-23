@@ -3,33 +3,16 @@ import { z } from "zod";
 /**
  * Common schema for ID parameter validation
  */
-export const ParamSchema = z.object({
+export const UUIDParamSchema = z.object({
   id: z.uuid("Invalid ID format").min(1, "ID is required"),
 });
 
 /**
- * Base pagination schema
+ * Common schema for string parameter validation
  */
-export const BasePaginationSchema = z.object({
-  skip: z.number().transform(Number).optional().default(0),
-
-  take: z.number().transform(Number).optional().default(10),
-
-  search: z.string().trim().optional(),
-
-  sort: z.enum(["asc", "desc"]).optional().default("asc"),
+export const StringParamSchema = z.object({
+  name: z.string().min(1, "Name is required"),
 });
 
-/**
- * Base response metadata schema
- */
-export const BaseMetaSchema = z.object({
-  total: z.number(),
-  page: z.number(),
-  limit: z.number(),
-  totalPages: z.number(),
-  hasNextPage: z.boolean(),
-  hasPreviousPage: z.boolean(),
-});
-
-export type UUIDParam = z.infer<typeof ParamSchema>;
+export type StringParam = z.infer<typeof StringParamSchema>;
+export type UUIDParam = z.infer<typeof UUIDParamSchema>;

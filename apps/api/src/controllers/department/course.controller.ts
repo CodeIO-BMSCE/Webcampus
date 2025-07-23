@@ -1,29 +1,24 @@
-import { CourseService } from "@/src/services/department/course.service";
+import { CourseService } from "@webcampus/api/services/department/course.service";
 import { ERRORS } from "@webcampus/backend-utils/errors";
 import { sendResponse } from "@webcampus/backend-utils/helpers";
 import { logger } from "@webcampus/common/logger";
-import { type UUIDParam } from "@webcampus/schemas/common";
+import { StringParam, type UUIDParam } from "@webcampus/schemas/common";
 import { CreateCourseDTO } from "@webcampus/schemas/department";
 import { Request, Response } from "express";
 
 export class CourseController {
-  private CourseService: CourseService;
-
-  constructor() {
-    this.CourseService = new CourseService();
-  }
-
-  async create(req: Request, res: Response) {
+  static async create(req: Request, res: Response) {
     try {
       const request: CreateCourseDTO = req.body;
-      const response = await this.CourseService.createCourse(request);
+      logger.debug("Creating Course", request);
+      const { message } = await CourseService.createCourse(request);
       sendResponse({
         res,
         statusCode: 201,
-        ...response,
+        message,
       });
     } catch (error) {
-      logger.error("Error Creating Course", { error });
+      logger.error("Error Creating Course", error);
       sendResponse({
         res,
         message: ERRORS.INTERNAL_SERVER_ERROR,
@@ -32,17 +27,36 @@ export class CourseController {
     }
   }
 
-  async getCourseById(req: Request, res: Response) {
+  static async getCourseById(req: Request, res: Response) {
     try {
       const request = req.params as UUIDParam;
-      const response = await this.CourseService.getCourseById(request.id);
+      const response = await CourseService.getCourseById(request.id);
       sendResponse({
         res,
         statusCode: 201,
         ...response,
       });
     } catch (error) {
-      logger.error("Error Fetching Course", { error });
+      logger.error("Error Fetching Course", error);
+      sendResponse({
+        res,
+        message: ERRORS.INTERNAL_SERVER_ERROR,
+        statusCode: 500,
+      });
+    }
+  }
+
+  static async getCoursesByBranch(req: Request, res: Response) {
+    try {
+      const request = req.params as StringParam;
+      const response = await CourseService.getCoursesByBranch(request.name);
+      sendResponse({
+        res,
+        statusCode: 200,
+        ...response,
+      });
+    } catch (error) {
+      logger.error("Error Fetching Courses by Branch", error);
       sendResponse({
         res,
         message: ERRORS.INTERNAL_SERVER_ERROR,

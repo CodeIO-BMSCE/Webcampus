@@ -1,7 +1,6 @@
 "use client";
 
 import { Role } from "@webcampus/types/rbac";
-import { Button } from "@webcampus/ui/components/button";
 import {
   Form,
   FormControl,
@@ -16,9 +15,10 @@ import { useCreateUserForm } from "./use-create-user-form";
 
 interface CreateUserFormProps {
   role: Role;
+  children?: React.ReactNode;
 }
 
-export const CreateUserForm = ({ role }: CreateUserFormProps) => {
+export const CreateUserForm = ({ role, children }: CreateUserFormProps) => {
   const { form, onSubmit } = useCreateUserForm({ role });
 
   return (
@@ -85,9 +85,7 @@ export const CreateUserForm = ({ role }: CreateUserFormProps) => {
               )}
             />
           </div>
-          <Button type="submit" className="w-full">
-            Continue
-          </Button>
+          {children}
         </div>
       </form>
     </Form>

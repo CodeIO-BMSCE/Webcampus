@@ -3,6 +3,7 @@ import { Button } from "@webcampus/ui/components/button";
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -25,7 +26,14 @@ export const CreateUserDialog = ({ role }: CreateUserDialogProps) => {
         <DialogHeader>
           <DialogTitle>Create New {capitalize(role)}</DialogTitle>
         </DialogHeader>
-        <CreateUserForm role={role} />
+        <CreateUserForm role={role}>
+          <DialogFooter className="flex w-full items-center justify-between">
+            <Button type="reset" variant={"outline"}>
+              Reset
+            </Button>
+            <Button type="submit">Continue</Button>
+          </DialogFooter>
+        </CreateUserForm>
       </DialogContent>
     </Dialog>
   );

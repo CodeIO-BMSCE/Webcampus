@@ -141,6 +141,7 @@ model Branch {
   sections  Section[]
   students  Student[]
   faculties Faculty[]
+  Course    Course[]
 
   @@index([code])
 }
@@ -236,6 +237,8 @@ model Course {
   name          String
   type          String
   credits       Int
+  branch        Branch               @relation(fields: [branchId], references: [id])
+  branchId      String
   hasLab        Boolean              @default(false)
   assignments   CourseAssignment[]
   registrations CourseRegistration[]

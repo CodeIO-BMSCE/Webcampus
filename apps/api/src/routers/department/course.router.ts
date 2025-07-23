@@ -1,28 +1,45 @@
-import { CourseController } from "@/src/controllers/department/course.controller";
+import { CourseController } from "@webcampus/api/controllers/department/course.controller";
 import { protect, validateRequest } from "@webcampus/backend-utils/middlewares";
-import { ParamSchema } from "@webcampus/schemas/common";
+import { StringParamSchema, UUIDParamSchema } from "@webcampus/schemas/common";
 import { CreateCourseSchema } from "@webcampus/schemas/department";
 import { Router } from "express";
 
 const router = Router();
 
-const courseController = new CourseController();
-
-router.use(
+router.post(
+  "/",
+  validateRequest(CreateCourseSchema),
   protect({
     role: "department",
     permissions: {
       courses: ["create"],
     },
-  })
+  }),
+  CourseController.create
 );
-
-router.post("/", validateRequest(CreateCourseSchema), courseController.create);
 
 router.get(
   "/:id",
-  validateRequest(ParamSchema),
-  courseController.getCourseById
+  validateRequest(UUIDParamSchema, "params"),
+  protect({
+    role: "department",
+    permissions: {
+      courses: ["read"],
+    },
+  }),
+  CourseController.getCourseById
+);
+
+router.get(
+  "/branch/:name",
+  validateRequest(StringParamSchema, "params"),
+  protect({
+    role: "department",
+    permissions: {
+      courses: ["read"],
+    },
+  }),
+  CourseController.getCoursesByBranch
 );
 
 export default router;

@@ -1,5 +1,5 @@
 import "dotenv/config";
-import DepartmentRouter from "@/src/routers/department/department.router";
+import DepartmentRouter from "@webcampus/api/routers/department/department.router";
 import { auth, toNodeHandler } from "@webcampus/auth";
 import { protect } from "@webcampus/backend-utils/middlewares";
 import { backendEnv } from "@webcampus/common/env";

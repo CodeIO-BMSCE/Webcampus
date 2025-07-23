@@ -36,6 +36,7 @@ export const useCreateUserForm = ({ role }: UseCreateUserFormProps) => {
       form.setValue("password", nanoid());
     },
   });
+  console.log(form.formState.errors);
 
   const onSubmit = (data: CreateUserType) => {
     mutation.mutate(data);

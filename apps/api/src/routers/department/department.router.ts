@@ -1,4 +1,4 @@
-import DepartmentCourseRouter from "@/src/routers/department/course.router";
+import DepartmentCourseRouter from "@webcampus/api/routers/department/course.router";
 import { verifySession } from "@webcampus/backend-utils/middlewares";
 import { Router } from "express";
 

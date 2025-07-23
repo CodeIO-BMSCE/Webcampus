@@ -22,8 +22,8 @@
   --muted-foreground: oklch(0.556 0 0);
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.5282 0.2628 262.87);
- --destructive: oklch(0.426 0.145 29.44);        /* Updated to Vercel red */
-  --destructive-foreground: oklch(0.945 0.022 50.0); /* Updated to light red */
+  --destructive: oklch(0.426 0.145 29.44);
+  --destructive-foreground: oklch(0.945 0.022 50);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
@@ -32,7 +32,7 @@
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --radius: 0.625rem;
+  --radius: 0.650rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.5282 0.2628 262.87);
@@ -42,7 +42,7 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
   --toastify-color-info: oklch(0.5282 0.2628 262.87) !important;
-  --toastify-color-success: #46A758 !important;
+  --toastify-color-success: #46a758 !important;
 }
 
 .dark {
@@ -60,9 +60,8 @@
   --muted-foreground: oklch(0.708 0 0);
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
-/* Vercel Red Scale - Dark Mode */
-  --destructive: oklch(0.426 0.145 29.44);        /* Red-6: Same strong red */
-  --destructive-foreground: oklch(0.651 0.106 36.94); /* Red-4: Light red for good contrast */
+  --destructive: oklch(0.426 0.145 29.44);
+  --destructive-foreground: oklch(0.651 0.106 36.94);
   --border: oklch(0.269 0 0);
   --input: oklch(0.269 0 0);
   --ring: oklch(0.556 0 0);

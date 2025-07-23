@@ -13,45 +13,49 @@ export class CourseService {
    * @returns Created course with ID
    * @throws Error if course code already exists
    */
-  async createCourse(data: CreateCourseDTO): Promise<BaseResponse<Course>> {
+  static async createCourse(
+    data: CreateCourseDTO
+  ): Promise<BaseResponse<Course>> {
     try {
       const existingCourse = await db.course.findUnique({
         where: { code: data.code },
       });
 
       if (existingCourse) {
-        logger.error("Course with this code already exists", {
-          existingCourse,
+        const errorMessage = "Course with this code already exists";
+        logger.error(errorMessage, {
+          code: data.code,
+          existingCourseId: existingCourse.id,
         });
-        throw new Error("Course with this code already exists");
+        throw errorMessage;
       }
 
       const course = await db.course.create({
-        data,
-        include: {
-          _count: {
-            select: {
-              assignments: true,
-              registrations: true,
-              marks: true,
-              attendances: true,
+        data: {
+          ...data,
+          branch: {
+            connect: {
+              name: data.branch,
             },
           },
         },
       });
+
       const response: BaseResponse<Course> = {
         message: "Course created successfully",
         data: course,
       };
+
       logger.info(response.message, {
-        course,
+        courseId: course.id,
+        courseCode: course.code,
+        courseName: course.name || "N/A",
       });
+
       return response;
     } catch (error) {
-      logger.error("Course with this code already exists", {
-        error,
-      });
-      throw new Error("Failed to create course");
+      logger.error("Failed to create course", error);
+      throw error;
     }
   }
 
@@ -61,38 +65,60 @@ export class CourseService {
    * @returns Course data with related counts
    * @throws Error if course not found
    */
-  async getCourseById(id: string): Promise<BaseResponse<Course>> {
+  static async getCourseById(id: string): Promise<BaseResponse<Course>> {
     try {
       const course = await db.course.findUnique({
         where: { id },
-        include: {
-          _count: {
-            select: {
-              assignments: true,
-              registrations: true,
-              marks: true,
-              attendances: true,
+      });
+
+      if (!course) {
+        const errorMessage = "Course not found";
+        logger.warn(errorMessage, { courseId: id });
+        throw new Error(errorMessage);
+      }
+
+      const response: BaseResponse<Course> = {
+        message: "Course fetched successfully",
+        data: course,
+      };
+
+      logger.info(response.message, {
+        courseId: course.id,
+        courseCode: course.code,
+        courseName: course.name || "N/A",
+      });
+
+      return response;
+    } catch (error) {
+      logger.error("Failed to fetch course", error);
+      throw error;
+    }
+  }
+
+  static async getCoursesByBranch(
+    name: string
+  ): Promise<BaseResponse<Course[]>> {
+    try {
+      const courses = await db.course.findMany({
+        where: {
+          branch: {
+            name: {
+              equals: name,
+              mode: "insensitive",
             },
           },
         },
       });
 
-      if (!course) {
-        throw new Error("Course not found");
-      }
-      const response: BaseResponse<Course> = {
-        message: "Course Fetched successfully",
-        data: course,
+      const response: BaseResponse<Course[]> = {
+        message: "Courses fetched successfully",
+        data: courses,
       };
-      logger.info(response.message, {
-        course,
-      });
+
       return response;
     } catch (error) {
-      logger.error("Failed to fetch course", { error });
-      throw new Error("Failed to fetch course", {
-        cause: error,
-      });
+      logger.error("Failed to fetch courses by department", error);
+      throw error;
     }
   }
 }

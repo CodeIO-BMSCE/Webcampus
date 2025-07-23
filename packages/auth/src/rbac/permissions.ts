@@ -6,7 +6,7 @@ const statement = {
   ...defaultStatements,
   attendance: ["create", "read", "update", "delete"],
   semester: ["create", "read", "update", "delete"],
-  courses: ["create"],
+  courses: ["create", "read"],
 } as const;
 
 export const ac = createAccessControl(statement);
@@ -36,7 +36,7 @@ export const roles = {
   }),
   department: ac.newRole({
     attendance: ["read"],
-    courses: ["create"],
+    courses: ["create", "read"],
     ...adminAc.statements,
   }),
 } satisfies Record<Role, unknown>;
