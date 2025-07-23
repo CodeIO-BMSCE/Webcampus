@@ -1,3 +1,6 @@
+"use client";
+
+import { authClient } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { frontendEnv } from "@webcampus/common/env";
@@ -11,6 +14,7 @@ import { toast } from "react-toastify";
 
 export const useCreateCourseForm = () => {
   const queryClient = useQueryClient();
+  const { data: session } = authClient.useSession();
   const form = useForm<CreateCourseDTO>({
     resolver: zodResolver(CreateCourseSchema),
     defaultValues: {
@@ -19,7 +23,7 @@ export const useCreateCourseForm = () => {
       type: "",
       credits: 1,
       hasLab: false,
-      departmentName: "Computer Science",
+      departmentName: session?.user?.name,
     },
   });
   console.log(form.formState.errors);
