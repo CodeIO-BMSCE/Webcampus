@@ -1,19 +1,19 @@
+import { Section } from "@webcampus/api/src/services/department/section.service";
 import { ERRORS } from "@webcampus/backend-utils/errors";
 import { sendResponse } from "@webcampus/backend-utils/helpers";
 import { logger } from "@webcampus/common/logger";
-import { UpdateCourseAssignmentType } from "@webcampus/schemas";
+import { UpdateSectionType } from "@webcampus/schemas/department";
 import { Request, Response } from "express";
-import { CourseAssignment } from "../services/course-assignment.service";
 
 /**
- * Create a new course assignment
+ * Create a new section
  */
-export const createCourseAssignment = async (
+export const createSection = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
-    const { message, data } = await new CourseAssignment().create(req.body);
+    const { message, data } = await new Section().create(req.body);
     sendResponse({
       res,
       message,
@@ -21,7 +21,7 @@ export const createCourseAssignment = async (
       statusCode: 201,
     });
   } catch (error) {
-    logger.error("Error creating course assignment:", { error });
+    logger.error("Error creating section:", { error });
     sendResponse({
       res,
       message: ERRORS.INTERNAL_SERVER_ERROR,
@@ -32,14 +32,14 @@ export const createCourseAssignment = async (
 };
 
 /**
- * Get all course assignments
+ * Get all sections
  */
-export const getAllCourseAssignments = async (
+export const getAllSections = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
-    const { message, data } = await new CourseAssignment().getAll();
+    const { message, data } = await new Section().getAll();
     sendResponse({
       res,
       message,
@@ -47,7 +47,7 @@ export const getAllCourseAssignments = async (
       statusCode: 200,
     });
   } catch (error) {
-    logger.error("Error retrieving course assignments:", { error });
+    logger.error("Error retrieving sections:", { error });
     sendResponse({
       res,
       message: ERRORS.INTERNAL_SERVER_ERROR,
@@ -58,16 +58,14 @@ export const getAllCourseAssignments = async (
 };
 
 /**
- * Get a course assignment by ID
+ * Get a section by ID
  */
-export const getCourseAssignmentById = async (
+export const getSectionById = async (
   req: Request<{ id: string }>,
   res: Response
 ): Promise<void> => {
   try {
-    const { message, data } = await new CourseAssignment().getById(
-      req.params.id
-    );
+    const { message, data } = await new Section().getById(req.params.id);
     sendResponse({
       res,
       message,
@@ -75,7 +73,7 @@ export const getCourseAssignmentById = async (
       statusCode: data ? 200 : 404,
     });
   } catch (error) {
-    logger.error("Error retrieving course assignment:", { error });
+    logger.error("Error retrieving section:", { error });
     sendResponse({
       res,
       message: ERRORS.INTERNAL_SERVER_ERROR,
@@ -86,15 +84,15 @@ export const getCourseAssignmentById = async (
 };
 
 /**
- * Get course assignments by faculty ID
+ * Get sections by branch ID
  */
-export const getCourseAssignmentsByFacultyId = async (
-  req: Request<{ facultyId: string }>,
+export const getSectionsByBranchId = async (
+  req: Request<{ branchId: string }>,
   res: Response
 ): Promise<void> => {
   try {
-    const { message, data } = await new CourseAssignment().getByFacultyId(
-      req.params.facultyId
+    const { message, data } = await new Section().getByBranchId(
+      req.params.branchId
     );
     sendResponse({
       res,
@@ -103,7 +101,7 @@ export const getCourseAssignmentsByFacultyId = async (
       statusCode: 200,
     });
   } catch (error) {
-    logger.error("Error retrieving faculty's course assignments:", { error });
+    logger.error("Error retrieving branch's sections:", { error });
     sendResponse({
       res,
       message: ERRORS.INTERNAL_SERVER_ERROR,
@@ -114,14 +112,14 @@ export const getCourseAssignmentsByFacultyId = async (
 };
 
 /**
- * Update a course assignment
+ * Update a section
  */
-export const updateCourseAssignment = async (
-  req: Request<{ id: string }, UpdateCourseAssignmentType>,
+export const updateSection = async (
+  req: Request<{ id: string }, UpdateSectionType>,
   res: Response
 ): Promise<void> => {
   try {
-    const { message, data } = await new CourseAssignment().update(
+    const { message, data } = await new Section().update(
       req.params.id,
       req.body
     );
@@ -132,7 +130,7 @@ export const updateCourseAssignment = async (
       statusCode: 200,
     });
   } catch (error) {
-    logger.error("Error updating course assignment:", { error });
+    logger.error("Error updating section:", { error });
     sendResponse({
       res,
       message: ERRORS.INTERNAL_SERVER_ERROR,
@@ -143,21 +141,21 @@ export const updateCourseAssignment = async (
 };
 
 /**
- * Delete a course assignment
+ * Delete a section
  */
-export const deleteCourseAssignment = async (
+export const deleteSection = async (
   req: Request<{ id: string }>,
   res: Response
 ): Promise<void> => {
   try {
-    const { message } = await new CourseAssignment().delete(req.params.id);
+    const { message } = await new Section().delete(req.params.id);
     sendResponse({
       res,
       message,
       statusCode: 200,
     });
   } catch (error) {
-    logger.error("Error deleting course assignment:", { error });
+    logger.error("Error deleting section:", { error });
     sendResponse({
       res,
       message: ERRORS.INTERNAL_SERVER_ERROR,

@@ -1,7 +1,10 @@
+import {
+  createUser,
+  deleteUser,
+} from "@webcampus/api/src/controllers/admin/user.controller";
 import { validateRequest } from "@webcampus/backend-utils/middlewares";
-import { createUserSchema } from "@webcampus/schemas";
+import { createUserSchema } from "@webcampus/schemas/admin";
 import { Router } from "express";
-import { createUser, deleteUser } from "../controllers/user.controller";
 
 const router = Router();
 

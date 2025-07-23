@@ -1,10 +1,10 @@
+import { User } from "@webcampus/api/src/services/admin/user.service";
 import { auth, fromNodeHeaders } from "@webcampus/auth";
 import { ERRORS } from "@webcampus/backend-utils/errors";
 import { sendResponse } from "@webcampus/backend-utils/helpers";
 import { logger } from "@webcampus/common/logger";
-import { CreateUserType } from "@webcampus/schemas";
+import { CreateUserType } from "@webcampus/schemas/admin";
 import { Request, Response } from "express";
-import { User } from "../services/user.service";
 
 /**
  * Express controller to handle user creation.

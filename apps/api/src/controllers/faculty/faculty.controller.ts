@@ -1,9 +1,9 @@
+import { Faculty } from "@webcampus/api/src/services/faculty/faculty.service";
 import { ERRORS } from "@webcampus/backend-utils/errors";
 import { sendResponse } from "@webcampus/backend-utils/helpers";
 import { logger } from "@webcampus/common/logger";
-import { UpdateFacultyType } from "@webcampus/schemas";
+import { UpdateFacultyType } from "@webcampus/schemas/faculty";
 import { Request, Response } from "express";
-import { Faculty } from "../services/faculty.service";
 
 /**
  * Create a new faculty member

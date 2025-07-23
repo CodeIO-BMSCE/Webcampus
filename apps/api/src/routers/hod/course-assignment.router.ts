@@ -1,9 +1,3 @@
-import { protect, validateRequest } from "@webcampus/backend-utils/middlewares";
-import {
-  createCourseAssignmentSchema,
-  updateCourseAssignmentSchema,
-} from "@webcampus/schemas";
-import { Router } from "express";
 import {
   createCourseAssignment,
   deleteCourseAssignment,
@@ -11,7 +5,13 @@ import {
   getCourseAssignmentById,
   getCourseAssignmentsByFacultyId,
   updateCourseAssignment,
-} from "../controllers/course-assignment.controller";
+} from "@webcampus/api/src/controllers/hod/course-assignment.controller";
+import { protect, validateRequest } from "@webcampus/backend-utils/middlewares";
+import {
+  createCourseAssignmentSchema,
+  updateCourseAssignmentSchema,
+} from "@webcampus/schemas/hod";
+import { Router } from "express";
 
 const router = Router();
 

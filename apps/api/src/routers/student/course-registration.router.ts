@@ -1,9 +1,3 @@
-import { protect, validateRequest } from "@webcampus/backend-utils/middlewares";
-import {
-  createCourseRegistrationSchema,
-  updateCourseRegistrationSchema,
-} from "@webcampus/schemas";
-import { Router } from "express";
 import {
   createCourseRegistration,
   deleteCourseRegistration,
@@ -11,11 +5,16 @@ import {
   getCourseRegistrationById,
   getCourseRegistrationsByStudentId,
   updateCourseRegistration,
-} from "../controllers/course-registration.controller";
+} from "@webcampus/api/src/controllers/student/course-registration.controller";
+import { protect, validateRequest } from "@webcampus/backend-utils/middlewares";
+import {
+  createCourseRegistrationSchema,
+  updateCourseRegistrationSchema,
+} from "@webcampus/schemas/student";
+import { Router } from "express";
 
 const router = Router();
 
-// Apply role-based protection to all routes
 router.use(
   protect({
     role: "admin",

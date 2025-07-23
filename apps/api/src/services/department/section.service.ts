@@ -1,6 +1,9 @@
 import { logger } from "@webcampus/common/logger";
 import { db } from "@webcampus/db";
-import { CreateSectionType, UpdateSectionType } from "@webcampus/schemas";
+import {
+  CreateSectionType,
+  UpdateSectionType,
+} from "@webcampus/schemas/department";
 
 export class Section {
   async create(data: CreateSectionType) {

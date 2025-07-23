@@ -2,7 +2,10 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createUserSchema, type CreateUserType } from "@webcampus/schemas";
+import {
+  createUserSchema,
+  type CreateUserType,
+} from "@webcampus/schemas/admin";
 import { roles, type Role } from "@webcampus/types/rbac";
 import axios from "axios";
 import { nanoid } from "nanoid";

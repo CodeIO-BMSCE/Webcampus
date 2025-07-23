@@ -1,8 +1,8 @@
+import { SemesterService } from "@webcampus/api/src/services/admin/semester.service";
 import { auth, fromNodeHeaders } from "@webcampus/auth";
 import { CreateSemesterInput } from "@webcampus/schemas/admin";
 import { NextFunction, Request, Response } from "express";
 import { z } from "zod";
-import { SemesterService } from "../../services/admin/semester.service";
 
 const semesterService = new SemesterService();
 

@@ -1,16 +1,16 @@
 import "dotenv/config";
-import DepartmentRouter from "@webcampus/api/routers/department/department.router";
+import semesterRouter from "@webcampus/api/src/routers/admin/semester.router";
+import userRouter from "@webcampus/api/src/routers/admin/user.router";
+import DepartmentRouter from "@webcampus/api/src/routers/department/department.router";
+import sectionRouter from "@webcampus/api/src/routers/department/section.router";
+import facultyRouter from "@webcampus/api/src/routers/faculty/faculty.router";
+import courseAssignmentRouter from "@webcampus/api/src/routers/hod/course-assignment.router";
+import courseRegistrationRouter from "@webcampus/api/src/routers/student/course-registration.router";
 import { auth, toNodeHandler } from "@webcampus/auth";
 import { protect } from "@webcampus/backend-utils/middlewares";
 import { backendEnv } from "@webcampus/common/env";
 import cors from "cors";
 import express from "express";
-import semesterRouter from "./routers/admin/semester.router";
-import courseAssignmentRouter from "./routers/course-assignment.router";
-import courseRegistrationRouter from "./routers/course-registration.router";
-import facultyRouter from "./routers/faculty.router";
-import sectionRouter from "./routers/section.router";
-import userRouter from "./routers/user.router";
 
 const app = express();
 

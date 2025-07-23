@@ -3,7 +3,7 @@ import { db } from "@webcampus/db";
 import {
   CreateCourseAssignmentType,
   UpdateCourseAssignmentType,
-} from "@webcampus/schemas";
+} from "@webcampus/schemas/hod";
 
 export class CourseAssignment {
   async create(data: CreateCourseAssignmentType) {

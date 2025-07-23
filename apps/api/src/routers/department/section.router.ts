@@ -1,6 +1,3 @@
-import { protect, validateRequest } from "@webcampus/backend-utils/middlewares";
-import { createSectionSchema, updateSectionSchema } from "@webcampus/schemas";
-import { Router } from "express";
 import {
   createSection,
   deleteSection,
@@ -8,7 +5,13 @@ import {
   getSectionById,
   getSectionsByBranchId,
   updateSection,
-} from "../controllers/section.controller";
+} from "@webcampus/api/src/controllers/department/section.controller";
+import { protect, validateRequest } from "@webcampus/backend-utils/middlewares";
+import {
+  createSectionSchema,
+  updateSectionSchema,
+} from "@webcampus/schemas/department";
+import { Router } from "express";
 
 const router = Router();
 

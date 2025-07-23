@@ -1,13 +1,16 @@
-import { protect, validateRequest } from "@webcampus/backend-utils/middlewares";
-import { createFacultySchema, updateFacultySchema } from "@webcampus/schemas";
-import { Router } from "express";
 import {
   createFaculty,
   deleteFaculty,
   getAllFaculty,
   getFacultyById,
   updateFaculty,
-} from "../controllers/faculty.controller";
+} from "@webcampus/api/src/controllers/faculty/faculty.controller";
+import { protect, validateRequest } from "@webcampus/backend-utils/middlewares";
+import {
+  createFacultySchema,
+  updateFacultySchema,
+} from "@webcampus/schemas/faculty";
+import { Router } from "express";
 
 const router = Router();
 

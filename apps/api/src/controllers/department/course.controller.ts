@@ -1,4 +1,4 @@
-import { CourseService } from "@webcampus/api/services/department/course.service";
+import { CourseService } from "@webcampus/api/src/services/department/course.service";
 import { ERRORS } from "@webcampus/backend-utils/errors";
 import { sendResponse } from "@webcampus/backend-utils/helpers";
 import { logger } from "@webcampus/common/logger";

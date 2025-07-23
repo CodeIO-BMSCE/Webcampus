@@ -1,6 +1,9 @@
 import { logger } from "@webcampus/common/logger";
 import { db } from "@webcampus/db";
-import { CreateFacultyType, UpdateFacultyType } from "@webcampus/schemas";
+import {
+  CreateFacultyType,
+  UpdateFacultyType,
+} from "@webcampus/schemas/faculty";
 
 export class Faculty {
   async create(data: CreateFacultyType) {

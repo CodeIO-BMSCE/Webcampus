@@ -1,4 +1,4 @@
-import { CourseController } from "@webcampus/api/controllers/department/course.controller";
+import { CourseController } from "@webcampus/api/src/controllers/department/course.controller";
 import { protect, validateRequest } from "@webcampus/backend-utils/middlewares";
 import { StringParamSchema, UUIDParamSchema } from "@webcampus/schemas/common";
 import { CreateCourseSchema } from "@webcampus/schemas/department";

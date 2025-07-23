@@ -3,7 +3,7 @@ import { db } from "@webcampus/db";
 import {
   CreateCourseRegistrationType,
   UpdateCourseRegistrationType,
-} from "@webcampus/schemas";
+} from "@webcampus/schemas/student";
 
 export class CourseRegistration {
   async create(data: CreateCourseRegistrationType) {

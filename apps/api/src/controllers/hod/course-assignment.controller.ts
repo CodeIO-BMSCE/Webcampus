@@ -1,19 +1,19 @@
+import { CourseAssignment } from "@webcampus/api/src/services/hod/course-assignment.service";
 import { ERRORS } from "@webcampus/backend-utils/errors";
 import { sendResponse } from "@webcampus/backend-utils/helpers";
 import { logger } from "@webcampus/common/logger";
-import { UpdateCourseRegistrationType } from "@webcampus/schemas";
+import { UpdateCourseAssignmentType } from "@webcampus/schemas/hod";
 import { Request, Response } from "express";
-import { CourseRegistration } from "../services/course-registration.service";
 
 /**
- * Create a new course registration
+ * Create a new course assignment
  */
-export const createCourseRegistration = async (
+export const createCourseAssignment = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
-    const { message, data } = await new CourseRegistration().create(req.body);
+    const { message, data } = await new CourseAssignment().create(req.body);
     sendResponse({
       res,
       message,
@@ -21,7 +21,7 @@ export const createCourseRegistration = async (
       statusCode: 201,
     });
   } catch (error) {
-    logger.error("Error creating course registration:", { error });
+    logger.error("Error creating course assignment:", { error });
     sendResponse({
       res,
       message: ERRORS.INTERNAL_SERVER_ERROR,
@@ -32,14 +32,14 @@ export const createCourseRegistration = async (
 };
 
 /**
- * Get all course registrations
+ * Get all course assignments
  */
-export const getAllCourseRegistrations = async (
+export const getAllCourseAssignments = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
-    const { message, data } = await new CourseRegistration().getAll();
+    const { message, data } = await new CourseAssignment().getAll();
     sendResponse({
       res,
       message,
@@ -47,7 +47,7 @@ export const getAllCourseRegistrations = async (
       statusCode: 200,
     });
   } catch (error) {
-    logger.error("Error retrieving course registrations:", { error });
+    logger.error("Error retrieving course assignments:", { error });
     sendResponse({
       res,
       message: ERRORS.INTERNAL_SERVER_ERROR,
@@ -58,14 +58,14 @@ export const getAllCourseRegistrations = async (
 };
 
 /**
- * Get a course registration by ID
+ * Get a course assignment by ID
  */
-export const getCourseRegistrationById = async (
+export const getCourseAssignmentById = async (
   req: Request<{ id: string }>,
   res: Response
 ): Promise<void> => {
   try {
-    const { message, data } = await new CourseRegistration().getById(
+    const { message, data } = await new CourseAssignment().getById(
       req.params.id
     );
     sendResponse({
@@ -75,7 +75,7 @@ export const getCourseRegistrationById = async (
       statusCode: data ? 200 : 404,
     });
   } catch (error) {
-    logger.error("Error retrieving course registration:", { error });
+    logger.error("Error retrieving course assignment:", { error });
     sendResponse({
       res,
       message: ERRORS.INTERNAL_SERVER_ERROR,
@@ -86,15 +86,15 @@ export const getCourseRegistrationById = async (
 };
 
 /**
- * Get course registrations by student ID
+ * Get course assignments by faculty ID
  */
-export const getCourseRegistrationsByStudentId = async (
-  req: Request<{ studentId: string }>,
+export const getCourseAssignmentsByFacultyId = async (
+  req: Request<{ facultyId: string }>,
   res: Response
 ): Promise<void> => {
   try {
-    const { message, data } = await new CourseRegistration().getByStudentId(
-      req.params.studentId
+    const { message, data } = await new CourseAssignment().getByFacultyId(
+      req.params.facultyId
     );
     sendResponse({
       res,
@@ -103,7 +103,7 @@ export const getCourseRegistrationsByStudentId = async (
       statusCode: 200,
     });
   } catch (error) {
-    logger.error("Error retrieving student's course registrations:", { error });
+    logger.error("Error retrieving faculty's course assignments:", { error });
     sendResponse({
       res,
       message: ERRORS.INTERNAL_SERVER_ERROR,
@@ -114,14 +114,14 @@ export const getCourseRegistrationsByStudentId = async (
 };
 
 /**
- * Update a course registration
+ * Update a course assignment
  */
-export const updateCourseRegistration = async (
-  req: Request<{ id: string }, UpdateCourseRegistrationType>,
+export const updateCourseAssignment = async (
+  req: Request<{ id: string }, UpdateCourseAssignmentType>,
   res: Response
 ): Promise<void> => {
   try {
-    const { message, data } = await new CourseRegistration().update(
+    const { message, data } = await new CourseAssignment().update(
       req.params.id,
       req.body
     );
@@ -132,7 +132,7 @@ export const updateCourseRegistration = async (
       statusCode: 200,
     });
   } catch (error) {
-    logger.error("Error updating course registration:", { error });
+    logger.error("Error updating course assignment:", { error });
     sendResponse({
       res,
       message: ERRORS.INTERNAL_SERVER_ERROR,
@@ -143,21 +143,21 @@ export const updateCourseRegistration = async (
 };
 
 /**
- * Delete a course registration
+ * Delete a course assignment
  */
-export const deleteCourseRegistration = async (
+export const deleteCourseAssignment = async (
   req: Request<{ id: string }>,
   res: Response
 ): Promise<void> => {
   try {
-    const { message } = await new CourseRegistration().delete(req.params.id);
+    const { message } = await new CourseAssignment().delete(req.params.id);
     sendResponse({
       res,
       message,
       statusCode: 200,
     });
   } catch (error) {
-    logger.error("Error deleting course registration:", { error });
+    logger.error("Error deleting course assignment:", { error });
     sendResponse({
       res,
       message: ERRORS.INTERNAL_SERVER_ERROR,

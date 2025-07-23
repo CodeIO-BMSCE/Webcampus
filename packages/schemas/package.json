@@ -3,9 +3,11 @@
   "type": "module",
   "private": true,
   "exports": {
-    ".": "./src/index.ts",
     "./admin": "./src/admin/index.ts",
     "./department": "./src/department/index.ts",
+    "./faculty": "./src/faculty/index.ts",
+    "./hod": "./src/hod/index.ts",
+    "./student": "./src/student/index.ts",
     "./common": "./src/common.schemas.ts"
   },
   "scripts": {
