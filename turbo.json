@@ -54,6 +54,18 @@
     },
     "auth:generate": {
       "cache": false
+    },
+    "dev:test": {
+      "cache": false,
+      "passThroughEnv": ["PLAYWRIGHT_*"]
+    },
+    "dev:test:ui": {
+      "cache": false,
+      "passThroughEnv": ["PLAYWRIGHT_*"]
+    },
+    "e2e:test": {
+      "dependsOn": ["^build"],
+      "passThroughEnv": ["PLAYWRIGHT_*"]
     }
   }
 }

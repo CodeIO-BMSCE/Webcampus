@@ -1,0 +1,25 @@
+{
+  "name": "@webcampus/playwright-web",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev:test": "playwright test",
+    "dev:test:ui": "playwright test --ui",
+    "e2e:test": "start-server-and-test \"(cd ../.. && bun run dev)\" http://127.0.0.1:3000 \"playwright test\"",
+    "postinstall": "bunx playwright install"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.54.1",
+    "@types/bun": "latest",
+    "@webcampus/typescript-config": "workspace:*"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "start-server-and-test": "^2.0.12",
+    "@webcampus/web": "workspace:*",
+    "@webcampus/types": "workspace:*",
+    "@webcampus/ui": "workspace:*"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "extends": "@webcampus/typescript-config/base.json",
+  "compilerOptions": {
+    "outDir": "./dist"
+  }
+}

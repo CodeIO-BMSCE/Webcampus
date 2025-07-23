@@ -38,3 +38,10 @@ yarn-error.log*
 *.pem
 
 **generated/
+
+# Playwright test result output
+test-results/
+playwright-report/
+playwright-report copy/
+playwright/.cache/
+playwright/.auth
