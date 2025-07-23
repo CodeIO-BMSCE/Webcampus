@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { frontendEnv } from "@webcampus/common/env";
 import {
   CreateCourseDTO,
@@ -7,8 +7,10 @@ import {
 } from "@webcampus/schemas/department";
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 export const useCreateCourseForm = () => {
+  const queryClient = useQueryClient();
   const form = useForm<CreateCourseDTO>({
     resolver: zodResolver(CreateCourseSchema),
     defaultValues: {
@@ -33,7 +35,8 @@ export const useCreateCourseForm = () => {
       console.log(error);
     },
     onSuccess: (data) => {
-      console.log(data);
+      toast.success(data.data.message);
+      queryClient.invalidateQueries({ queryKey: ["courses"] });
       form.reset();
     },
   });

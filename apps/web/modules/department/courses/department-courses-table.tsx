@@ -21,5 +21,7 @@ export const DepartmentCoursesTable = () => {
   });
   console.log(courses?.data);
   if (isLoading) return <div>Loading...</div>;
-  return <DataTable columns={DepartmentCoursesColumns} data={courses?.data} />;
+  return (
+    <DataTable columns={DepartmentCoursesColumns} data={courses?.data.data} />
+  );
 };
