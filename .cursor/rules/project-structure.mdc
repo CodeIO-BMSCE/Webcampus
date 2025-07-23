@@ -1,0 +1,13 @@
+---
+alwaysApply: true
+---
+# Project Structure Guide
+
+This monorepo contains both backend and frontend applications, organized as follows:
+
+- **Backend API**: [apps/api/src/app.ts](mdc:apps/api/src/app.ts) is the main entry point for the backend API. Related controllers, routers, and services are under [apps/api/src/](mdc:apps/api/src/).
+- **Frontend Web**: [apps/web/app/layout.tsx](mdc:apps/web/app/layout.tsx) is the main layout for the Next.js frontend. Pages are under [apps/web/app/](mdc:apps/web/app/), and shared modules/components are in [apps/web/modules/](mdc:apps/web/modules/).
+- **Packages**: Shared code (auth, db, schemas, types, ui, etc.) is in [packages/](mdc:packages/).
+- **Scripts**: Utility scripts are in [scripts/](mdc:scripts/).
+
+Refer to this rule for high-level navigation and entry points.
