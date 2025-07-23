@@ -11,11 +11,11 @@ export class Faculty {
       const faculty = await db.faculty.create({
         data: {
           userId: data.userId,
-          branchId: data.branchId,
+          departmentName: data.departmentName,
         },
         include: {
           user: true,
-          branch: true,
+          department: true,
         },
       });
 
@@ -44,7 +44,7 @@ export class Faculty {
               displayUsername: true,
             },
           },
-          branch: true,
+          department: true,
         },
       });
 
@@ -72,7 +72,7 @@ export class Faculty {
               displayUsername: true,
             },
           },
-          branch: true,
+          department: true,
           teaches: true,
         },
       });
@@ -98,7 +98,9 @@ export class Faculty {
     try {
       const faculty = await db.faculty.update({
         where: { id },
-        data,
+        data: {
+          departmentName: data.departmentName,
+        },
         include: {
           user: {
             select: {
@@ -109,7 +111,7 @@ export class Faculty {
               displayUsername: true,
             },
           },
-          branch: true,
+          department: true,
         },
       });
 

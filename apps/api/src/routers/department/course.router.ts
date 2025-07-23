@@ -31,8 +31,8 @@ router.get(
 );
 
 router.get(
-  "/branch/:name",
-  validateRequest(StringParamSchema, "params"),
+  "/branch",
+  validateRequest(StringParamSchema, "query"),
   protect({
     role: "department",
     permissions: {

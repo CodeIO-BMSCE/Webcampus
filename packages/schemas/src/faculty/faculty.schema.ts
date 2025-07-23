@@ -2,11 +2,11 @@ import { z } from "zod";
 
 export const createFacultySchema = z.object({
   userId: z.uuid("Invalid user ID"),
-  branchId: z.uuid("Invalid branch ID"),
+  departmentName: z.string("Invalid department name"),
 });
 
 export const updateFacultySchema = z.object({
-  branchId: z.uuid("Invalid branch ID").optional(),
+  departmentName: z.string("Invalid department name").optional(),
 });
 
 export type CreateFacultyType = z.infer<typeof createFacultySchema>;

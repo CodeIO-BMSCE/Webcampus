@@ -17,9 +17,10 @@ export const useCreateCourseForm = () => {
       type: "",
       credits: 1,
       hasLab: false,
-      branch: "cse",
+      departmentName: "Computer Science",
     },
   });
+  console.log(form.formState.errors);
 
   const { mutate } = useMutation({
     mutationFn: async (values: CreateCourseDTO) =>

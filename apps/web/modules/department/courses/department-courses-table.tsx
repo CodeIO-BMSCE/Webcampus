@@ -12,8 +12,11 @@ export const DepartmentCoursesTable = () => {
     queryKey: ["courses"],
     queryFn: () =>
       axios.get(
-        `${frontendEnv().NEXT_PUBLIC_API_BASE_URL}/department/course/branch/cse`,
-        { withCredentials: true }
+        `${frontendEnv().NEXT_PUBLIC_API_BASE_URL}/department/course/branch`,
+        {
+          params: { name: "Computer Science" },
+          withCredentials: true,
+        }
       ),
   });
   console.log(courses?.data);

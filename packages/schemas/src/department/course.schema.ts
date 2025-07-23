@@ -24,7 +24,8 @@ const BaseCourseSchema = z.object({
     .max(10, "Credits cannot exceed 10"),
 
   hasLab: z.boolean(),
-  branch: z.string().min(1, "Branch is required"),
+
+  departmentName: z.string().min(1, "Department is required"),
 });
 
 /**

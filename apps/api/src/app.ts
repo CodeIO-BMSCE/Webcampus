@@ -11,6 +11,7 @@ import { protect } from "@webcampus/backend-utils/middlewares";
 import { backendEnv } from "@webcampus/common/env";
 import cors from "cors";
 import express from "express";
+import adminRouter from "./routers/admin/admin.router";
 
 const app = express();
 
@@ -27,6 +28,8 @@ app.all("/api/auth/{*any}", toNodeHandler(auth));
  * Mount express json middleware after Better Auth handler
  **/
 app.use(express.json());
+
+app.use("/admin", adminRouter);
 
 app.use(
   "/user",
