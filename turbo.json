@@ -43,6 +43,9 @@
     "db:reset": {
       "cache": false
     },
+    "db:nuke": {
+      "cache": false
+    },
     "format:check": {
       "cache": false,
       "outputs": []

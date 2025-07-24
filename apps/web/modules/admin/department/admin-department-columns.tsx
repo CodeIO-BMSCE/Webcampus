@@ -1,5 +1,6 @@
 "use client";
 
+import { useCopyToClipboard } from "@/lib/use-copy-to-clipboard";
 import { ColumnDef } from "@tanstack/react-table";
 import { frontendEnv } from "@webcampus/common/env";
 import { Button } from "@webcampus/ui/components/button";
@@ -11,9 +12,8 @@ import {
 } from "@webcampus/ui/components/dropdown-menu";
 import axios from "axios";
 import { UserWithRole } from "better-auth/plugins";
-import { ClipboardCopy, MoreHorizontal } from "lucide-react"; // ADDED ClipboardCopy
-import { useState } from "react"; // ADDED useState, useRef
-import { useCopyToClipboard } from "../../../lib/use-copy-to-clipboard"; // ADDED custom hook import (check path if different)
+import { ClipboardCopy, MoreHorizontal } from "lucide-react";
+import { useState } from "react";
 
 const CopyableCell = ({ value }: { value: string }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -30,13 +30,9 @@ const CopyableCell = ({ value }: { value: string }) => {
       className="group relative flex h-full items-center justify-between py-2"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      style={{ minWidth: "100px" }} // Optional: Ensures enough space for the icon
+      style={{ minWidth: "100px" }}
     >
-      <span className="flex-grow truncate pr-6">
-        {" "}
-        {/* pr-6 for space for icon */}
-        {value}
-      </span>
+      <span className="flex-grow truncate pr-6"> {value}</span>
       {isHovered && (
         <Button
           variant="ghost"
@@ -51,7 +47,6 @@ const CopyableCell = ({ value }: { value: string }) => {
     </div>
   );
 };
-// --- END NEW COMPONENT ---
 
 export const adminDepartmentColumns: ColumnDef<UserWithRole>[] = [
   {

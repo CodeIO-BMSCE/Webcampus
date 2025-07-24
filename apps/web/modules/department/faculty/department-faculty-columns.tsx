@@ -1,10 +1,10 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { UserWithRole } from "better-auth/plugins";
+import { UserResponseDTO } from "@webcampus/schemas/admin";
 import { DepartmentFacultyActions } from "./department-faculty-actions";
 
-export const departmentFacultyColumns: ColumnDef<UserWithRole>[] = [
+export const departmentFacultyColumns: ColumnDef<UserResponseDTO>[] = [
   {
     accessorKey: "id",
     header: "ID",

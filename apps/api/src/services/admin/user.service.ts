@@ -1,7 +1,11 @@
 import { auth } from "@webcampus/auth";
 import { logger } from "@webcampus/common/logger";
-import { User } from "@webcampus/db";
-import { CreateUserType } from "@webcampus/schemas/admin";
+import { db, User } from "@webcampus/db";
+import {
+  CreateUserType,
+  UserResponseDTO,
+  UsersQueryDTO,
+} from "@webcampus/schemas/admin";
 import { BaseResponse } from "@webcampus/types/api";
 
 /**
@@ -146,6 +150,45 @@ export class UserService {
     } catch (error) {
       logger.error("createUser via admin API failed:", error);
       throw new Error("Failed to create user via admin API.");
+    }
+  }
+
+  static async getUsers(
+    query: UsersQueryDTO
+  ): Promise<BaseResponse<UserResponseDTO[]>> {
+    try {
+      const users = await db.user.findMany({
+        where: {
+          ...query,
+          role: Array.isArray(query.role)
+            ? { in: query.role.map((role) => role.toLowerCase()) }
+            : query.role
+              ? { equals: query.role.toLowerCase() }
+              : undefined,
+        },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          username: true,
+          role: true,
+          createdAt: true,
+          updatedAt: true,
+          emailVerified: true,
+          banned: true,
+          banReason: true,
+          banExpires: true,
+        },
+      });
+      const response: BaseResponse<UserResponseDTO[]> = {
+        message: "Users fetched successfully",
+        data: users,
+      };
+      logger.info("Users fetched successfully", { users });
+      return response;
+    } catch (error) {
+      logger.error("Failed to get users", { error });
+      throw new Error("Failed to get users");
     }
   }
 }

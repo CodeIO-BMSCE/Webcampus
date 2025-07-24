@@ -13,6 +13,7 @@
     "db:deploy": "prisma migrate deploy",
     "db:studio": "prisma studio",
     "db:reset": "prisma migrate reset -f",
+    "db:nuke": "docker compose down --volumes || docker-compose down --volumes",
     "db:up": "docker compose up -d || docker-compose up -d",
     "db:setup": "run-s db:up db:generate db:migrate db:deploy",
     "dx": "run-s db:setup",

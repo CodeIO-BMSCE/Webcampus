@@ -26,7 +26,6 @@ export const useCreateCourseForm = () => {
       departmentName: session?.user?.name,
     },
   });
-  console.log(form.formState.errors);
 
   const { mutate } = useMutation({
     mutationFn: async (values: CreateCourseDTO) =>

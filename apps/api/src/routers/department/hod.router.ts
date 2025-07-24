@@ -1,7 +1,10 @@
 import { HODController } from "@webcampus/api/src/controllers/department/hod.controller";
 import { protect, validateRequest } from "@webcampus/backend-utils/middlewares";
 import { StringParamSchema } from "@webcampus/schemas/common";
-import { CreateHODSchema } from "@webcampus/schemas/department";
+import {
+  CreateHODSchema,
+  RemoveHODSchema,
+} from "@webcampus/schemas/department";
 import { Router } from "express";
 
 const router = Router();
@@ -31,4 +34,15 @@ router.get(
   HODController.get
 );
 
+router.delete(
+  "/",
+  validateRequest(RemoveHODSchema),
+  protect({
+    role: "department",
+    permissions: {
+      hod: ["remove"],
+    },
+  }),
+  HODController.remove
+);
 export default router;

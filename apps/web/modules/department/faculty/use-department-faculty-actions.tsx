@@ -60,9 +60,28 @@ export const useDepartmentFacultyActions = () => {
     enabled: !!session?.user.name,
   });
 
+  const { mutate: removeHOD } = useMutation({
+    mutationFn: async (userId: string) => {
+      return await axios.delete<BaseResponse<null>>(
+        `${frontendEnv().NEXT_PUBLIC_API_BASE_URL}/department/hod`,
+        {
+          data: { userId, departmentName: session?.user.name },
+          withCredentials: true,
+        }
+      );
+    },
+    onSuccess: (data) => {
+      toast.success(data.data.message);
+    },
+    onError: (error: AxiosError<BaseResponse<null>>) => {
+      toast.error(error.response?.data?.error as string);
+    },
+  });
+
   return {
     deleteFaculty,
     createHOD,
     hod: hodData?.data.data,
+    removeHOD,
   };
 };

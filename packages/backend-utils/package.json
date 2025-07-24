@@ -4,7 +4,8 @@
   "exports": {
     "./middlewares": "./src/middlewares/index.ts",
     "./helpers": "./src/helpers/index.ts",
-    "./errors": "./src/errors.ts"
+    "./errors": "./src/errors.ts",
+    "./messages": "./src/messages/index.ts"
   },
   "scripts": {
     "check-types": "tsc --noEmit --pretty"

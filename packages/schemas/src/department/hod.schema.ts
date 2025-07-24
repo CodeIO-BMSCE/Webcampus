@@ -21,6 +21,8 @@ export const CreateHODSchema = BaseHODSchema;
  */
 export const UpdateHODSchema = BaseHODSchema.partial();
 
+export const RemoveHODSchema = CreateHODSchema;
+
 /**
  * HOD response schema
  * @description This schema is used to validate the HOD response data
@@ -32,4 +34,5 @@ export const HODResponseSchema = BaseHODSchema.extend({
 export type BaseHODDTO = z.infer<typeof BaseHODSchema>;
 export type CreateHODDTO = z.infer<typeof CreateHODSchema>;
 export type UpdateHODDTO = z.infer<typeof UpdateHODSchema>;
+export type RemoveHODDTO = z.infer<typeof RemoveHODSchema>;
 export type HODResponseDTO = z.infer<typeof HODResponseSchema>;

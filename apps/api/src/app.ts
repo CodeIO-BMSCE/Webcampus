@@ -7,7 +7,6 @@ import facultyRouter from "@webcampus/api/src/routers/faculty/faculty.router";
 import courseAssignmentRouter from "@webcampus/api/src/routers/hod/course-assignment.router";
 import courseRegistrationRouter from "@webcampus/api/src/routers/student/course-registration.router";
 import { auth, toNodeHandler } from "@webcampus/auth";
-import { protect } from "@webcampus/backend-utils/middlewares";
 import { backendEnv } from "@webcampus/common/env";
 import cors from "cors";
 import express from "express";
@@ -31,16 +30,7 @@ app.use(express.json());
 
 app.use("/admin", adminRouter);
 
-app.use(
-  "/user",
-  protect({
-    role: "admin",
-    permissions: {
-      user: ["set-role"],
-    },
-  }),
-  userRouter
-);
+app.use("/user", userRouter);
 
 app.use("/api/faculty", facultyRouter);
 

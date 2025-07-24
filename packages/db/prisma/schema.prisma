@@ -109,13 +109,6 @@ model Verification {
   @@map("verification")
 }
 
-enum Role {
-  STUDENT
-  FACULTY
-  HOD
-  ADMIN
-}
-
 enum CondonationStatus {
   NOT_REQUESTED
   PENDING

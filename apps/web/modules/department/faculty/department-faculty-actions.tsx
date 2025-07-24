@@ -11,7 +11,8 @@ import { MoreHorizontal } from "lucide-react";
 import { useDepartmentFacultyActions } from "./use-department-faculty-actions";
 
 export const DepartmentFacultyActions = ({ userId }: { userId: string }) => {
-  const { deleteFaculty, createHOD, hod } = useDepartmentFacultyActions();
+  const { deleteFaculty, createHOD, hod, removeHOD } =
+    useDepartmentFacultyActions();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -36,6 +37,15 @@ export const DepartmentFacultyActions = ({ userId }: { userId: string }) => {
         >
           Make HOD
         </DropdownMenuItem>
+        {hod?.userId === userId ? (
+          <DropdownMenuItem
+            onClick={async () => {
+              removeHOD(userId);
+            }}
+          >
+            Remove HOD
+          </DropdownMenuItem>
+        ) : null}
       </DropdownMenuContent>
     </DropdownMenu>
   );

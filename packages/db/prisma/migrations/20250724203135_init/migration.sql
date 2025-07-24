@@ -2,9 +2,6 @@
 CREATE TYPE "SemesterType" AS ENUM ('even', 'odd');
 
 -- CreateEnum
-CREATE TYPE "Role" AS ENUM ('STUDENT', 'FACULTY', 'HOD', 'ADMIN');
-
--- CreateEnum
 CREATE TYPE "CondonationStatus" AS ENUM ('NOT_REQUESTED', 'PENDING', 'APPROVED', 'REJECTED');
 
 -- CreateEnum

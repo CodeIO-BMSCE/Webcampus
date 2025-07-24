@@ -1,10 +1,14 @@
 "use client";
 
-import { authClient } from "@/lib/auth-client";
 import { CreateUserDialog } from "@/modules/auth/create-user/create-user-dialog";
 import { DataTable } from "@/modules/student/courses/data-table";
 import { useQuery } from "@tanstack/react-query";
+import { frontendEnv } from "@webcampus/common/env";
+import { UserResponseDTO } from "@webcampus/schemas/admin";
+import { BaseResponse } from "@webcampus/types/api";
 import { Skeleton } from "@webcampus/ui/components/skeleton";
+import axios from "axios";
+import qs from "qs";
 import React from "react";
 import { departmentFacultyColumns } from "./department-faculty-columns";
 
@@ -12,14 +16,18 @@ export const DepartmentFacultyView = () => {
   const response = useQuery({
     queryKey: ["faculty"],
     queryFn: async () => {
-      return await authClient.admin.listUsers({
-        query: {
-          limit: 10,
-          filterField: "role",
-          filterValue: "faculty",
-          filterOperator: "eq",
+      const queryParams = qs.stringify(
+        {
+          role: ["hod", "faculty"],
         },
-      });
+        {
+          arrayFormat: "repeat",
+        }
+      );
+
+      return await axios.get<BaseResponse<UserResponseDTO[]>>(
+        `${frontendEnv().NEXT_PUBLIC_API_BASE_URL}/user?${queryParams}`
+      );
     },
   });
 
@@ -39,7 +47,7 @@ export const DepartmentFacultyView = () => {
     );
   }
 
-  if (!response.data?.data?.users) {
+  if (!response.data?.data?.data) {
     return <div>No users found</div>;
   }
 
@@ -50,7 +58,7 @@ export const DepartmentFacultyView = () => {
       </div>
       <DataTable
         columns={departmentFacultyColumns}
-        data={response.data?.data?.users}
+        data={response.data?.data?.data}
       />
     </div>
   );
