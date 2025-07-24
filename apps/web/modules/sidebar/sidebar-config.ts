@@ -40,11 +40,11 @@ export const sidebarConfig: Record<Role, SidebarData> = {
           url: "/admin/dashboard",
           icon: LayoutDashboard,
         },
-        {
-          name: "Faculty",
-          url: "/admin/faculty",
-          icon: Users,
-        },
+        // {
+        //   name: "Faculty",
+        //   url: "/admin/faculty",
+        //   icon: Users,
+        // },
         {
           name: "Department",
           url: "/admin/department",

@@ -10,18 +10,20 @@ import {
   FormMessage,
 } from "@webcampus/ui/components/form";
 import { Input } from "@webcampus/ui/components/input";
+import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { useUsernameSignInForm } from "./use-username-sign-in-form";
 
 export const UsernameSignIn = () => {
   const { form, onSubmit } = useUsernameSignInForm();
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className={"flex flex-col gap-6"}
+        className="flex flex-col gap-6"
       >
         <div className="flex flex-col items-center gap-2 text-center">
           <h1 className="text-2xl font-bold">Student sign in</h1>
@@ -59,27 +61,48 @@ export const UsernameSignIn = () => {
                     </Link>
                   </div>
                   <FormControl>
-                    <Input
-                      {...field}
-                      type="password"
-                      placeholder="Enter your password"
-                    />
+                    <div className="relative">
+                      <Input
+                        {...field}
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Enter your password"
+                        className="pr-10" // for right padding to make room for button
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700 focus:outline-none"
+                        aria-label={
+                          showPassword ? "Hide password" : "Show password"
+                        }
+                      >
+                        {showPassword ? (
+                          <EyeOff size={20} />
+                        ) : (
+                          <Eye size={20} />
+                        )}
+                      </button>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
           </div>
+
           <Button type="submit" className="w-full">
             Continue
           </Button>
         </div>
+        {/* Uncomment if you want to enable sign up link */}
+        {/*
         <div className="text-center text-sm">
           Don&apos;t have an account?{" "}
           <Link href="/sign-up" className="underline underline-offset-4">
             Sign up
           </Link>
         </div>
+        */}
       </form>
     </Form>
   );
