@@ -7,8 +7,7 @@
     "./logger": "./src/logger.ts"
   },
   "scripts": {
-    "check-types": "tsc --noEmit --pretty",
-    "build": "rm -rf dist && tsc"
+    "check-types": "tsc --noEmit --pretty"
   },
   "devDependencies": {
     "@types/bun": "latest",

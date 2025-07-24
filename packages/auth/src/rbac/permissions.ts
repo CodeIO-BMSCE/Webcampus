@@ -4,40 +4,43 @@ import { adminAc, defaultStatements } from "better-auth/plugins/admin/access";
 
 const statement = {
   ...defaultStatements,
-  attendance: ["create", "read", "update", "delete"],
-  semester: ["create", "read", "update", "delete"],
+  attendance: ["create"],
+  semester: ["create"],
   courses: ["create", "read"],
+  department: ["create", "read"],
+  hod: ["create", "read"],
 } as const;
 
 export const ac = createAccessControl(statement);
 
 export const roles = {
   admin: ac.newRole({
-    attendance: ["read"],
-    semester: ["create", "read", "update", "delete"],
+    semester: ["create"],
+    department: ["create", "read"],
     ...adminAc.statements,
   }),
   student: ac.newRole({
-    attendance: ["read"],
     user: [],
   }),
   faculty: ac.newRole({
-    attendance: ["create", "update"],
+    attendance: ["create"],
   }),
   coordinator: ac.newRole({
-    attendance: ["create", "update", "delete"],
+    attendance: ["create"],
   }),
   hod: ac.newRole({
-    attendance: ["read"],
     ...adminAc.statements,
   }),
   coe: ac.newRole({
-    attendance: ["read"],
+    attendance: ["create"],
   }),
   department: ac.newRole({
-    attendance: ["read"],
-    courses: ["create", "read"],
     ...adminAc.statements,
+    courses: ["create", "read"],
+    hod: ["create", "read"],
+    /**
+     * Admin statements are used to create students and faculty
+     */
   }),
 } satisfies Record<Role, unknown>;
 

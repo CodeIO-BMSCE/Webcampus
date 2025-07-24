@@ -1,33 +1,34 @@
-import { CourseController } from "@webcampus/api/src/controllers/department/course.controller";
+import { HODController } from "@webcampus/api/src/controllers/department/hod.controller";
 import { protect, validateRequest } from "@webcampus/backend-utils/middlewares";
 import { StringParamSchema } from "@webcampus/schemas/common";
-import { CreateCourseSchema } from "@webcampus/schemas/department";
+import { CreateHODSchema } from "@webcampus/schemas/department";
 import { Router } from "express";
 
 const router = Router();
 
 router.post(
   "/",
-  validateRequest(CreateCourseSchema),
+  validateRequest(CreateHODSchema),
   protect({
     role: "department",
     permissions: {
-      courses: ["create"],
+      hod: ["create"],
+      user: ["set-role"],
     },
   }),
-  CourseController.create
+  HODController.create
 );
 
 router.get(
-  "/branch",
+  "/",
   validateRequest(StringParamSchema, "query"),
   protect({
     role: "department",
     permissions: {
-      courses: ["read"],
+      hod: ["read"],
     },
   }),
-  CourseController.getCoursesByBranch
+  HODController.get
 );
 
 export default router;

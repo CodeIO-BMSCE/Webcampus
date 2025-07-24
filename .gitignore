@@ -45,3 +45,5 @@ playwright-report/
 playwright-report copy/
 playwright/.cache/
 playwright/.auth
+
+.tsup

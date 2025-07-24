@@ -1,5 +1,8 @@
+"use client";
+
+import { authClient } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { frontendEnv } from "@webcampus/common/env";
 import {
   CreateCourseDTO,
@@ -7,8 +10,11 @@ import {
 } from "@webcampus/schemas/department";
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 export const useCreateCourseForm = () => {
+  const queryClient = useQueryClient();
+  const { data: session } = authClient.useSession();
   const form = useForm<CreateCourseDTO>({
     resolver: zodResolver(CreateCourseSchema),
     defaultValues: {
@@ -17,9 +23,10 @@ export const useCreateCourseForm = () => {
       type: "",
       credits: 1,
       hasLab: false,
-      branch: "cse",
+      departmentName: session?.user?.name,
     },
   });
+  console.log(form.formState.errors);
 
   const { mutate } = useMutation({
     mutationFn: async (values: CreateCourseDTO) =>
@@ -32,7 +39,8 @@ export const useCreateCourseForm = () => {
       console.log(error);
     },
     onSuccess: (data) => {
-      console.log(data);
+      toast.success(data.data.message);
+      queryClient.invalidateQueries({ queryKey: ["courses"] });
       form.reset();
     },
   });

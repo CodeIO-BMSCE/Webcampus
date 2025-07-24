@@ -23,6 +23,11 @@ type RequestPart = "body" | "query" | "params";
 export const validateRequest =
   (schema: ZodType, source: RequestPart = "body") =>
   (req: Request, res: Response, next: NextFunction) => {
+    logger.info("Validating request", {
+      path: req.path,
+      source,
+      data: req[source],
+    });
     const result = schema.safeParse(req[source]);
 
     if (!result.success) {
@@ -40,6 +45,6 @@ export const validateRequest =
       });
     }
 
-    req[source] = result.data;
+    Object.assign(req[source], result.data);
     next();
   };

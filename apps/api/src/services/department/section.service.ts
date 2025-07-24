@@ -11,7 +11,7 @@ export class Section {
       const section = await db.section.create({
         data,
         include: {
-          branch: true,
+          department: true,
           courses: true,
           studentSections: true,
           batches: true,
@@ -34,7 +34,7 @@ export class Section {
     try {
       const sections = await db.section.findMany({
         include: {
-          branch: true,
+          department: true,
           courses: true,
           studentSections: true,
           batches: true,
@@ -56,7 +56,7 @@ export class Section {
       const section = await db.section.findUnique({
         where: { id },
         include: {
-          branch: true,
+          department: true,
           courses: true,
           studentSections: true,
           batches: true,
@@ -80,12 +80,12 @@ export class Section {
     }
   }
 
-  async getByBranchId(branchId: string) {
+  async getByDepartmentName(departmentName: string) {
     try {
       const sections = await db.section.findMany({
-        where: { branchId },
+        where: { departmentName },
         include: {
-          branch: true,
+          department: true,
           courses: true,
           studentSections: true,
           batches: true,
@@ -108,7 +108,7 @@ export class Section {
         where: { id },
         data,
         include: {
-          branch: true,
+          department: true,
           courses: true,
           studentSections: true,
           batches: true,

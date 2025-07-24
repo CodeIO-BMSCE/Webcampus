@@ -1,0 +1,68 @@
+"use client";
+
+import { authClient } from "@/lib/auth-client";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { frontendEnv } from "@webcampus/common/env";
+import { HODResponseDTO } from "@webcampus/schemas/department";
+import { BaseResponse } from "@webcampus/types/api";
+import axios, { AxiosError } from "axios";
+import { toast } from "react-toastify";
+
+export const useDepartmentFacultyActions = () => {
+  const { data: session } = authClient.useSession();
+  const { mutate: deleteFaculty } = useMutation({
+    mutationFn: async (userId: string) => {
+      return await axios.delete<BaseResponse<null>>(
+        `${frontendEnv().NEXT_PUBLIC_API_BASE_URL}/user`,
+        {
+          data: { userId },
+          withCredentials: true,
+        }
+      );
+    },
+    onSuccess: (data) => {
+      toast.success(data.data.message);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const { mutate: createHOD } = useMutation({
+    mutationFn: async (userId: string) => {
+      return await axios.post<BaseResponse<HODResponseDTO>>(
+        `${frontendEnv().NEXT_PUBLIC_API_BASE_URL}/department/hod`,
+        { userId, departmentName: session?.user.name },
+        { withCredentials: true }
+      );
+    },
+    onSuccess: (data) => {
+      toast.success(data.data.message);
+    },
+    onError: (error: AxiosError<BaseResponse<null>>) => {
+      toast.error(error.response?.data?.error as string);
+    },
+  });
+
+  const { data: hodData } = useQuery({
+    queryKey: ["hod"],
+    queryFn: async () => {
+      return await axios.get<BaseResponse<HODResponseDTO>>(
+        `${frontendEnv().NEXT_PUBLIC_API_BASE_URL}/department/hod`,
+        {
+          params: {
+            name: session?.user.name,
+          },
+          withCredentials: true,
+        }
+      );
+    },
+    enabled: !!session?.user.name,
+  });
+
+  return {
+    deleteFaculty,
+    createHOD,
+    hod: hodData?.data.data,
+  };
+};

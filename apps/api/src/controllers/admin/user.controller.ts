@@ -1,4 +1,4 @@
-import { User } from "@webcampus/api/src/services/admin/user.service";
+import { UserService } from "@webcampus/api/src/services/admin/user.service";
 import { auth, fromNodeHeaders } from "@webcampus/auth";
 import { ERRORS } from "@webcampus/backend-utils/errors";
 import { sendResponse } from "@webcampus/backend-utils/helpers";
@@ -27,7 +27,7 @@ export const createUser = async (
 ): Promise<void> => {
   try {
     const request: CreateUserType = req.body;
-    const { message } = await new User({
+    const { message } = await new UserService({
       request,
     }).create();
     sendResponse({
