@@ -11,22 +11,24 @@ import {
   FormMessage,
 } from "@webcampus/ui/components/form";
 import { Input } from "@webcampus/ui/components/input";
-import { PasswordInput } from "@webcampus/ui/components/password-input";
+// import { PasswordInput } from "@webcampus/ui/components/password-input";
 import { capitalize } from "@webcampus/ui/lib/utils";
+import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { useEmailSignInForm } from "./use-email-sign-in-form";
 
 export const EmailSignIn = () => {
   const { role } = useParams<{ role: Role }>();
   const { form, onSubmit } = useEmailSignInForm({ role });
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className={"flex flex-col gap-6"}
+        className="flex flex-col gap-6"
       >
         <div className="flex flex-col items-center gap-2 text-center">
           <h1 className="text-2xl font-bold">{capitalize(role)} sign in</h1>
@@ -55,7 +57,7 @@ export const EmailSignIn = () => {
               render={({ field }) => (
                 <FormItem>
                   <div className="flex items-center">
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel htmlFor="password">Password</FormLabel>
                     <Link
                       href="/forgot-password"
                       className="ml-auto text-sm underline-offset-4 hover:underline"
@@ -64,17 +66,37 @@ export const EmailSignIn = () => {
                     </Link>
                   </div>
                   <FormControl>
-                    <PasswordInput
-                      {...field}
-                      type="password"
-                      placeholder="Enter your password"
-                    />
+                    <div className="relative">
+                      {/* Use PasswordInput, control type by showPassword state */}
+                      <Input
+                        {...field}
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Enter your password"
+                        className="pr-10"
+                        id="password"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700 focus:outline-none"
+                        aria-label={
+                          showPassword ? "Hide password" : "Show password"
+                        }
+                      >
+                        {showPassword ? (
+                          <EyeOff size={20} />
+                        ) : (
+                          <Eye size={20} />
+                        )}
+                      </button>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
           </div>
+
           <Button type="submit" className="w-full">
             Continue
           </Button>
