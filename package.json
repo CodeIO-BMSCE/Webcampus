@@ -38,6 +38,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "sh scripts/dev.sh",
+    "start": "turbo run start",
     "lint": "turbo run lint",
     "format:write": "turbo run format:write",
     "format:check": "turbo run format:check",

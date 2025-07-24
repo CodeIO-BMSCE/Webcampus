@@ -13,6 +13,9 @@
         "API_BASE_URL"
       ]
     },
+    "start": {
+      "dependsOn": ["^build"]
+    },
     "lint": {
       "dependsOn": ["^lint"]
     },

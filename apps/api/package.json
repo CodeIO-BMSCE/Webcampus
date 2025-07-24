@@ -6,7 +6,7 @@
     "dev": "tsx watch src/index.ts",
     "lint": "eslint .",
     "build": "tsup",
-    "start": "bun run build && bun run dist/index.js",
+    "start": "bun run dist/index.js",
     "check-types": "tsc --noEmit --pretty",
     "format:write": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
     "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",

@@ -9,7 +9,6 @@
   },
   "scripts": {
     "auth:generate": "bunx @better-auth/cli generate --output=../db/prisma/schema.prisma --y",
-    "build": "rm -rf ./dist && tsc",
     "check-types": "tsc --noEmit --pretty"
   },
   "devDependencies": {

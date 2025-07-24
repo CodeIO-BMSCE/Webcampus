@@ -7,8 +7,7 @@
     "./errors": "./src/errors.ts"
   },
   "scripts": {
-    "check-types": "tsc --noEmit --pretty",
-    "build": "rm -rf dist && tsc"
+    "check-types": "tsc --noEmit --pretty"
   },
   "private": true,
   "devDependencies": {
