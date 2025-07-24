@@ -1,7 +1,8 @@
 import { auth } from "@webcampus/auth";
-import { BaseResponse } from "@webcampus/backend-utils/helpers";
 import { logger } from "@webcampus/common/logger";
+import { User } from "@webcampus/db";
 import { CreateUserType } from "@webcampus/schemas/admin";
+import { BaseResponse } from "@webcampus/types/api";
 
 /**
  * Custom User Service for Better Auth Integration
@@ -20,7 +21,7 @@ import { CreateUserType } from "@webcampus/schemas/admin";
  * this service and its usage (controllers, routes, etc.) should be deprecated,
  * and user creation should be done directly from the frontend using the Admin API.
  */
-export class User {
+export class UserService {
   private body: CreateUserType;
   private userId: string | null = null;
 
@@ -35,7 +36,7 @@ export class User {
    *
    * @returns {Promise<BaseResponse<null>>} A base response containing a success message.
    */
-  async create(): Promise<BaseResponse<null>> {
+  async create(): Promise<BaseResponse<Partial<User>>> {
     try {
       if (this.body.role === "student") {
         return await this.createStudent();
@@ -43,7 +44,7 @@ export class User {
         return await this.createUserWithAdminAPI();
       }
     } catch (error) {
-      logger.error("User creation failed:", { error });
+      logger.error("User creation failed:", error);
       throw new Error("User creation failed.");
     }
   }
@@ -55,12 +56,13 @@ export class User {
    *
    * @returns {Promise<BaseResponse<null>>}
    */
-  private async createStudent(): Promise<BaseResponse<null>> {
+  private async createStudent(): Promise<BaseResponse<Partial<User>>> {
     try {
-      await this.createUserWithUsername();
+      const user = await this.createUserWithUsername();
       await this.updateUserRole();
       return {
         message: "Student created successfully.",
+        data: user,
       };
     } catch (error) {
       logger.error("Failed to create student user:", { error });
@@ -74,13 +76,14 @@ export class User {
    *
    * @throws {Error} if sign-up fails
    */
-  private async createUserWithUsername() {
+  private async createUserWithUsername(): Promise<Partial<User>> {
     try {
       const { user } = await auth.api.signUpEmail({
         body: this.body,
       });
       this.userId = user.id;
       logger.info("Student USN reated using signUpEmail", { user });
+      return user;
     } catch (error) {
       logger.error("signUpEmail failed", { error });
       throw new Error("Failed to sign up user with username.");
@@ -93,7 +96,7 @@ export class User {
    *
    * @throws {Error} if role update or user deletion fails
    */
-  private async updateUserRole() {
+  private async updateUserRole(): Promise<void> {
     if (!this.userId) {
       throw new Error("User ID not found. Cannot assign role.");
     }
@@ -125,17 +128,23 @@ export class User {
    * @returns {Promise<BaseResponse<null>>} Success message
    * @throws {Error} if creation fails
    */
-  private async createUserWithAdminAPI(): Promise<BaseResponse<null>> {
+  private async createUserWithAdminAPI(): Promise<BaseResponse<Partial<User>>> {
     try {
       const { user } = await auth.api.createUser({
-        body: this.body,
+        body: {
+          email: this.body.email,
+          password: this.body.password,
+          name: this.body.name,
+          role: this.body.role,
+        },
       });
       logger.info("User Created using Admin API ", { user });
       return {
         message: `${this.body.role} created successfully`,
+        data: user,
       };
     } catch (error) {
-      logger.error("createUser via admin API failed:", { error });
+      logger.error("createUser via admin API failed:", error);
       throw new Error("Failed to create user via admin API.");
     }
   }

@@ -1,12 +1,12 @@
 "use client";
 
 import { authClient } from "@/lib/auth-client";
-import { CreateUserDialog } from "@/modules/auth/create-user/create-user-dialog";
 import { DataTable } from "@/modules/student/courses/data-table";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@webcampus/ui/components/skeleton";
 import React from "react";
 import { adminDepartmentColumns } from "./admin-department-columns";
+import { CreateDepartmentView } from "./create-department-view";
 
 export const AdminDepartmentView = () => {
   const response = useQuery({
@@ -46,7 +46,7 @@ export const AdminDepartmentView = () => {
   return (
     <div className="space-y-4">
       <div className="flex justify-end">
-        <CreateUserDialog role="department" />
+        <CreateDepartmentView />
       </div>
       <DataTable
         columns={adminDepartmentColumns}

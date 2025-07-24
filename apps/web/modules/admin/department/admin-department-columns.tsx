@@ -7,26 +7,67 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@webcampus/ui/components/dropdown-menu";
 import axios from "axios";
 import { UserWithRole } from "better-auth/plugins";
-import { MoreHorizontal } from "lucide-react";
+import { ClipboardCopy, MoreHorizontal } from "lucide-react"; // ADDED ClipboardCopy
+import { useState } from "react"; // ADDED useState, useRef
+import { useCopyToClipboard } from "../../../lib/use-copy-to-clipboard"; // ADDED custom hook import (check path if different)
+
+const CopyableCell = ({ value }: { value: string }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const [copiedText, copy] = useCopyToClipboard();
+
+  const handleCopy = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    copy(value);
+    console.log(`Copied: ${value}`);
+  };
+
+  return (
+    <div
+      className="group relative flex h-full items-center justify-between py-2"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{ minWidth: "100px" }} // Optional: Ensures enough space for the icon
+    >
+      <span className="flex-grow truncate pr-6">
+        {" "}
+        {/* pr-6 for space for icon */}
+        {value}
+      </span>
+      {isHovered && (
+        <Button
+          variant="ghost"
+          size="icon"
+          className="absolute top-1/2 right-0 h-6 w-6 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100"
+          onClick={handleCopy}
+          title={copiedText === value ? "Copied!" : "Copy to clipboard"}
+        >
+          <ClipboardCopy className="h-4 w-4 text-gray-500 hover:text-gray-700" />
+        </Button>
+      )}
+    </div>
+  );
+};
+// --- END NEW COMPONENT ---
 
 export const adminDepartmentColumns: ColumnDef<UserWithRole>[] = [
   {
     accessorKey: "id",
     header: "ID",
+    cell: ({ row }) => <CopyableCell value={row.original.id} />,
   },
   {
     accessorKey: "name",
     header: "Name",
+    cell: ({ row }) => <CopyableCell value={row.original.name || ""} />,
   },
   {
     accessorKey: "email",
     header: "Email",
+    cell: ({ row }) => <CopyableCell value={row.original.email || ""} />,
   },
   {
     accessorKey: "emailVerified",
@@ -46,7 +87,6 @@ export const adminDepartmentColumns: ColumnDef<UserWithRole>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
               onClick={async () => {
                 const response = await axios.delete(
@@ -63,9 +103,6 @@ export const adminDepartmentColumns: ColumnDef<UserWithRole>[] = [
             >
               Delete
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

@@ -38,12 +38,14 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "sh scripts/dev.sh",
+    "start": "turbo run start",
     "lint": "turbo run lint",
     "format:write": "turbo run format:write",
     "format:check": "turbo run format:check",
     "check-types": "turbo run check-types",
     "bootstrap": "turbo run bootstrap",
-    "prepare": "husky"
+    "prepare": "husky",
+    "dx": "turbo run dx"
   },
   "workspaces": [
     "apps/*",

@@ -91,8 +91,8 @@ export const getSectionsByBranchId = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { message, data } = await new Section().getByBranchId(
-      req.params.branchId
+    const { message, data } = await new Section().getByDepartmentName(
+      req.query.departmentName as string
     );
     sendResponse({
       res,

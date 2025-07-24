@@ -48,7 +48,7 @@ export class CourseController {
 
   static async getCoursesByBranch(req: Request, res: Response) {
     try {
-      const request = req.params as StringParam;
+      const request = req.query as StringParam;
       const response = await CourseService.getCoursesByBranch(request.name);
       sendResponse({
         res,

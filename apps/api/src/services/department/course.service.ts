@@ -1,7 +1,7 @@
-import { BaseResponse } from "@webcampus/backend-utils/helpers";
 import { logger } from "@webcampus/common/logger";
 import { Course, db } from "@webcampus/db";
 import { CreateCourseDTO } from "@webcampus/schemas/department";
+import { BaseResponse } from "@webcampus/types/api";
 
 /**
  * Course service class
@@ -17,25 +17,13 @@ export class CourseService {
     data: CreateCourseDTO
   ): Promise<BaseResponse<Course>> {
     try {
-      const existingCourse = await db.course.findUnique({
-        where: { code: data.code },
-      });
-
-      if (existingCourse) {
-        const errorMessage = "Course with this code already exists";
-        logger.error(errorMessage, {
-          code: data.code,
-          existingCourseId: existingCourse.id,
-        });
-        throw errorMessage;
-      }
-
+      const { departmentName, ...courseData } = data;
       const course = await db.course.create({
         data: {
-          ...data,
-          branch: {
+          ...courseData,
+          department: {
             connect: {
-              name: data.branch,
+              name: departmentName,
             },
           },
         },
@@ -55,7 +43,7 @@ export class CourseService {
       return response;
     } catch (error) {
       logger.error("Failed to create course", error);
-      throw error;
+      throw new Error("Failed to create course");
     }
   }
 
@@ -101,7 +89,7 @@ export class CourseService {
     try {
       const courses = await db.course.findMany({
         where: {
-          branch: {
+          department: {
             name: {
               equals: name,
               mode: "insensitive",

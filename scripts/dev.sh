@@ -3,10 +3,12 @@ set -e
 
 bunx tsx scripts/banner.ts
 
-# Start the required docker resources
-sh scripts/docker.sh
+docker desktop start
 
-#Boostrap the required resources
+# Starts db and other services required for bootstrap
+bun dx
+
+# Bootstrap the required resources
 bun run bootstrap
 
 # Free up common development ports before starting the dev server

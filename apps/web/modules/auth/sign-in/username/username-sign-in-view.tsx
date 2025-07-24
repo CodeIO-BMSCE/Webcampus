@@ -94,15 +94,6 @@ export const UsernameSignIn = () => {
             Continue
           </Button>
         </div>
-        {/* Uncomment if you want to enable sign up link */}
-        {/*
-        <div className="text-center text-sm">
-          Don&apos;t have an account?{" "}
-          <Link href="/sign-up" className="underline underline-offset-4">
-            Sign up
-          </Link>
-        </div>
-        */}
       </form>
     </Form>
   );

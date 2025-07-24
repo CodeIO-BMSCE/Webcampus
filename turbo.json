@@ -13,6 +13,9 @@
         "API_BASE_URL"
       ]
     },
+    "start": {
+      "dependsOn": ["^build"]
+    },
     "lint": {
       "dependsOn": ["^lint"]
     },
@@ -25,7 +28,7 @@
       "persistent": true
     },
     "db:generate": {
-      "cache": false
+      "outputs": ["generated/**"]
     },
     "db:migrate": {
       "cache": false,
@@ -66,6 +69,9 @@
     "e2e:test": {
       "dependsOn": ["^build"],
       "passThroughEnv": ["PLAYWRIGHT_*"]
+    },
+    "dx": {
+      "cache": false
     }
   }
 }

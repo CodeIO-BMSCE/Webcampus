@@ -34,6 +34,7 @@ model User {
   banExpires DateTime?
   role       String?
   Semester   Semester[]
+  Department Department[]
 
   @@unique([email])
   @@unique([username])
@@ -132,40 +133,41 @@ enum AssignmentType {
   LAB
 }
 
-model Branch {
+model Department {
   id        String    @id @default(uuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id])
   name      String    @unique
-  code      String    @unique
-  hod       Hod?
   hodId     String?   @unique
+  hod       Hod?      @relation(fields: [hodId], references: [id])
   sections  Section[]
   students  Student[]
   faculties Faculty[]
   Course    Course[]
 
-  @@index([code])
+  @@index([name])
 }
 
 model Hod {
-  id       String @id @default(uuid())
-  user     User   @relation(fields: [userId], references: [id])
-  userId   String @unique
-  branch   Branch @relation(fields: [branchId], references: [id])
-  branchId String @unique
+  id             String      @id @default(uuid())
+  user           User        @relation(fields: [userId], references: [id])
+  userId         String      @unique
+  department     Department?
+  departmentName String?     @unique
 }
 
 model Section {
   id              String             @id @default(uuid())
   name            String
-  branch          Branch             @relation(fields: [branchId], references: [id])
-  branchId        String
+  department      Department         @relation(fields: [departmentName], references: [name])
+  departmentName  String
   semester        Int
   courses         CourseAssignment[]
   studentSections StudentSection[]
   batches         Batch[]
 
-  @@unique([name, branchId, semester])
-  @@index([branchId, semester])
+  @@unique([name, departmentName, semester])
+  @@index([departmentName, semester])
 }
 
 /**
@@ -201,8 +203,8 @@ model Student {
   user            User                 @relation(fields: [userId], references: [id])
   userId          String               @unique
   usn             String               @unique
-  branch          Branch               @relation(fields: [branchId], references: [id])
-  branchId        String
+  department      Department           @relation(fields: [departmentName], references: [name])
+  departmentName  String
   currentSemester Int
   studentSections StudentSection[]
   academicYear    String
@@ -211,18 +213,18 @@ model Student {
   attendances     Attendance[]
   batches         Batch[]              @relation("BatchStudents")
 
-  @@index([branchId])
+  @@index([departmentName])
 }
 
 model Faculty {
-  id       String             @id @default(uuid())
-  user     User               @relation(fields: [userId], references: [id])
-  userId   String             @unique
-  branch   Branch             @relation(fields: [branchId], references: [id])
-  branchId String
-  teaches  CourseAssignment[]
+  id             String             @id @default(uuid())
+  user           User               @relation(fields: [userId], references: [id])
+  userId         String             @unique
+  department     Department         @relation(fields: [departmentName], references: [name])
+  departmentName String
+  teaches        CourseAssignment[]
 
-  @@index([branchId])
+  @@index([departmentName])
 }
 
 model Admin {
@@ -232,18 +234,18 @@ model Admin {
 }
 
 model Course {
-  id            String               @id @default(uuid())
-  code          String               @unique
-  name          String
-  type          String
-  credits       Int
-  branch        Branch               @relation(fields: [branchId], references: [id])
-  branchId      String
-  hasLab        Boolean              @default(false)
-  assignments   CourseAssignment[]
-  registrations CourseRegistration[]
-  marks         Mark[]
-  attendances   Attendance[]
+  id             String               @id @default(uuid())
+  code           String               @unique
+  name           String
+  type           String
+  credits        Int
+  department     Department           @relation(fields: [departmentName], references: [name])
+  departmentName String
+  hasLab         Boolean              @default(false)
+  assignments    CourseAssignment[]
+  registrations  CourseRegistration[]
+  marks          Mark[]
+  attendances    Attendance[]
 
   @@index([code])
 }
