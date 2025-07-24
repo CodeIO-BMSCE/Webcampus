@@ -1,7 +1,7 @@
-import { BaseResponse } from "@webcampus/backend-utils/helpers";
 import { logger } from "@webcampus/common/logger";
 import { Course, db } from "@webcampus/db";
 import { CreateCourseDTO } from "@webcampus/schemas/department";
+import { BaseResponse } from "@webcampus/types/api";
 
 /**
  * Course service class

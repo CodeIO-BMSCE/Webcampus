@@ -9,7 +9,6 @@ import {
   CreateDepartmentSchema,
 } from "@webcampus/schemas/department";
 import axios, { AxiosError } from "axios";
-import { nanoid } from "nanoid";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -23,7 +22,7 @@ export const useCreateDepartmentForm = () => {
     defaultValues: {
       name: "",
       email: "",
-      password: nanoid(),
+      password: "password",
       username: "",
       role: "department",
     },
@@ -37,7 +36,6 @@ export const useCreateDepartmentForm = () => {
     onSuccess: ({ data }) => {
       toast.success(data.message);
       form.reset();
-      form.setValue("password", nanoid());
       queryClient.invalidateQueries({ queryKey: ["department"] });
     },
     onError: (error: AxiosError) => {

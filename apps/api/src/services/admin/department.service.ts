@@ -1,5 +1,4 @@
 import { UserService } from "@webcampus/api/src/services/admin/user.service";
-import { BaseResponse } from "@webcampus/backend-utils/helpers";
 import { logger } from "@webcampus/common/logger";
 import { db } from "@webcampus/db";
 import { CreateUserType } from "@webcampus/schemas/admin";
@@ -7,6 +6,7 @@ import {
   CreateDepartmentDTO,
   DepartmentResponseDTO,
 } from "@webcampus/schemas/department";
+import { BaseResponse } from "@webcampus/types/api";
 
 /**
  * Service class for department operations.

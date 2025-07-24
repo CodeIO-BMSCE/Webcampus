@@ -8,7 +8,6 @@ import {
 } from "@webcampus/schemas/admin";
 import { roles, type Role } from "@webcampus/types/rbac";
 import axios from "axios";
-import { nanoid } from "nanoid";
 import { useForm } from "react-hook-form";
 
 interface UseCreateUserFormProps {
@@ -22,7 +21,7 @@ export const useCreateUserForm = ({ role }: UseCreateUserFormProps) => {
     defaultValues: {
       email: "",
       name: "",
-      password: nanoid(),
+      password: "password",
       role,
       username: "",
     },
@@ -36,7 +35,6 @@ export const useCreateUserForm = ({ role }: UseCreateUserFormProps) => {
         queryClient.invalidateQueries({ queryKey: [role] });
       });
       form.reset();
-      form.setValue("password", nanoid());
     },
   });
   console.log(form.formState.errors);

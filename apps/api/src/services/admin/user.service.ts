@@ -1,8 +1,8 @@
 import { auth } from "@webcampus/auth";
-import { BaseResponse } from "@webcampus/backend-utils/helpers";
 import { logger } from "@webcampus/common/logger";
 import { User } from "@webcampus/db";
 import { CreateUserType } from "@webcampus/schemas/admin";
+import { BaseResponse } from "@webcampus/types/api";
 
 /**
  * Custom User Service for Better Auth Integration
