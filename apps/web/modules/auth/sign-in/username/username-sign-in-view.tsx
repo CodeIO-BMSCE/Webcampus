@@ -10,14 +10,13 @@ import {
   FormMessage,
 } from "@webcampus/ui/components/form";
 import { Input } from "@webcampus/ui/components/input";
-import { Eye, EyeOff } from "lucide-react";
+import { PasswordInput } from "@webcampus/ui/components/password-input";
 import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 import { useUsernameSignInForm } from "./use-username-sign-in-form";
 
 export const UsernameSignIn = () => {
   const { form, onSubmit } = useUsernameSignInForm();
-  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <Form {...form}>
@@ -61,28 +60,10 @@ export const UsernameSignIn = () => {
                     </Link>
                   </div>
                   <FormControl>
-                    <div className="relative">
-                      <Input
-                        {...field}
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Enter your password"
-                        className="pr-10" // for right padding to make room for button
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700 focus:outline-none"
-                        aria-label={
-                          showPassword ? "Hide password" : "Show password"
-                        }
-                      >
-                        {showPassword ? (
-                          <EyeOff size={20} />
-                        ) : (
-                          <Eye size={20} />
-                        )}
-                      </button>
-                    </div>
+                    <PasswordInput
+                      {...field}
+                      placeholder="Enter your password"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -36,11 +36,7 @@ export function PasswordInput({
         aria-controls="password"
         variant={"ghost"}
       >
-        {isVisible ? (
-          <EyeOffIcon size={16} aria-hidden="true" />
-        ) : (
-          <EyeIcon size={16} aria-hidden="true" />
-        )}
+        {isVisible ? <EyeOffIcon size={16} /> : <EyeIcon size={16} />}
       </Button>
     </div>
   );
