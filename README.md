@@ -76,4 +76,4 @@ bun run dev
 
 1. Create a new branch
 2. Make your changes
-3. Open a Pull Request
+3. Open a Pull Request .
