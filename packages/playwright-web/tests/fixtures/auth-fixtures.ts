@@ -6,7 +6,7 @@ type AuthFixtures = {
 };
 
 export const test = base.extend<AuthFixtures>({
-  adminCredentials: async (_args, use) => {
+  adminCredentials: async (_, use) => {
     await use({
       email: "hitishraop@gmail.com",
       password: "password",
