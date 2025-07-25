@@ -5,9 +5,17 @@ import json from "@eslint/json";
 import markdown from "@eslint/markdown";
 import css from "@eslint/css";
 import { defineConfig } from "eslint/config";
+import playwright from "eslint-plugin-playwright";
 
 
 export default defineConfig([
+  {
+    ...playwright.configs['flat/recommended'],
+    files: ['tests/**'],
+    rules: {
+      ...playwright.configs['flat/recommended'].rules,
+    },
+  },
   { files: ["**/*.{js,mjs,cjs,ts,mts,cts}"], plugins: { js }, extends: ["js/recommended"] },
   { files: ["**/*.{js,mjs,cjs,ts,mts,cts}"], languageOptions: { globals: {...globals.browser, ...globals.node} } },
   tseslint.configs.recommended,

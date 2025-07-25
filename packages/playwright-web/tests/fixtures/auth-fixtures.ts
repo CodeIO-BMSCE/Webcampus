@@ -6,7 +6,7 @@ type AuthFixtures = {
 };
 
 export const test = base.extend<AuthFixtures>({
-  adminCredentials: async (_, use) => {
+  adminCredentials: async (_args, use) => {
     await use({
       email: "hitishraop@gmail.com",
       password: "password",
@@ -15,7 +15,7 @@ export const test = base.extend<AuthFixtures>({
 
   authenticatedAsAdmin: async ({ page, adminCredentials }, use) => {
     await use(async () => {
-      await page.goto("http://localhost:3000/admin/sign-in");
+      await page.goto("/admin/sign-in");
       await page
         .locator('input[placeholder="Enter your email"]')
         .fill(adminCredentials.email);
