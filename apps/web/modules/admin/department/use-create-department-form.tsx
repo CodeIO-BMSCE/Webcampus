@@ -12,7 +12,15 @@ import axios, { AxiosError } from "axios";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-export const useCreateDepartmentForm = () => {
+// ADDED: New interface for props passed to the hook
+interface UseCreateDepartmentFormProps {
+  onDepartmentCreated?: () => void; // Callback to close the dialog
+}
+
+// MODIFIED: Accept the new prop
+export const useCreateDepartmentForm = ({
+  onDepartmentCreated,
+}: UseCreateDepartmentFormProps = {}) => {
   const { NEXT_PUBLIC_API_BASE_URL } = frontendEnv();
   const queryClient = useQueryClient();
   const form = useForm<CreateDepartmentDTO & CreateUserType>({
@@ -27,6 +35,7 @@ export const useCreateDepartmentForm = () => {
       role: "department",
     },
   });
+
   const { mutate: createDepartment } = useMutation({
     mutationFn: (data: CreateDepartmentDTO & CreateUserType) => {
       return axios.post(`${NEXT_PUBLIC_API_BASE_URL}/admin/department`, data, {
@@ -37,6 +46,8 @@ export const useCreateDepartmentForm = () => {
       toast.success(data.message);
       form.reset();
       queryClient.invalidateQueries({ queryKey: ["department"] });
+      // ADDED: Call the callback to close the dialog
+      onDepartmentCreated?.();
     },
     onError: (error: AxiosError) => {
       toast.error(error.cause?.message);

@@ -1,3 +1,5 @@
+// apps/web/modules/auth/create-user/use-create-user-form.tsx
+
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,9 +14,13 @@ import { useForm } from "react-hook-form";
 
 interface UseCreateUserFormProps {
   role: Role;
+  onUserCreated?: () => void;
 }
 
-export const useCreateUserForm = ({ role }: UseCreateUserFormProps) => {
+export const useCreateUserForm = ({
+  role,
+  onUserCreated,
+}: UseCreateUserFormProps) => {
   const queryClient = useQueryClient();
   const form = useForm<CreateUserType>({
     resolver: zodResolver(createUserSchema),
@@ -35,6 +41,7 @@ export const useCreateUserForm = ({ role }: UseCreateUserFormProps) => {
         queryClient.invalidateQueries({ queryKey: [role] });
       });
       form.reset();
+      onUserCreated?.();
     },
   });
   console.log(form.formState.errors);

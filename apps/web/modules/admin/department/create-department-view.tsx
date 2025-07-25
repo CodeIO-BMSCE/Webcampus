@@ -1,3 +1,5 @@
+// apps/web/modules/admin/department/create-department-view.tsx
+
 "use client";
 
 import { Button } from "@webcampus/ui/components/button";
@@ -17,13 +19,18 @@ import {
   FormMessage,
 } from "@webcampus/ui/components/form";
 import { Input } from "@webcampus/ui/components/input";
-import React from "react";
+import React, { useState } from "react";
 import { useCreateDepartmentForm } from "./use-create-department-form";
 
 export const CreateDepartmentView = () => {
-  const { form, onSubmit } = useCreateDepartmentForm();
+  const [open, setOpen] = useState(false);
+
+  const { form, onSubmit } = useCreateDepartmentForm({
+    onDepartmentCreated: () => setOpen(false),
+  });
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button>Create Department</Button>
       </DialogTrigger>
