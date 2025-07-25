@@ -16,10 +16,18 @@ import { useCreateUserForm } from "./use-create-user-form";
 interface CreateUserFormProps {
   role: Role;
   children?: React.ReactNode;
+  onUserCreated?: () => void;
 }
 
-export const CreateUserForm = ({ role, children }: CreateUserFormProps) => {
-  const { form, onSubmit } = useCreateUserForm({ role });
+export const CreateUserForm = ({
+  role,
+  children,
+  onUserCreated,
+}: CreateUserFormProps) => {
+  const { form, onSubmit } = useCreateUserForm({
+    role,
+    onUserCreated,
+  });
 
   return (
     <Form {...form}>
@@ -85,7 +93,7 @@ export const CreateUserForm = ({ role, children }: CreateUserFormProps) => {
               )}
             />
           </div>
-          {children}
+          {children} {/* This renders the DialogFooter and buttons */}
         </div>
       </form>
     </Form>
