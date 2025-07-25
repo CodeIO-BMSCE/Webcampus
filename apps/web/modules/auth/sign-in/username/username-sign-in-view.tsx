@@ -71,8 +71,12 @@ export const UsernameSignIn = () => {
             />
           </div>
 
-          <Button type="submit" className="w-full">
-            Continue
+          <Button
+            disabled={form.formState.isSubmitting}
+            type="submit"
+            className="w-full"
+          >
+            {form.formState.isSubmitting ? "Signing in..." : "Continue"}
           </Button>
         </div>
       </form>

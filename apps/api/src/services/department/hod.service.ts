@@ -2,7 +2,7 @@ import { IncomingHttpHeaders } from "http";
 import { auth, fromNodeHeaders } from "@webcampus/auth";
 import { MESSAGES } from "@webcampus/backend-utils/messages";
 import { logger } from "@webcampus/common/logger";
-import { db } from "@webcampus/db";
+import { db, Prisma } from "@webcampus/db";
 import {
   CreateHODDTO,
   HODResponseDTO,
@@ -149,6 +149,11 @@ export class HODService {
       logger.info(response.message, { hod });
       return response;
     } catch (error: unknown) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === "P2025") {
+          throw new Error(MESSAGES.HOD.NOT_FOUND);
+        }
+      }
       if (error instanceof Error) {
         throw error;
       }
