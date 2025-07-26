@@ -75,7 +75,7 @@ export function DataTable<TData, TValue>({
                       )}
                       {copyButton && (
                         <div className="pointer-events-none absolute inset-0 flex items-center justify-end pr-2 opacity-0 transition-all duration-200 ease-in-out group-hover:opacity-100">
-                          <Copy text={String(cell.getValue() ?? "")} />
+                          <Copy text={String(cell.getValue())} />
                         </div>
                       )}
                     </TableCell>

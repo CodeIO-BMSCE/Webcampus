@@ -45,8 +45,8 @@ export const useCreateSectionForm = () => {
       toast.error(String(error.response?.data.error));
     },
   });
-  const onSubmit = form.handleSubmit(async (data: CreateSectionType) => {
+  const onSubmit = async (data: CreateSectionType) => {
     createSectionMutation.mutate(data);
-  });
+  };
   return { createSectionMutation, form, onSubmit };
 };

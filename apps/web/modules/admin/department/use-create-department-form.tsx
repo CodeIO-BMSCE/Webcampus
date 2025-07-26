@@ -12,13 +12,7 @@ import axios, { AxiosError } from "axios";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-interface UseCreateDepartmentFormProps {
-  onDepartmentCreated?: () => void;
-}
-
-export const useCreateDepartmentForm = ({
-  onDepartmentCreated,
-}: UseCreateDepartmentFormProps = {}) => {
+export const useCreateDepartmentForm = () => {
   const { NEXT_PUBLIC_API_BASE_URL } = frontendEnv();
   const queryClient = useQueryClient();
   const form = useForm<CreateDepartmentDTO & CreateUserType>({
@@ -42,9 +36,7 @@ export const useCreateDepartmentForm = ({
     },
     onSuccess: ({ data }) => {
       toast.success(data.message);
-      form.reset();
       queryClient.invalidateQueries({ queryKey: ["department"] });
-      onDepartmentCreated?.();
     },
     onError: (error: AxiosError) => {
       toast.error(error.cause?.message);

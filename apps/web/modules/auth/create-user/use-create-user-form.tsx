@@ -1,5 +1,3 @@
-// apps/web/modules/auth/create-user/use-create-user-form.tsx
-
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -44,7 +42,6 @@ export const useCreateUserForm = ({
       onUserCreated?.();
     },
   });
-  console.log(form.formState.errors);
 
   const onSubmit = (data: CreateUserType) => {
     mutation.mutate(data);
