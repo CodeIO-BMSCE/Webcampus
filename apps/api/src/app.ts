@@ -3,7 +3,9 @@ import semesterRouter from "@webcampus/api/src/routers/admin/semester.router";
 import userRouter from "@webcampus/api/src/routers/admin/user.router";
 import DepartmentRouter from "@webcampus/api/src/routers/department/department.router";
 import sectionRouter from "@webcampus/api/src/routers/department/section.router";
+import attendanceRouter from "@webcampus/api/src/routers/faculty/attendance.router";
 import facultyRouter from "@webcampus/api/src/routers/faculty/faculty.router";
+import markRouter from "@webcampus/api/src/routers/faculty/mark.router";
 import courseAssignmentRouter from "@webcampus/api/src/routers/hod/course-assignment.router";
 import courseRegistrationRouter from "@webcampus/api/src/routers/student/course-registration.router";
 import { auth, toNodeHandler } from "@webcampus/auth";
@@ -33,6 +35,10 @@ app.use("/admin", adminRouter);
 app.use("/user", userRouter);
 
 app.use("/api/faculty", facultyRouter);
+
+app.use("/api/mark", markRouter);
+
+app.use("/api/attendance", attendanceRouter);
 
 app.use("/api/course-registration", courseRegistrationRouter);
 

@@ -27,7 +27,7 @@ export const updateMarkSchema = z.object({
   lab2: z.number().nullable(),
   labTotal: z.number().nullable(),
   cieTotal: z.number().nullable(),
-  status: EligibilityStatus.nullable(),
+  status: EligibilityStatus,
 });
 
 export type CreateMarkType = z.infer<typeof createMarkSchema>;
