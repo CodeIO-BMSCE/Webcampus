@@ -12,6 +12,7 @@ import { backendEnv } from "@webcampus/common/env";
 import cors from "cors";
 import express from "express";
 import adminRouter from "./routers/admin/admin.router";
+import hodRouter from "./services/hod/hod.router";
 
 const app = express();
 
@@ -43,6 +44,7 @@ app.use("/api/sections", sectionRouter);
 app.use("/api/section-assignment", sectionAssignmentRouter);
 
 app.use("/semester", semesterRouter);
+app.use("/hod", hodRouter);
 
 app.use("/department", DepartmentRouter);
 

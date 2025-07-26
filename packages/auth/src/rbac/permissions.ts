@@ -10,6 +10,8 @@ const statement = {
   department: ["create", "read"],
   hod: ["create", "read", "remove"],
   sectionAssignment: ["create", "read", "update", "delete"],
+  courseAssignment: ["create"],
+  section: ["create", "read"],
 } as const;
 
 export const ac = createAccessControl(statement);
@@ -37,6 +39,7 @@ export const roles = {
   }),
   hod: ac.newRole({
     ...adminAc.statements,
+    courseAssignment: ["create"],
   }),
   coe: ac.newRole({
     attendance: ["create"],
@@ -49,6 +52,7 @@ export const roles = {
     /**
      * Admin statements are used to create students and faculty
      */
+    section: ["create", "read"],
   }),
 } satisfies Record<Role, unknown>;
 
