@@ -1,19 +1,25 @@
 "use client";
+
+import Image from "next/image";
+
 export default function NotFound() {
   return (
     <div className="flex h-screen w-screen items-center justify-center bg-white p-4">
-      {/* Desktop Image */}
-      <img
-        src="/404_notfound.png"
+      <Image
+        src="/404-not-found.png"
         alt="Page not found"
+        width={800}
+        height={600}
         className="hidden max-h-full max-w-full object-contain md:block"
+        priority
       />
-
-      {/* Mobile Image */}
-      <img
-        src="/404_notfoundmobile.png"
+      <Image
+        src="/404-not-found-mobile.png"
         alt="Page not found"
+        width={400}
+        height={300}
         className="block max-h-full max-w-full object-contain md:hidden"
+        priority
       />
     </div>
   );
