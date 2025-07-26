@@ -1,8 +1,8 @@
 "use client";
 
 import { authClient } from "@/lib/auth-client";
-import { DataTable } from "@/modules/student/courses/data-table";
 import { useQuery } from "@tanstack/react-query";
+import { DataTable } from "@webcampus/ui/components/data-table";
 import { Skeleton } from "@webcampus/ui/components/skeleton";
 import React from "react";
 import { adminDepartmentColumns } from "./admin-department-columns";

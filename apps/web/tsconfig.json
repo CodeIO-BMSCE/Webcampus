@@ -19,7 +19,8 @@
     "**/*.tsx",
     "next-env.d.ts",
     "next.config.js",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "../../packages/types/src"
   ],
   "exclude": ["node_modules"]
 }

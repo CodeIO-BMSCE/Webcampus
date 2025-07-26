@@ -1,52 +1,63 @@
+import { logger } from "@webcampus/common/logger";
 import { db, Prisma } from "@webcampus/db";
-import { CreateSemesterInput } from "@webcampus/schemas/admin";
+import {
+  CreateSemesterInput,
+  SemesterResponseType,
+} from "@webcampus/schemas/admin";
+import { BaseResponse } from "@webcampus/types/api";
 
 export class SemesterService {
-  async createSemester(data: CreateSemesterInput, userId: string) {
+  static async create(
+    data: CreateSemesterInput
+  ): Promise<BaseResponse<SemesterResponseType>> {
     try {
       const semester = await db.semester.create({
         data: {
           ...data,
-          createdBy: {
-            connect: {
-              id: userId,
-            },
-          },
-        },
-        include: {
-          createdBy: {
-            select: {
-              id: true,
-              name: true,
-              email: true,
-              username: true,
-            },
-          },
         },
       });
-      return semester;
+      const response: BaseResponse<SemesterResponseType> = {
+        message: "Semester created successfully",
+        data: semester,
+      };
+      logger.info({ response });
+      return response;
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === "P2002") {
           throw new Error(`Semester ${data.type} ${data.year} already exists`);
         }
       }
-      throw error;
+      if (error instanceof Error) {
+        throw error;
+      }
+      logger.error({ error });
+      throw new Error("Failed to create semester");
     }
   }
 
-  async deleteSemester(id: string) {
+  static async delete(id: string): Promise<BaseResponse<null>> {
     try {
       await db.semester.delete({
         where: { id },
       });
+      const response: BaseResponse<null> = {
+        message: "Semester deleted successfully",
+        data: null,
+      };
+      logger.info({ response });
+      return response;
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === "P2025") {
           throw new Error("Semester not found");
         }
       }
-      throw error;
+      if (error instanceof Error) {
+        throw error;
+      }
+      logger.error({ error });
+      throw new Error("Failed to delete semester");
     }
   }
 }

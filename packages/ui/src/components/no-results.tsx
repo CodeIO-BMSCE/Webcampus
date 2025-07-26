@@ -1,6 +1,5 @@
-// components/no-results.tsx
 import { cn } from "@webcampus/ui/lib/utils";
-import { Search } from "lucide-react"; // You can switch to AlertCircle, FileQuestion, etc.
+import { Search } from "lucide-react";
 import { ReactNode } from "react";
 
 interface NoResultsProps {
@@ -25,23 +24,4 @@ export function NoResults({
       <div className="text-sm">{children}</div>
     </div>
   );
-}
-
-{
-  /*
-  🧠 How to Use
-`{data.length === 0 && (
-  <NoResults>
-    No matching records. Try different filters or keywords.
-  </NoResults>
-)}`
-
-
-You can customize the icon too:
-
-`<NoResults icon={<FileQuestion className="h-6 w-6 text-muted-foreground" />}>
-  Nothing here yet. Add your first entry.
-</NoResults>`
-
-  */
 }

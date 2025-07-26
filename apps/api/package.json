@@ -23,7 +23,6 @@
     "@webcampus/typescript-config": "*",
     "eslint": "^9.30.1",
     "globals": "^16.3.0",
-    "tsconfig-paths": "^4.2.0",
     "tsup": "^8.5.0",
     "tsx": "^4.20.3",
     "typescript-eslint": "^8.36.0"

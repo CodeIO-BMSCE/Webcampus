@@ -20,9 +20,15 @@ export const departmentFacultyColumns: ColumnDef<UserResponseDTO>[] = [
   {
     accessorKey: "emailVerified",
     header: "Email Verified",
+    meta: {
+      enableCopy: false,
+    },
   },
   {
     id: "actions",
+    meta: {
+      enableCopy: false,
+    },
     cell: ({ row }) => {
       const { id } = row.original;
       return <DepartmentFacultyActions userId={id} />;

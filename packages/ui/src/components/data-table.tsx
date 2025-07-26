@@ -14,6 +14,8 @@ import {
   TableHeader,
   TableRow,
 } from "@webcampus/ui/components/table";
+import { Copy } from "./copy";
+import { DataTablePagination } from "./data-table-pagination";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -31,7 +33,7 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div>
+    <div className="space-y-4">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -58,11 +60,27 @@ export function DataTable<TData, TValue>({
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
               >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
+                {row.getVisibleCells().map((cell) => {
+                  const copyButton =
+                    cell.column.columnDef.meta?.enableCopy !== false;
+
+                  return (
+                    <TableCell
+                      key={cell.id}
+                      className={copyButton ? "group relative" : "relative"}
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                      {copyButton && (
+                        <div className="pointer-events-none absolute inset-0 flex items-center justify-end pr-2 opacity-0 transition-all duration-200 ease-in-out group-hover:opacity-100">
+                          <Copy text={String(cell.getValue() ?? "")} />
+                        </div>
+                      )}
+                    </TableCell>
+                  );
+                })}
               </TableRow>
             ))
           ) : (
@@ -74,6 +92,7 @@ export function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
+      <DataTablePagination table={table} />
     </div>
   );
 }
