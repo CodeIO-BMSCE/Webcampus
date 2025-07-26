@@ -7,18 +7,24 @@ import css from "@eslint/css";
 import { defineConfig } from "eslint/config";
 import playwright from "eslint-plugin-playwright";
 
-
 export default defineConfig([
   {
     ...playwright.configs['flat/recommended'],
     files: ['tests/**'],
     rules: {
       ...playwright.configs['flat/recommended'].rules,
+      'no-empty-pattern': 'off',
     },
   },
   { files: ["**/*.{js,mjs,cjs,ts,mts,cts}"], plugins: { js }, extends: ["js/recommended"] },
   { files: ["**/*.{js,mjs,cjs,ts,mts,cts}"], languageOptions: { globals: {...globals.browser, ...globals.node} } },
-  tseslint.configs.recommended,
+  ...tseslint.configs.recommended,
+  {
+    files: ["**/*.{ts,tsx}"],
+    rules: {
+      'no-empty-pattern': 'off',
+    },
+  },
   { files: ["**/*.json"], plugins: { json }, language: "json/json", extends: ["json/recommended"] },
   { files: ["**/*.jsonc"], plugins: { json }, language: "json/jsonc", extends: ["json/recommended"] },
   { files: ["**/*.json5"], plugins: { json }, language: "json/json5", extends: ["json/recommended"] },

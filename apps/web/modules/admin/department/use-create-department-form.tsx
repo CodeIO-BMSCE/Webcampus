@@ -27,6 +27,7 @@ export const useCreateDepartmentForm = () => {
       role: "department",
     },
   });
+
   const { mutate: createDepartment } = useMutation({
     mutationFn: (data: CreateDepartmentDTO & CreateUserType) => {
       return axios.post(`${NEXT_PUBLIC_API_BASE_URL}/admin/department`, data, {
@@ -35,7 +36,6 @@ export const useCreateDepartmentForm = () => {
     },
     onSuccess: ({ data }) => {
       toast.success(data.message);
-      form.reset();
       queryClient.invalidateQueries({ queryKey: ["department"] });
     },
     onError: (error: AxiosError) => {

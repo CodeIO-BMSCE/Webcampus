@@ -1,37 +1,28 @@
 import { SemesterService } from "@webcampus/api/src/services/admin/semester.service";
-import { auth, fromNodeHeaders } from "@webcampus/auth";
+import { sendResponse } from "@webcampus/backend-utils/helpers";
+import { logger } from "@webcampus/common/logger";
 import { CreateSemesterInput } from "@webcampus/schemas/admin";
-import { NextFunction, Request, Response } from "express";
-import { z } from "zod";
-
-const semesterService = new SemesterService();
+import { Request, Response } from "express";
 
 export class SemesterController {
-  async createSemester(req: Request, res: Response, next: NextFunction) {
+  static async create(req: Request, res: Response) {
     try {
       const request: CreateSemesterInput = req.body;
-      const session = await auth.api.getSession({
-        headers: fromNodeHeaders(req.headers),
-      });
-      const semester = await semesterService.createSemester(
-        request,
-        String(session?.user.id)
-      );
-
-      res.status(201).json({
-        success: true,
-        message: "Semester created successfully",
-        data: semester,
+      const semester = await SemesterService.create(request);
+      return sendResponse({
+        res,
+        statusCode: 201,
+        message: semester.message,
+        data: semester.data,
       });
     } catch (error) {
-      if (error instanceof z.ZodError) {
-        return res.status(400).json({
-          success: false,
-          message: "Validation failed",
-          errors: z.treeifyError(error),
-        });
-      }
-      next(error);
+      logger.error({ error });
+      return sendResponse({
+        res,
+        statusCode: 400,
+        message: "Validation failed",
+        error: error,
+      });
     }
   }
 }

@@ -1,40 +1,34 @@
 import { logger } from "@webcampus/common/logger";
-import { db } from "@webcampus/db";
+import { db, Prisma } from "@webcampus/db";
 import {
+  CourseAssignmentResponseType,
   CreateCourseAssignmentType,
-  UpdateCourseAssignmentType,
 } from "@webcampus/schemas/hod";
+import { BaseResponse } from "@webcampus/types/api";
 
 export class CourseAssignment {
-  async create(data: CreateCourseAssignmentType) {
+  static async create(
+    data: CreateCourseAssignmentType
+  ): Promise<BaseResponse<CourseAssignmentResponseType>> {
     try {
       const assignment = await db.courseAssignment.create({
         data,
-        include: {
-          course: true,
-          faculty: {
-            include: {
-              user: {
-                select: {
-                  name: true,
-                  email: true,
-                  username: true,
-                },
-              },
-            },
-          },
-          section: true,
-          batch: true,
-        },
       });
-
-      logger.info("Course assignment created successfully", { assignment });
-
-      return {
+      const response: BaseResponse<CourseAssignmentResponseType> = {
         message: "Course assignment created successfully",
         data: assignment,
       };
+      logger.info(response);
+      return response;
     } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === "P2002") {
+          throw new Error("Course assignment already exists");
+        }
+      }
+      if (error instanceof Error) {
+        throw error;
+      }
       logger.error("Error creating course assignment:", { error });
       throw new Error("Failed to create course assignment");
     }
@@ -45,17 +39,6 @@ export class CourseAssignment {
       const assignments = await db.courseAssignment.findMany({
         include: {
           course: true,
-          faculty: {
-            include: {
-              user: {
-                select: {
-                  name: true,
-                  email: true,
-                  username: true,
-                },
-              },
-            },
-          },
           section: true,
           batch: true,
         },
@@ -128,41 +111,6 @@ export class CourseAssignment {
     } catch (error) {
       logger.error("Error retrieving faculty's course assignments:", { error });
       throw new Error("Failed to retrieve faculty's course assignments");
-    }
-  }
-
-  async update(id: string, data: UpdateCourseAssignmentType) {
-    try {
-      const assignment = await db.courseAssignment.update({
-        where: { id },
-        data,
-        include: {
-          course: true,
-          faculty: {
-            include: {
-              user: {
-                select: {
-                  name: true,
-                  email: true,
-                  username: true,
-                },
-              },
-            },
-          },
-          section: true,
-          batch: true,
-        },
-      });
-
-      logger.info("Course assignment updated successfully", { assignment });
-
-      return {
-        message: "Course assignment updated successfully",
-        data: assignment,
-      };
-    } catch (error) {
-      logger.error("Error updating course assignment:", { error });
-      throw new Error("Failed to update course assignment");
     }
   }
 

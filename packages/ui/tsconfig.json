@@ -8,6 +8,6 @@
       "@webcampus/ui/*": ["./src/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "../types/src"],
   "exclude": ["node_modules", "dist"]
 }

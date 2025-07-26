@@ -113,14 +113,6 @@ export class UserService {
       });
       logger.info("User Role updated using Admin API", { user });
     } catch (error) {
-      /**
-       * TODO: Check whether this works or not
-       */
-      await auth.api.deleteUser({
-        body: {
-          password: this.body.password,
-        },
-      });
       logger.error("Failed to update user role", { error });
       throw new Error("Failed to assign role to user.");
     }

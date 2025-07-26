@@ -14,7 +14,7 @@ export const useDepartmentFacultyActions = () => {
   const { mutate: deleteFaculty } = useMutation({
     mutationFn: async (userId: string) => {
       return await axios.delete<BaseResponse<null>>(
-        `${frontendEnv().NEXT_PUBLIC_API_BASE_URL}/user`,
+        `${frontendEnv().NEXT_PUBLIC_API_BASE_URL}/admin/user`,
         {
           data: { userId },
           withCredentials: true,

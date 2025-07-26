@@ -37,14 +37,9 @@ export const sidebarConfig: Record<Role, SidebarData> = {
       items: [
         {
           name: "Dashboard",
-          url: "/admin/dashboard",
+          url: "/admin",
           icon: LayoutDashboard,
         },
-        // {
-        //   name: "Faculty",
-        //   url: "/admin/faculty",
-        //   icon: Users,
-        // },
         {
           name: "Department",
           url: "/admin/department",
@@ -64,7 +59,7 @@ export const sidebarConfig: Record<Role, SidebarData> = {
       items: [
         {
           name: "Dashboard",
-          url: "/department/dashboard",
+          url: "/department",
           icon: LayoutDashboard,
         },
         {
@@ -96,7 +91,7 @@ export const sidebarConfig: Record<Role, SidebarData> = {
       items: [
         {
           name: "Dashboard",
-          url: "/student/dashboard",
+          url: "/student",
           icon: LayoutDashboard,
         },
         {
@@ -128,7 +123,7 @@ export const sidebarConfig: Record<Role, SidebarData> = {
       items: [
         {
           name: "Dashboard",
-          url: "/faculty/dashboard",
+          url: "/faculty",
           icon: LayoutDashboard,
         },
         {
@@ -160,7 +155,7 @@ export const sidebarConfig: Record<Role, SidebarData> = {
       items: [
         {
           name: "Dashboard",
-          url: "/hod/dashboard",
+          url: "/hod",
           icon: LayoutDashboard,
         },
         {
@@ -192,7 +187,7 @@ export const sidebarConfig: Record<Role, SidebarData> = {
       items: [
         {
           name: "Dashboard",
-          url: "/coordinator/dashboard",
+          url: "/coordinator",
           icon: LayoutDashboard,
         },
         {
@@ -224,7 +219,7 @@ export const sidebarConfig: Record<Role, SidebarData> = {
       items: [
         {
           name: "Dashboard",
-          url: "/coe/dashboard",
+          url: "/coe",
           icon: LayoutDashboard,
         },
         {

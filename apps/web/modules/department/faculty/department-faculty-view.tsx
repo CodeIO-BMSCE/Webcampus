@@ -1,11 +1,11 @@
 "use client";
 
 import { CreateUserDialog } from "@/modules/auth/create-user/create-user-dialog";
-import { DataTable } from "@/modules/student/courses/data-table";
 import { useQuery } from "@tanstack/react-query";
 import { frontendEnv } from "@webcampus/common/env";
 import { UserResponseDTO } from "@webcampus/schemas/admin";
 import { BaseResponse } from "@webcampus/types/api";
+import { DataTable } from "@webcampus/ui/components/data-table";
 import { Skeleton } from "@webcampus/ui/components/skeleton";
 import axios from "axios";
 import qs from "qs";
@@ -26,7 +26,7 @@ export const DepartmentFacultyView = () => {
       );
 
       return await axios.get<BaseResponse<UserResponseDTO[]>>(
-        `${frontendEnv().NEXT_PUBLIC_API_BASE_URL}/user?${queryParams}`
+        `${frontendEnv().NEXT_PUBLIC_API_BASE_URL}/admin/user?${queryParams}`
       );
     },
   });

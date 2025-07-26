@@ -4,21 +4,17 @@ import { CreateSemesterSchema } from "@webcampus/schemas/admin";
 import { Router } from "express";
 
 const router = Router();
-const semesterController = new SemesterController();
 
-router.use(
+router.post(
+  "/",
+  validateRequest(CreateSemesterSchema),
   protect({
     role: "admin",
     permissions: {
       semester: ["create"],
     },
-  })
-);
-
-router.post(
-  "/",
-  validateRequest(CreateSemesterSchema),
-  semesterController.createSemester
+  }),
+  SemesterController.create
 );
 
 export default router;
