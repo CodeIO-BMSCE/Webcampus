@@ -1,57 +1,71 @@
 import { logger } from "@webcampus/common/logger";
-import { db } from "@webcampus/db";
+import { db, Prisma } from "@webcampus/db";
 import {
   CreateSectionType,
-  UpdateSectionType,
+  SectionQueryType,
+  SectionResponseType,
 } from "@webcampus/schemas/department";
+import { BaseResponse } from "@webcampus/types/api";
 
 export class Section {
-  async create(data: CreateSectionType) {
+  static async create(
+    data: CreateSectionType
+  ): Promise<BaseResponse<SectionResponseType>> {
     try {
       const section = await db.section.create({
         data,
-        include: {
-          department: true,
-          courses: true,
-          studentSections: true,
-          batches: true,
-        },
       });
 
-      logger.info("Section created successfully", { section });
-
-      return {
+      const response: BaseResponse<SectionResponseType> = {
         message: "Section created successfully",
         data: section,
       };
+      logger.info(response);
+      return response;
     } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === "P2002") {
+          throw new Error("Section already exists");
+        }
+      }
+      if (error instanceof Error) {
+        throw error;
+      }
       logger.error("Error creating section:", { error });
       throw new Error("Failed to create section");
     }
   }
 
-  async getAll() {
+  static async getAll(
+    query: SectionQueryType
+  ): Promise<BaseResponse<SectionResponseType[]>> {
     try {
       const sections = await db.section.findMany({
-        include: {
-          department: true,
-          courses: true,
-          studentSections: true,
-          batches: true,
+        where: {
+          ...query,
         },
       });
-
-      return {
+      const response: BaseResponse<SectionResponseType[]> = {
         message: "Sections retrieved successfully",
         data: sections,
       };
+      logger.info(response);
+      return response;
     } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === "P2002") {
+          throw new Error("No sections found");
+        }
+      }
+      if (error instanceof Error) {
+        throw error;
+      }
       logger.error("Error retrieving sections:", { error });
       throw new Error("Failed to retrieve sections");
     }
   }
 
-  async getById(id: string) {
+  static async getById(id: string) {
     try {
       const section = await db.section.findUnique({
         where: { id },
@@ -77,53 +91,6 @@ export class Section {
     } catch (error) {
       logger.error("Error retrieving section:", { error });
       throw new Error("Failed to retrieve section");
-    }
-  }
-
-  async getByDepartmentName(departmentName: string) {
-    try {
-      const sections = await db.section.findMany({
-        where: { departmentName },
-        include: {
-          department: true,
-          courses: true,
-          studentSections: true,
-          batches: true,
-        },
-      });
-
-      return {
-        message: "Branch's sections retrieved successfully",
-        data: sections,
-      };
-    } catch (error) {
-      logger.error("Error retrieving branch's sections:", { error });
-      throw new Error("Failed to retrieve branch's sections");
-    }
-  }
-
-  async update(id: string, data: UpdateSectionType) {
-    try {
-      const section = await db.section.update({
-        where: { id },
-        data,
-        include: {
-          department: true,
-          courses: true,
-          studentSections: true,
-          batches: true,
-        },
-      });
-
-      logger.info("Section updated successfully", { section });
-
-      return {
-        message: "Section updated successfully",
-        data: section,
-      };
-    } catch (error) {
-      logger.error("Error updating section:", { error });
-      throw new Error("Failed to update section");
     }
   }
 

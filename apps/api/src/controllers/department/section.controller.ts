@@ -2,7 +2,10 @@ import { Section } from "@webcampus/api/src/services/department/section.service"
 import { ERRORS } from "@webcampus/backend-utils/errors";
 import { sendResponse } from "@webcampus/backend-utils/helpers";
 import { logger } from "@webcampus/common/logger";
-import { UpdateSectionType } from "@webcampus/schemas/department";
+import {
+  CreateSectionType,
+  SectionQueryType,
+} from "@webcampus/schemas/department";
 import { Request, Response } from "express";
 
 /**
@@ -13,7 +16,8 @@ export const createSection = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { message, data } = await new Section().create(req.body);
+    const request: CreateSectionType = req.body;
+    const { message, data } = await Section.create(request);
     sendResponse({
       res,
       message,
@@ -21,7 +25,7 @@ export const createSection = async (
       statusCode: 201,
     });
   } catch (error) {
-    logger.error("Error creating section:", { error });
+    logger.error({ error });
     sendResponse({
       res,
       message: ERRORS.INTERNAL_SERVER_ERROR,
@@ -39,7 +43,8 @@ export const getAllSections = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { message, data } = await new Section().getAll();
+    const query: SectionQueryType = req.query;
+    const { message, data } = await Section.getAll(query);
     sendResponse({
       res,
       message,
@@ -47,7 +52,7 @@ export const getAllSections = async (
       statusCode: 200,
     });
   } catch (error) {
-    logger.error("Error retrieving sections:", { error });
+    logger.error({ error });
     sendResponse({
       res,
       message: ERRORS.INTERNAL_SERVER_ERROR,
@@ -65,7 +70,7 @@ export const getSectionById = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { message, data } = await new Section().getById(req.params.id);
+    const { message, data } = await Section.getById(req.params.id);
     sendResponse({
       res,
       message,
@@ -74,63 +79,6 @@ export const getSectionById = async (
     });
   } catch (error) {
     logger.error("Error retrieving section:", { error });
-    sendResponse({
-      res,
-      message: ERRORS.INTERNAL_SERVER_ERROR,
-      statusCode: 500,
-      error,
-    });
-  }
-};
-
-/**
- * Get sections by branch ID
- */
-export const getSectionsByBranchId = async (
-  req: Request<{ branchId: string }>,
-  res: Response
-): Promise<void> => {
-  try {
-    const { message, data } = await new Section().getByDepartmentName(
-      req.query.departmentName as string
-    );
-    sendResponse({
-      res,
-      message,
-      data,
-      statusCode: 200,
-    });
-  } catch (error) {
-    logger.error("Error retrieving branch's sections:", { error });
-    sendResponse({
-      res,
-      message: ERRORS.INTERNAL_SERVER_ERROR,
-      statusCode: 500,
-      error,
-    });
-  }
-};
-
-/**
- * Update a section
- */
-export const updateSection = async (
-  req: Request<{ id: string }, UpdateSectionType>,
-  res: Response
-): Promise<void> => {
-  try {
-    const { message, data } = await new Section().update(
-      req.params.id,
-      req.body
-    );
-    sendResponse({
-      res,
-      message,
-      data,
-      statusCode: 200,
-    });
-  } catch (error) {
-    logger.error("Error updating section:", { error });
     sendResponse({
       res,
       message: ERRORS.INTERNAL_SERVER_ERROR,

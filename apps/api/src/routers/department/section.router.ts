@@ -3,33 +3,42 @@ import {
   deleteSection,
   getAllSections,
   getSectionById,
-  getSectionsByBranchId,
-  updateSection,
 } from "@webcampus/api/src/controllers/department/section.controller";
 import { protect, validateRequest } from "@webcampus/backend-utils/middlewares";
 import {
-  createSectionSchema,
-  updateSectionSchema,
+  CreateSectionSchema,
+  SectionQuerySchema,
 } from "@webcampus/schemas/department";
 import { Router } from "express";
 
 const router = Router();
 
-// Apply role-based protection to all routes
-router.use(
+router.post(
+  "/",
+  validateRequest(CreateSectionSchema),
   protect({
-    role: "admin",
+    role: "department",
     permissions: {
-      user: ["set-role"],
+      section: ["create"],
     },
-  })
+  }),
+  createSection
 );
 
-router.post("/", validateRequest(createSectionSchema), createSection);
-router.get("/", getAllSections);
+router.get(
+  "/",
+  validateRequest(SectionQuerySchema, "query"),
+  protect({
+    role: "department",
+    permissions: {
+      section: ["read"],
+    },
+  }),
+  getAllSections
+);
+
 router.get("/:id", getSectionById);
-router.get("/branch/:branchId", getSectionsByBranchId);
-router.put("/:id", validateRequest(updateSectionSchema), updateSection);
+
 router.delete("/:id", deleteSection);
 
 export default router;

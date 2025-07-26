@@ -1,7 +1,8 @@
+import { DepartmentSectionView } from "@/modules/department/section/department-section-view";
 import React from "react";
 
 const Page = () => {
-  return <div>Page</div>;
+  return <DepartmentSectionView />;
 };
 
 export default Page;

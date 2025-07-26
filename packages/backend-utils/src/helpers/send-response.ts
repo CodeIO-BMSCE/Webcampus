@@ -27,6 +27,6 @@ export const sendResponse = <T>({
   return res.status(statusCode).json({
     message,
     data,
-    error,
+    error: error instanceof Error ? error.message : error,
   });
 };

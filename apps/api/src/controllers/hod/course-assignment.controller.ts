@@ -2,7 +2,7 @@ import { CourseAssignment } from "@webcampus/api/src/services/hod/course-assignm
 import { ERRORS } from "@webcampus/backend-utils/errors";
 import { sendResponse } from "@webcampus/backend-utils/helpers";
 import { logger } from "@webcampus/common/logger";
-import { UpdateCourseAssignmentType } from "@webcampus/schemas/hod";
+import { CreateCourseAssignmentType } from "@webcampus/schemas/hod";
 import { Request, Response } from "express";
 
 /**
@@ -13,7 +13,8 @@ export const createCourseAssignment = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { message, data } = await new CourseAssignment().create(req.body);
+    const request: CreateCourseAssignmentType = req.body;
+    const { message, data } = await CourseAssignment.create(request);
     sendResponse({
       res,
       message,
@@ -21,7 +22,7 @@ export const createCourseAssignment = async (
       statusCode: 201,
     });
   } catch (error) {
-    logger.error("Error creating course assignment:", { error });
+    logger.error({ error });
     sendResponse({
       res,
       message: ERRORS.INTERNAL_SERVER_ERROR,
@@ -104,35 +105,6 @@ export const getCourseAssignmentsByFacultyId = async (
     });
   } catch (error) {
     logger.error("Error retrieving faculty's course assignments:", { error });
-    sendResponse({
-      res,
-      message: ERRORS.INTERNAL_SERVER_ERROR,
-      statusCode: 500,
-      error,
-    });
-  }
-};
-
-/**
- * Update a course assignment
- */
-export const updateCourseAssignment = async (
-  req: Request<{ id: string }, UpdateCourseAssignmentType>,
-  res: Response
-): Promise<void> => {
-  try {
-    const { message, data } = await new CourseAssignment().update(
-      req.params.id,
-      req.body
-    );
-    sendResponse({
-      res,
-      message,
-      data,
-      statusCode: 200,
-    });
-  } catch (error) {
-    logger.error("Error updating course assignment:", { error });
     sendResponse({
       res,
       message: ERRORS.INTERNAL_SERVER_ERROR,

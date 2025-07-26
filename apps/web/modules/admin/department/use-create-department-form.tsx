@@ -12,12 +12,10 @@ import axios, { AxiosError } from "axios";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-// ADDED: New interface for props passed to the hook
 interface UseCreateDepartmentFormProps {
-  onDepartmentCreated?: () => void; // Callback to close the dialog
+  onDepartmentCreated?: () => void;
 }
 
-// MODIFIED: Accept the new prop
 export const useCreateDepartmentForm = ({
   onDepartmentCreated,
 }: UseCreateDepartmentFormProps = {}) => {
@@ -46,7 +44,6 @@ export const useCreateDepartmentForm = ({
       toast.success(data.message);
       form.reset();
       queryClient.invalidateQueries({ queryKey: ["department"] });
-      // ADDED: Call the callback to close the dialog
       onDepartmentCreated?.();
     },
     onError: (error: AxiosError) => {

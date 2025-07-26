@@ -24,7 +24,6 @@ import { useCreateDepartmentForm } from "./use-create-department-form";
 
 export const CreateDepartmentView = () => {
   const [open, setOpen] = useState(false);
-
   const { form, onSubmit } = useCreateDepartmentForm({
     onDepartmentCreated: () => setOpen(false),
   });
