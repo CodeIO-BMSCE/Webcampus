@@ -11,13 +11,13 @@ import {
 } from "@webcampus/ui/components/breadcrumb";
 import { Separator } from "@webcampus/ui/components/separator";
 import { SidebarTrigger } from "@webcampus/ui/components/sidebar";
+import { capitalize } from "@webcampus/ui/lib/utils";
 import { usePathname } from "next/navigation";
 import React from "react";
 
 export const SiteHeader = () => {
   const paths = usePathname();
   const pathNames = paths.split("/").filter((path) => path);
-  console.log(pathNames);
 
   return (
     <header className="flex h-16 shrink-0 items-center justify-between gap-2 px-4">
@@ -29,15 +29,22 @@ export const SiteHeader = () => {
         />
         <Breadcrumb>
           <BreadcrumbList>
-            <BreadcrumbItem className="hidden md:block">
-              <BreadcrumbLink href="#">
-                Building Your Application
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator className="hidden md:block" />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-            </BreadcrumbItem>
+            {pathNames.map((path, index, array) => (
+              <React.Fragment key={path}>
+                <BreadcrumbItem>
+                  {array.length - 1 === index ? (
+                    <BreadcrumbPage>{capitalize(path)}</BreadcrumbPage>
+                  ) : (
+                    <BreadcrumbLink href={`/${path}`}>
+                      {capitalize(path)}
+                    </BreadcrumbLink>
+                  )}
+                </BreadcrumbItem>
+                {index !== pathNames.length - 1 && (
+                  <BreadcrumbSeparator className="hidden md:block" />
+                )}
+              </React.Fragment>
+            ))}
           </BreadcrumbList>
         </Breadcrumb>
       </div>
