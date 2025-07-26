@@ -3,7 +3,7 @@ import { normalize } from "@webcampus/ui/lib/utils";
 
 export const AUTH_ROUTES = roles.map((role) => `/${role}/sign-in`);
 export const DASHBOARD_REDIRECTS: Record<Role, string> = Object.fromEntries(
-  roles.map((role) => [role, `/${role}/dashboard`])
+  roles.map((role) => [role, `/${role}`])
 ) as Record<Role, string>;
 
 export const getRoleFromPathname = (pathname: string): Role | null => {

@@ -1,3 +1,5 @@
+"use client";
+
 import { UserButton } from "@/modules/auth/user-button/user-button-menu";
 import {
   Breadcrumb,
@@ -9,9 +11,14 @@ import {
 } from "@webcampus/ui/components/breadcrumb";
 import { Separator } from "@webcampus/ui/components/separator";
 import { SidebarTrigger } from "@webcampus/ui/components/sidebar";
+import { usePathname } from "next/navigation";
 import React from "react";
 
 export const SiteHeader = () => {
+  const paths = usePathname();
+  const pathNames = paths.split("/").filter((path) => path);
+  console.log(pathNames);
+
   return (
     <header className="flex h-16 shrink-0 items-center justify-between gap-2 px-4">
       <div className="flex items-center gap-2">

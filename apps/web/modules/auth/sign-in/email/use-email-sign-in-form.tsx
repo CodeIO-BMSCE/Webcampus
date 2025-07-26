@@ -30,7 +30,7 @@ export const useEmailSignInForm = ({ role }: { role: Role }) => {
       },
       onSuccess: () => {
         toast.success("Signed in successfully!");
-        router.push(`/${role}/dashboard`);
+        router.push(`/${role}`);
       },
       onRetry: () => {
         toast.info("Retrying sign in...");
