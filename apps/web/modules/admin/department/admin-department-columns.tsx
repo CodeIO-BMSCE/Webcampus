@@ -52,7 +52,7 @@ export const adminDepartmentColumns: ColumnDef<UserWithRole>[] = [
             <DropdownMenuItem
               onClick={async () => {
                 const response = await axios.delete(
-                  `${frontendEnv().NEXT_PUBLIC_API_BASE_URL}/user`,
+                  `${frontendEnv().NEXT_PUBLIC_API_BASE_URL}/admin/user`,
                   {
                     data: {
                       userId: department.id,

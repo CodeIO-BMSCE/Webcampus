@@ -26,7 +26,7 @@ export const DepartmentFacultyView = () => {
       );
 
       return await axios.get<BaseResponse<UserResponseDTO[]>>(
-        `${frontendEnv().NEXT_PUBLIC_API_BASE_URL}/user?${queryParams}`
+        `${frontendEnv().NEXT_PUBLIC_API_BASE_URL}/admin/user?${queryParams}`
       );
     },
   });

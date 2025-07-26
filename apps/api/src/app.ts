@@ -1,5 +1,4 @@
 import "dotenv/config";
-import userRouter from "@webcampus/api/src/routers/admin/user.router";
 import DepartmentRouter from "@webcampus/api/src/routers/department/department.router";
 import { auth, toNodeHandler } from "@webcampus/auth";
 import { backendEnv } from "@webcampus/common/env";
@@ -25,8 +24,6 @@ app.all("/api/auth/{*any}", toNodeHandler(auth));
 app.use(express.json());
 
 app.use("/admin", adminRouter);
-
-app.use("/user", userRouter);
 
 app.use("/hod", hodRouter);
 

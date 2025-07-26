@@ -17,7 +17,16 @@ router.post(
   UserController.createUser
 );
 
-router.delete("/", UserController.deleteUser);
+router.delete(
+  "/",
+  protect({
+    role: "admin",
+    permissions: {
+      user: ["delete"],
+    },
+  }),
+  UserController.deleteUser
+);
 
 router.get(
   "/",
