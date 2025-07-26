@@ -2,6 +2,7 @@ import "dotenv/config";
 import semesterRouter from "@webcampus/api/src/routers/admin/semester.router";
 import userRouter from "@webcampus/api/src/routers/admin/user.router";
 import DepartmentRouter from "@webcampus/api/src/routers/department/department.router";
+import sectionAssignmentRouter from "@webcampus/api/src/routers/department/section-assignment.router";
 import sectionRouter from "@webcampus/api/src/routers/department/section.router";
 import facultyRouter from "@webcampus/api/src/routers/faculty/faculty.router";
 import courseAssignmentRouter from "@webcampus/api/src/routers/hod/course-assignment.router";
@@ -39,6 +40,7 @@ app.use("/api/course-registration", courseRegistrationRouter);
 app.use("/api/course-assignment", courseAssignmentRouter);
 
 app.use("/api/sections", sectionRouter);
+app.use("/api/section-assignment", sectionAssignmentRouter);
 
 app.use("/semester", semesterRouter);
 
