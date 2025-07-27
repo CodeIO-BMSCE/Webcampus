@@ -3,6 +3,7 @@
 import { authClient } from "@/lib/auth-client";
 import { useQuery } from "@tanstack/react-query";
 import { DataTable } from "@webcampus/ui/components/data-table";
+import { Page, PageContent, PageHeader } from "@webcampus/ui/components/page";
 import { Skeleton } from "@webcampus/ui/components/skeleton";
 import React from "react";
 import { adminDepartmentColumns } from "./admin-department-columns";
@@ -44,14 +45,16 @@ export const AdminDepartmentView = () => {
   }
 
   return (
-    <div className="space-y-4">
-      <div className="flex justify-end">
+    <Page>
+      <PageHeader title="Departments">
         <CreateDepartmentView />
-      </div>
-      <DataTable
-        columns={adminDepartmentColumns}
-        data={response.data?.data?.users}
-      />
-    </div>
+      </PageHeader>
+      <PageContent>
+        <DataTable
+          columns={adminDepartmentColumns}
+          data={response.data?.data?.users}
+        />
+      </PageContent>
+    </Page>
   );
 };

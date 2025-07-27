@@ -2,7 +2,7 @@ import { CourseService } from "@webcampus/api/src/services/department/course.ser
 import { ERRORS } from "@webcampus/backend-utils/errors";
 import { sendResponse } from "@webcampus/backend-utils/helpers";
 import { logger } from "@webcampus/common/logger";
-import { StringParam, type UUIDParam } from "@webcampus/schemas/common";
+import { StringParam, UUIDType } from "@webcampus/schemas/common";
 import { CreateCourseDTO } from "@webcampus/schemas/department";
 import { Request, Response } from "express";
 
@@ -29,7 +29,7 @@ export class CourseController {
 
   static async getCourseById(req: Request, res: Response) {
     try {
-      const request = req.params as UUIDParam;
+      const request = req.params as UUIDType;
       const response = await CourseService.getCourseById(request.id);
       sendResponse({
         res,

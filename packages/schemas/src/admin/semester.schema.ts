@@ -20,5 +20,8 @@ export const SemesterResponseSchema = BaseSemesterSchema.extend({
   updatedAt: z.date().optional(),
 });
 
-export type CreateSemesterInput = z.infer<typeof CreateSemesterSchema>;
+export const SemesterQuerySchema = SemesterResponseSchema.partial();
+
+export type CreateSemesterType = z.infer<typeof CreateSemesterSchema>;
 export type SemesterResponseType = z.infer<typeof SemesterResponseSchema>;
+export type SemesterQueryType = z.infer<typeof SemesterQuerySchema>;

@@ -1,14 +1,16 @@
 import { logger } from "@webcampus/common/logger";
 import { db, Prisma } from "@webcampus/db";
 import {
-  CreateSemesterInput,
+  CreateSemesterType,
+  SemesterQueryType,
   SemesterResponseType,
 } from "@webcampus/schemas/admin";
+import { UUIDType } from "@webcampus/schemas/common";
 import { BaseResponse } from "@webcampus/types/api";
 
 export class SemesterService {
   static async create(
-    data: CreateSemesterInput
+    data: CreateSemesterType
   ): Promise<BaseResponse<SemesterResponseType>> {
     try {
       const semester = await db.semester.create({
@@ -36,7 +38,39 @@ export class SemesterService {
     }
   }
 
-  static async delete(id: string): Promise<BaseResponse<null>> {
+  static async getAll(
+    query: SemesterQueryType
+  ): Promise<BaseResponse<SemesterResponseType[]>> {
+    try {
+      const semesters = await db.semester.findMany({
+        where: {
+          ...query,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      });
+      const response: BaseResponse<SemesterResponseType[]> = {
+        message: "Semesters fetched successfully",
+        data: semesters,
+      };
+      logger.info({ response });
+      return response;
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === "P2025") {
+          throw new Error("Semester not found");
+        }
+      }
+      if (error instanceof Error) {
+        throw error;
+      }
+      logger.error({ error });
+      throw new Error("Failed to fetch semesters");
+    }
+  }
+
+  static async delete({ id }: UUIDType): Promise<BaseResponse<null>> {
     try {
       await db.semester.delete({
         where: { id },

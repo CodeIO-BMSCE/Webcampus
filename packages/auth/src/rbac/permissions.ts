@@ -5,7 +5,7 @@ import { adminAc, defaultStatements } from "better-auth/plugins/admin/access";
 const statement = {
   ...defaultStatements,
   attendance: ["create"],
-  semester: ["create"],
+  semester: ["create", "delete", "read"],
   courses: ["create", "read"],
   department: ["create", "read"],
   hod: ["create", "read", "remove"],

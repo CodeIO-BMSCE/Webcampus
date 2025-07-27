@@ -1,7 +1,8 @@
+import { AdminSemesterView } from "@/modules/admin/semester/admin-semester-view";
 import React from "react";
 
 const Page = () => {
-  return <div>Semester pages soon...</div>;
+  return <AdminSemesterView />;
 };
 
 export default Page;

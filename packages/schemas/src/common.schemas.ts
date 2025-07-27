@@ -3,7 +3,7 @@ import { z } from "zod";
 /**
  * Common schema for ID parameter validation
  */
-export const UUIDParamSchema = z.object({
+export const UUIDSchema = z.object({
   id: z.uuid("Invalid ID format").min(1, "ID is required"),
 });
 
@@ -15,4 +15,4 @@ export const StringParamSchema = z.object({
 });
 
 export type StringParam = z.infer<typeof StringParamSchema>;
-export type UUIDParam = z.infer<typeof UUIDParamSchema>;
+export type UUIDType = z.infer<typeof UUIDSchema>;
