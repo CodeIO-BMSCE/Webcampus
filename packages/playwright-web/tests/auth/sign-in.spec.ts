@@ -17,8 +17,8 @@ test.describe("Sign in page", () => {
       .locator('input[placeholder="Enter your password"]')
       .fill(adminCredentials.password);
     await page.getByRole("button", { name: "Continue" }).click();
-    await page.waitForURL("**/admin/dashboard");
-    await expect(page.url()).toContain("/admin/dashboard");
+    await page.waitForURL("/admin");
+    await expect(page.url()).toContain("/admin");
   });
 
   test("should show error for invalid credentials", async ({ page }) => {
@@ -37,7 +37,7 @@ test.describe("Sign in page", () => {
     authenticatedAsAdmin,
   }) => {
     await authenticatedAsAdmin();
-    await page.goto("/student/dashboard");
+    await page.goto("/student");
     await expect(
       page.getByRole("heading", { name: /Access Denied/i })
     ).toBeVisible();

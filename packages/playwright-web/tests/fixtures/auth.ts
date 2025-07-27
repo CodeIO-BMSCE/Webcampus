@@ -23,7 +23,7 @@ export const test = base.extend<AuthFixtures>({
         .locator('input[placeholder="Enter your password"]')
         .fill(adminCredentials.password);
       await page.getByRole("button", { name: "Continue" }).click();
-      await page.waitForURL("**/admin/dashboard");
+      await page.waitForURL("/admin");
     });
   },
 });
