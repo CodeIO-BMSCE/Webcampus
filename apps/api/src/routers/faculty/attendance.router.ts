@@ -1,37 +1,29 @@
+import { AttendanceController } from "@webcampus/api/src/controllers/faculty/attendance.controller";
+import { validateRequest } from "@webcampus/backend-utils/middlewares";
 import {
-  createAttendance,
-  deleteAttendance,
-  getAllAttendances,
-  getAttendanceById,
-  getAttendanceByStudentAndCourse,
-  updateAttendance,
-} from "@webcampus/api/src/controllers/faculty/attendance.controller";
-import { protect, validateRequest } from "@webcampus/backend-utils/middlewares";
-import {
-  createAttendanceSchema,
-  updateAttendanceSchema,
+  CreateAttendanceSchema,
+  UpdateAttendanceSchema,
 } from "@webcampus/schemas/faculty";
 import { Router } from "express";
 
 const router = Router();
 
-router.use(
-  protect({
-    role: "faculty",
-    permissions: {
-      user: ["set-role"],
-    },
-  })
+router.post(
+  "/",
+  validateRequest(CreateAttendanceSchema),
+  AttendanceController.create
 );
-
-router.post("/", validateRequest(createAttendanceSchema), createAttendance);
-router.get("/", getAllAttendances);
-router.get("/:id", getAttendanceById);
+router.get("/", AttendanceController.getAll);
+router.get("/:id", AttendanceController.getById);
 router.get(
   "/student/:studentId/course/:courseId",
-  getAttendanceByStudentAndCourse
+  AttendanceController.getByStudentAndCourse
 );
-router.put("/:id", validateRequest(updateAttendanceSchema), updateAttendance);
-router.delete("/:id", deleteAttendance);
+router.put(
+  "/:id",
+  validateRequest(UpdateAttendanceSchema),
+  AttendanceController.update
+);
+router.delete("/:id", AttendanceController.delete);
 
 export default router;

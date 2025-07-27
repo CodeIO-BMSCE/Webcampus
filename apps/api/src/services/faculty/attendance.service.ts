@@ -1,12 +1,16 @@
 import { logger } from "@webcampus/common/logger";
 import { db } from "@webcampus/db";
 import {
+  AttendanceResponseType,
   CreateAttendanceType,
   UpdateAttendanceType,
 } from "@webcampus/schemas/faculty";
+import { BaseResponse } from "@webcampus/types/api";
 
 export class Attendance {
-  async create(data: CreateAttendanceType) {
+  async create(
+    data: CreateAttendanceType
+  ): Promise<BaseResponse<AttendanceResponseType>> {
     try {
       const existingAttendance = await db.attendance.findUnique({
         where: {
@@ -20,35 +24,18 @@ export class Attendance {
       if (existingAttendance) {
         return {
           message: "Attendance already exists for this student and course",
-          data: null,
         };
       }
 
       const attendance = await db.attendance.create({
         data,
-        include: {
-          student: {
-            include: {
-              user: {
-                select: {
-                  id: true,
-                  name: true,
-                  email: true,
-                  username: true,
-                  displayUsername: true,
-                },
-              },
-            },
-          },
-          course: true,
-        },
       });
 
       logger.info("Attendance created successfully", { attendance });
 
       return {
         message: "Attendance created successfully",
-        data: attendance,
+        data: attendance as AttendanceResponseType,
       };
     } catch (error) {
       logger.error("Error creating attendance:", { error });
@@ -56,30 +43,13 @@ export class Attendance {
     }
   }
 
-  async getAll() {
+  async getAll(): Promise<BaseResponse<AttendanceResponseType[]>> {
     try {
-      const attendances = await db.attendance.findMany({
-        include: {
-          student: {
-            include: {
-              user: {
-                select: {
-                  id: true,
-                  name: true,
-                  email: true,
-                  username: true,
-                  displayUsername: true,
-                },
-              },
-            },
-          },
-          course: true,
-        },
-      });
+      const attendances = await db.attendance.findMany();
 
       return {
         message: "Attendances retrieved successfully",
-        data: attendances,
+        data: attendances as AttendanceResponseType[],
       };
     } catch (error) {
       logger.error("Error retrieving attendances:", { error });
@@ -87,38 +57,21 @@ export class Attendance {
     }
   }
 
-  async getById(id: string) {
+  async getById(id: string): Promise<BaseResponse<AttendanceResponseType>> {
     try {
       const attendance = await db.attendance.findUnique({
         where: { id },
-        include: {
-          student: {
-            include: {
-              user: {
-                select: {
-                  id: true,
-                  name: true,
-                  email: true,
-                  username: true,
-                  displayUsername: true,
-                },
-              },
-            },
-          },
-          course: true,
-        },
       });
 
       if (!attendance) {
         return {
           message: "Attendance not found",
-          data: null,
         };
       }
 
       return {
         message: "Attendance retrieved successfully",
-        data: attendance,
+        data: attendance as AttendanceResponseType,
       };
     } catch (error) {
       logger.error("Error retrieving attendance:", { error });
@@ -126,7 +79,10 @@ export class Attendance {
     }
   }
 
-  async getByStudentAndCourse(studentId: string, courseId: string) {
+  async getByStudentAndCourse(
+    studentId: string,
+    courseId: string
+  ): Promise<BaseResponse<AttendanceResponseType>> {
     try {
       const attendance = await db.attendance.findUnique({
         where: {
@@ -135,34 +91,17 @@ export class Attendance {
             courseId,
           },
         },
-        include: {
-          student: {
-            include: {
-              user: {
-                select: {
-                  id: true,
-                  name: true,
-                  email: true,
-                  username: true,
-                  displayUsername: true,
-                },
-              },
-            },
-          },
-          course: true,
-        },
       });
 
       if (!attendance) {
         return {
           message: "Attendance not found",
-          data: null,
         };
       }
 
       return {
         message: "Attendance retrieved successfully",
-        data: attendance,
+        data: attendance as AttendanceResponseType,
       };
     } catch (error) {
       logger.error("Error retrieving attendance:", { error });
@@ -170,7 +109,10 @@ export class Attendance {
     }
   }
 
-  async update(id: string, data: UpdateAttendanceType) {
+  async update(
+    id: string,
+    data: UpdateAttendanceType
+  ): Promise<BaseResponse<AttendanceResponseType>> {
     try {
       const existingAttendance = await db.attendance.findUnique({
         where: { id },
@@ -190,7 +132,6 @@ export class Attendance {
       if (!existingAttendance) {
         return {
           message: "Attendance not found",
-          data: null,
         };
       }
 
@@ -202,37 +143,20 @@ export class Attendance {
       ) {
         return {
           message:
-            "Cannot update attendance as it has been frozen by HOD or admin",
-          data: null,
+            "Cannot update attendance as it has been frozen by faculty, HOD, or admin",
         };
       }
 
       const attendance = await db.attendance.update({
         where: { id },
         data,
-        include: {
-          student: {
-            include: {
-              user: {
-                select: {
-                  id: true,
-                  name: true,
-                  email: true,
-                  username: true,
-                  displayUsername: true,
-                },
-              },
-            },
-          },
-          course: true,
-        },
       });
 
       logger.info("Attendance updated successfully", { attendance });
 
       return {
         message: "Attendance updated successfully",
-        data: attendance,
+        data: attendance as AttendanceResponseType,
       };
     } catch (error) {
       logger.error("Error updating attendance:", { error });
@@ -240,7 +164,7 @@ export class Attendance {
     }
   }
 
-  async delete(id: string) {
+  async delete(id: string): Promise<BaseResponse<void>> {
     try {
       const existingAttendance = await db.attendance.findUnique({
         where: { id },
@@ -260,7 +184,6 @@ export class Attendance {
       if (!existingAttendance) {
         return {
           message: "Attendance not found",
-          data: null,
         };
       }
 
@@ -272,8 +195,7 @@ export class Attendance {
       ) {
         return {
           message:
-            "Cannot delete attendance as it has been frozen by HOD or admin",
-          data: null,
+            "Cannot delete attendance as it has been frozen by faculty, HOD, or admin",
         };
       }
 
@@ -292,3 +214,5 @@ export class Attendance {
     }
   }
 }
+
+// TODO: Bro change the things mentioned in makrs services here as well please, I guess you can ask Supriya and Akanksha for the Freeze model

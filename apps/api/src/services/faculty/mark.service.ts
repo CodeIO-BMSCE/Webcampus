@@ -1,9 +1,14 @@
 import { logger } from "@webcampus/common/logger";
 import { db } from "@webcampus/db";
-import { CreateMarkType, UpdateMarkType } from "@webcampus/schemas/faculty";
+import {
+  CreateMarkType,
+  MarkResponseType,
+  UpdateMarkType,
+} from "@webcampus/schemas/faculty";
+import { BaseResponse } from "@webcampus/types/api";
 
 export class Mark {
-  async create(data: CreateMarkType) {
+  async create(data: CreateMarkType): Promise<BaseResponse<MarkResponseType>> {
     try {
       const existingMark = await db.mark.findUnique({
         where: {
@@ -17,28 +22,11 @@ export class Mark {
       if (existingMark) {
         return {
           message: "Mark already exists for this student and course",
-          data: null,
         };
       }
 
       const mark = await db.mark.create({
         data,
-        include: {
-          student: {
-            include: {
-              user: {
-                select: {
-                  id: true,
-                  name: true,
-                  email: true,
-                  username: true,
-                  displayUsername: true,
-                },
-              },
-            },
-          },
-          course: true,
-        },
       });
 
       logger.info("Mark created successfully", { mark });
@@ -53,26 +41,9 @@ export class Mark {
     }
   }
 
-  async getAll() {
+  async getAll(): Promise<BaseResponse<MarkResponseType[]>> {
     try {
-      const marks = await db.mark.findMany({
-        include: {
-          student: {
-            include: {
-              user: {
-                select: {
-                  id: true,
-                  name: true,
-                  email: true,
-                  username: true,
-                  displayUsername: true,
-                },
-              },
-            },
-          },
-          course: true,
-        },
-      });
+      const marks = await db.mark.findMany();
 
       return {
         message: "Marks retrieved successfully",
@@ -84,32 +55,15 @@ export class Mark {
     }
   }
 
-  async getById(id: string) {
+  async getById(id: string): Promise<BaseResponse<MarkResponseType>> {
     try {
       const mark = await db.mark.findUnique({
         where: { id },
-        include: {
-          student: {
-            include: {
-              user: {
-                select: {
-                  id: true,
-                  name: true,
-                  email: true,
-                  username: true,
-                  displayUsername: true,
-                },
-              },
-            },
-          },
-          course: true,
-        },
       });
 
       if (!mark) {
         return {
           message: "Mark not found",
-          data: null,
         };
       }
 
@@ -123,7 +77,10 @@ export class Mark {
     }
   }
 
-  async getByStudentAndCourse(studentId: string, courseId: string) {
+  async getByStudentAndCourse(
+    studentId: string,
+    courseId: string
+  ): Promise<BaseResponse<MarkResponseType>> {
     try {
       const mark = await db.mark.findUnique({
         where: {
@@ -132,28 +89,11 @@ export class Mark {
             courseId,
           },
         },
-        include: {
-          student: {
-            include: {
-              user: {
-                select: {
-                  id: true,
-                  name: true,
-                  email: true,
-                  username: true,
-                  displayUsername: true,
-                },
-              },
-            },
-          },
-          course: true,
-        },
       });
 
       if (!mark) {
         return {
           message: "Mark not found",
-          data: null,
         };
       }
 
@@ -167,7 +107,10 @@ export class Mark {
     }
   }
 
-  async update(id: string, data: UpdateMarkType) {
+  async update(
+    id: string,
+    data: UpdateMarkType
+  ): Promise<BaseResponse<MarkResponseType>> {
     try {
       const existingMark = await db.mark.findUnique({
         where: { id },
@@ -187,42 +130,23 @@ export class Mark {
       if (!existingMark) {
         return {
           message: "Mark not found",
-          data: null,
         };
       }
-      // TODO :- Bro check if we need to fetch the first data in the assignment array or any particular one, Because I didn't had proper Idea about schema, I have done as per my knowledge (Fetching First data).
+      // TODO :- Bro please check if the freezing thing below I have handled properly or not, I have just done as per my understanding
+      // Bro, I have followed the same in here and attendance as well,
+
       const courseAssignment = existingMark.course.assignments[0];
-      if (
-        courseAssignment?.freezes[0]?.facultyFrozen ||
-        courseAssignment?.freezes[0]?.hodFrozen ||
-        courseAssignment?.freezes[0]?.adminFrozen
-      ) {
+      const freeze = courseAssignment?.freezes[0];
+
+      if (freeze?.facultyFrozen || freeze?.hodFrozen || freeze?.adminFrozen) {
         return {
-          message:
-            "Cannot update mark as it has been frozen by Faculty Or HOD or admin",
-          data: null,
+          message: "Cannot update mark as it has been frozen by HOD or admin",
         };
       }
 
       const mark = await db.mark.update({
         where: { id },
         data,
-        include: {
-          student: {
-            include: {
-              user: {
-                select: {
-                  id: true,
-                  name: true,
-                  email: true,
-                  username: true,
-                  displayUsername: true,
-                },
-              },
-            },
-          },
-          course: true,
-        },
       });
 
       logger.info("Mark updated successfully", { mark });
@@ -237,7 +161,7 @@ export class Mark {
     }
   }
 
-  async delete(id: string) {
+  async delete(id: string): Promise<BaseResponse<void>> {
     try {
       const existingMark = await db.mark.findUnique({
         where: { id },
@@ -257,20 +181,15 @@ export class Mark {
       if (!existingMark) {
         return {
           message: "Mark not found",
-          data: null,
         };
       }
 
       const courseAssignment = existingMark.course.assignments[0];
-      if (
-        courseAssignment?.freezes[0]?.facultyFrozen ||
-        courseAssignment?.freezes[0]?.hodFrozen ||
-        courseAssignment?.freezes[0]?.adminFrozen
-      ) {
+      const freeze = courseAssignment?.freezes[0];
+
+      if (freeze?.hodFrozen || freeze?.adminFrozen) {
         return {
-          message:
-            "Cannot delete mark as it has been frozen by Faculty Or HOD or admin",
-          data: null,
+          message: "Cannot delete mark as it has been frozen by HOD or admin",
         };
       }
 
@@ -289,5 +208,3 @@ export class Mark {
     }
   }
 }
-
-// ToDo : Bro, the Changes mentioned in my above comment has to be changed in both this file and attendance services file, if that is not correct.
