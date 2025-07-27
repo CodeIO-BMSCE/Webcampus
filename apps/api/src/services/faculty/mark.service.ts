@@ -8,7 +8,9 @@ import {
 import { BaseResponse } from "@webcampus/types/api";
 
 export class Mark {
-  async create(data: CreateMarkType): Promise<BaseResponse<MarkResponseType>> {
+  static async create(
+    data: CreateMarkType
+  ): Promise<BaseResponse<MarkResponseType>> {
     try {
       const existingMark = await db.mark.findUnique({
         where: {
@@ -41,7 +43,7 @@ export class Mark {
     }
   }
 
-  async getAll(): Promise<BaseResponse<MarkResponseType[]>> {
+  static async getAll(): Promise<BaseResponse<MarkResponseType[]>> {
     try {
       const marks = await db.mark.findMany();
 
@@ -55,7 +57,7 @@ export class Mark {
     }
   }
 
-  async getById(id: string): Promise<BaseResponse<MarkResponseType>> {
+  static async getById(id: string): Promise<BaseResponse<MarkResponseType>> {
     try {
       const mark = await db.mark.findUnique({
         where: { id },
@@ -77,7 +79,7 @@ export class Mark {
     }
   }
 
-  async getByStudentAndCourse(
+  static async getByStudentAndCourse(
     studentId: string,
     courseId: string
   ): Promise<BaseResponse<MarkResponseType>> {
@@ -107,7 +109,7 @@ export class Mark {
     }
   }
 
-  async update(
+  static async update(
     id: string,
     data: UpdateMarkType
   ): Promise<BaseResponse<MarkResponseType>> {
@@ -161,7 +163,7 @@ export class Mark {
     }
   }
 
-  async delete(id: string): Promise<BaseResponse<void>> {
+  static async delete(id: string): Promise<BaseResponse<void>> {
     try {
       const existingMark = await db.mark.findUnique({
         where: { id },

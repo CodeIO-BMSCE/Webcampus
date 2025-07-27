@@ -8,7 +8,7 @@ import { Request, Response } from "express";
 export class AttendanceController {
   static async create(req: Request, res: Response): Promise<void> {
     try {
-      const { message, data } = await new Attendance().create(req.body);
+      const { message, data } = await Attendance.create(req.body);
       sendResponse({
         res,
         message,
@@ -28,7 +28,7 @@ export class AttendanceController {
 
   static async getAll(req: Request, res: Response): Promise<void> {
     try {
-      const { message, data } = await new Attendance().getAll();
+      const { message, data } = await Attendance.getAll();
       sendResponse({
         res,
         message,
@@ -51,7 +51,7 @@ export class AttendanceController {
     res: Response
   ): Promise<void> {
     try {
-      const { message, data } = await new Attendance().getById(req.params.id);
+      const { message, data } = await Attendance.getById(req.params.id);
       sendResponse({
         res,
         message,
@@ -74,7 +74,7 @@ export class AttendanceController {
     res: Response
   ): Promise<void> {
     try {
-      const { message, data } = await new Attendance().getByStudentAndCourse(
+      const { message, data } = await Attendance.getByStudentAndCourse(
         req.params.studentId,
         req.params.courseId
       );
@@ -100,7 +100,7 @@ export class AttendanceController {
     res: Response
   ): Promise<void> {
     try {
-      const { message, data } = await new Attendance().update(
+      const { message, data } = await Attendance.update(
         req.params.id,
         req.body
       );
@@ -126,7 +126,7 @@ export class AttendanceController {
     res: Response
   ): Promise<void> {
     try {
-      const { message } = await new Attendance().delete(req.params.id);
+      const { message } = await Attendance.delete(req.params.id);
       sendResponse({
         res,
         message,

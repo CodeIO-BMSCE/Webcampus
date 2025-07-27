@@ -8,7 +8,7 @@ import {
 import { BaseResponse } from "@webcampus/types/api";
 
 export class Attendance {
-  async create(
+  static async create(
     data: CreateAttendanceType
   ): Promise<BaseResponse<AttendanceResponseType>> {
     try {
@@ -43,7 +43,7 @@ export class Attendance {
     }
   }
 
-  async getAll(): Promise<BaseResponse<AttendanceResponseType[]>> {
+  static async getAll(): Promise<BaseResponse<AttendanceResponseType[]>> {
     try {
       const attendances = await db.attendance.findMany();
 
@@ -57,7 +57,9 @@ export class Attendance {
     }
   }
 
-  async getById(id: string): Promise<BaseResponse<AttendanceResponseType>> {
+  static async getById(
+    id: string
+  ): Promise<BaseResponse<AttendanceResponseType>> {
     try {
       const attendance = await db.attendance.findUnique({
         where: { id },
@@ -79,7 +81,7 @@ export class Attendance {
     }
   }
 
-  async getByStudentAndCourse(
+  static async getByStudentAndCourse(
     studentId: string,
     courseId: string
   ): Promise<BaseResponse<AttendanceResponseType>> {
@@ -109,7 +111,7 @@ export class Attendance {
     }
   }
 
-  async update(
+  static async update(
     id: string,
     data: UpdateAttendanceType
   ): Promise<BaseResponse<AttendanceResponseType>> {
@@ -164,7 +166,7 @@ export class Attendance {
     }
   }
 
-  async delete(id: string): Promise<BaseResponse<void>> {
+  static async delete(id: string): Promise<BaseResponse<void>> {
     try {
       const existingAttendance = await db.attendance.findUnique({
         where: { id },

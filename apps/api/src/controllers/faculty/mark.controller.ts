@@ -8,7 +8,7 @@ import { Request, Response } from "express";
 export class MarkController {
   static async create(req: Request, res: Response): Promise<void> {
     try {
-      const { message, data } = await new Mark().create(req.body);
+      const { message, data } = await Mark.create(req.body);
       sendResponse({
         res,
         message,
@@ -28,7 +28,7 @@ export class MarkController {
 
   static async getAll(req: Request, res: Response): Promise<void> {
     try {
-      const { message, data } = await new Mark().getAll();
+      const { message, data } = await Mark.getAll();
       sendResponse({
         res,
         message,
@@ -51,7 +51,7 @@ export class MarkController {
     res: Response
   ): Promise<void> {
     try {
-      const { message, data } = await new Mark().getById(req.params.id);
+      const { message, data } = await Mark.getById(req.params.id);
       sendResponse({
         res,
         message,
@@ -74,7 +74,7 @@ export class MarkController {
     res: Response
   ): Promise<void> {
     try {
-      const { message, data } = await new Mark().getByStudentAndCourse(
+      const { message, data } = await Mark.getByStudentAndCourse(
         req.params.studentId,
         req.params.courseId
       );
@@ -100,10 +100,7 @@ export class MarkController {
     res: Response
   ): Promise<void> {
     try {
-      const { message, data } = await new Mark().update(
-        req.params.id,
-        req.body
-      );
+      const { message, data } = await Mark.update(req.params.id, req.body);
       sendResponse({
         res,
         message,
@@ -126,7 +123,7 @@ export class MarkController {
     res: Response
   ): Promise<void> {
     try {
-      const { message } = await new Mark().delete(req.params.id);
+      const { message } = await Mark.delete(req.params.id);
       sendResponse({
         res,
         message,
