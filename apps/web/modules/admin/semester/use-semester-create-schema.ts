@@ -7,10 +7,9 @@ import { frontendEnv } from "@webcampus/common/env";
 import {
   CreateSemesterSchema,
   CreateSemesterType,
-  SemesterResponseType,
 } from "@webcampus/schemas/admin";
-import { BaseResponse, ErrorResponse } from "@webcampus/types/api";
-import axios, { AxiosError } from "axios";
+import { ErrorResponse, SuccessResponse } from "@webcampus/types/api";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -31,7 +30,7 @@ export const useSemesterCreateSchema = () => {
 
   const { mutate: createSemester } = useMutation({
     mutationFn: async (data: CreateSemesterType) => {
-      return await axios.post<BaseResponse<SemesterResponseType>>(
+      return await axios.post(
         `${NEXT_PUBLIC_API_BASE_URL}/admin/semester`,
         data,
         {
@@ -39,7 +38,7 @@ export const useSemesterCreateSchema = () => {
         }
       );
     },
-    onSuccess: (data) => {
+    onSuccess: (data: AxiosResponse<SuccessResponse<null>>) => {
       toast.success(data.data.message);
       queryClient.invalidateQueries({ queryKey: ["semesters"] });
     },

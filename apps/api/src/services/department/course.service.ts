@@ -1,5 +1,5 @@
 import { logger } from "@webcampus/common/logger";
-import { Course, db } from "@webcampus/db";
+import { Course, db, Prisma } from "@webcampus/db";
 import { CreateCourseDTO } from "@webcampus/schemas/department";
 import { BaseResponse } from "@webcampus/types/api";
 
@@ -26,6 +26,14 @@ export class CourseService {
       logger.info(response);
       return response;
     } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === "P2002") {
+          throw new Error("Course already exists");
+        }
+      }
+      if (error instanceof Error) {
+        throw error;
+      }
       logger.error("Failed to create course", error);
       throw new Error("Failed to create course");
     }

@@ -1,8 +1,8 @@
 "use client";
 
-import { DataTable } from "@/modules/student/courses/data-table";
 import { useQuery } from "@tanstack/react-query";
 import { frontendEnv } from "@webcampus/common/env";
+import { DataTable } from "@webcampus/ui/components/data-table";
 import axios from "axios";
 import React from "react";
 import { DepartmentCoursesColumns } from "./department-courses-columns";

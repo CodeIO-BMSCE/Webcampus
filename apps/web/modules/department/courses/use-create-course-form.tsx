@@ -9,7 +9,7 @@ import {
   CreateCourseSchema,
 } from "@webcampus/schemas/department";
 import { ErrorResponse, SuccessResponse } from "@webcampus/types/api";
-import axios, { AxiosError } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -31,15 +31,14 @@ export const useCreateCourseForm = () => {
 
   const { mutate } = useMutation({
     mutationFn: async (values: CreateCourseDTO) => {
-      const response = await axios.post(
+      return await axios.post(
         `${NEXT_PUBLIC_API_BASE_URL}/department/course`,
         values,
         { withCredentials: true }
       );
-      return response.data;
     },
-    onSuccess: (data: SuccessResponse<null>) => {
-      toast.success(data.message);
+    onSuccess: (data: AxiosResponse<SuccessResponse<null>>) => {
+      toast.success(data.data.message);
       queryClient.invalidateQueries({ queryKey: ["courses"] });
     },
     onError: (error: AxiosError<ErrorResponse>) => {
