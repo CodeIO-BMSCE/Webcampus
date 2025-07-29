@@ -1,6 +1,6 @@
 import { logger } from "@webcampus/common/logger";
 import type { NextFunction, Request, Response } from "express";
-import { ZodType } from "zod";
+import z, { ZodType } from "zod";
 import { sendResponse } from "../helpers";
 
 type RequestPart = "body" | "query" | "params";
@@ -40,8 +40,8 @@ export const validateRequest =
       return sendResponse({
         res,
         statusCode: 400,
-        message: "Validation failed",
-        error: result.error.issues.map((issue) => issue.message).join(", "),
+        message: z.prettifyError(result.error),
+        error: z.prettifyError(result.error),
       });
     }
 

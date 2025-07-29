@@ -4,7 +4,8 @@
   "private": true,
   "exports": {
     "./env": "./src/env.ts",
-    "./logger": "./src/logger.ts"
+    "./logger": "./src/logger.ts",
+    "./dayjs": "./src/dayjs.ts"
   },
   "scripts": {
     "check-types": "tsc --noEmit --pretty"
@@ -17,6 +18,7 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "dayjs": "^1.11.13",
     "winston": "^3.17.0",
     "zod": "^4.0.5"
   }

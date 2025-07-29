@@ -27,7 +27,7 @@ export const SiteHeader = () => {
           orientation="vertical"
           className="mr-2 data-[orientation=vertical]:h-4"
         />
-        <Breadcrumb>
+        <Breadcrumb className="hidden sm:block">
           <BreadcrumbList>
             {pathNames.map((path, index, array) => (
               <React.Fragment key={path}>
@@ -40,9 +40,7 @@ export const SiteHeader = () => {
                     </BreadcrumbLink>
                   )}
                 </BreadcrumbItem>
-                {index !== pathNames.length - 1 && (
-                  <BreadcrumbSeparator className="hidden md:block" />
-                )}
+                {index !== pathNames.length - 1 && <BreadcrumbSeparator />}
               </React.Fragment>
             ))}
           </BreadcrumbList>

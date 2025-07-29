@@ -14,7 +14,7 @@ export const CreateSemesterSchema = BaseSemesterSchema;
 
 export const SemesterResponseSchema = BaseSemesterSchema.extend({
   id: z.uuid(),
-  name: z.string().nullable(),
+  name: z.string().nullish(),
   isCurrent: z.boolean(),
   createdAt: z.date(),
   updatedAt: z.date().optional(),

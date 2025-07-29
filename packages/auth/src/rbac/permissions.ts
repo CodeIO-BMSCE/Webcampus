@@ -18,15 +18,10 @@ export const ac = createAccessControl(statement);
 
 export const roles = {
   admin: ac.newRole({
-    semester: ["create"],
-    department: ["create", "read"],
-    sectionAssignment: [
-      "create",
-      "read",
-      "update",
-      "delete",
-    ] /*just for testing,to be removed later*/,
     ...adminAc.statements,
+    semester: ["create", "read", "delete"],
+    department: ["create", "read"],
+    sectionAssignment: ["create", "read", "update", "delete"],
   }),
   student: ac.newRole({
     user: [],
@@ -49,9 +44,6 @@ export const roles = {
     courses: ["create", "read"],
     hod: ["create", "read", "remove"],
     sectionAssignment: ["create", "read", "update", "delete"],
-    /**
-     * Admin statements are used to create students and faculty
-     */
     section: ["create", "read"],
   }),
 } satisfies Record<Role, unknown>;

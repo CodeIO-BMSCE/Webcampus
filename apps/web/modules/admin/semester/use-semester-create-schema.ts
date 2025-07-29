@@ -2,7 +2,7 @@
 
 import { authClient } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { frontendEnv } from "@webcampus/common/env";
 import {
   CreateSemesterSchema,
@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 export const useSemesterCreateSchema = () => {
   const { NEXT_PUBLIC_API_BASE_URL } = frontendEnv();
   const { data } = authClient.useSession();
+  const queryClient = useQueryClient();
   const form = useForm<CreateSemesterType>({
     resolver: zodResolver(CreateSemesterSchema),
     defaultValues: {
@@ -27,20 +28,23 @@ export const useSemesterCreateSchema = () => {
       userId: data?.user?.id,
     },
   });
-  console.log(form.formState.errors);
 
   const { mutate: createSemester } = useMutation({
     mutationFn: async (data: CreateSemesterType) => {
       return await axios.post<BaseResponse<SemesterResponseType>>(
         `${NEXT_PUBLIC_API_BASE_URL}/admin/semester`,
-        data
+        data,
+        {
+          withCredentials: true,
+        }
       );
     },
     onSuccess: (data) => {
       toast.success(data.data.message);
+      queryClient.invalidateQueries({ queryKey: ["semesters"] });
     },
     onError: (error: AxiosError<BaseResponse<null>>) => {
-      toast.error(error.response?.data.message);
+      toast.error(error.response?.data.error as string);
     },
   });
 
