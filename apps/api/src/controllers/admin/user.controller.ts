@@ -25,18 +25,23 @@ export class UserController {
   static async createUser(req: Request, res: Response): Promise<void> {
     try {
       const request: CreateUserType = req.body;
-      const { message } = await new UserService({
+      const response = await new UserService({
         request,
       }).create();
-      sendResponse({
-        res,
-        message,
-        statusCode: 201,
-      });
+      if (response.status === "success") {
+        sendResponse({
+          res,
+          status: "success",
+          statusCode: 201,
+          message: response.message,
+          data: null,
+        });
+      }
     } catch (error) {
       logger.error("Error creating user:", { error });
       sendResponse({
         res,
+        status: "error",
         message: ERRORS.INTERNAL_SERVER_ERROR,
         statusCode: 500,
         error,
@@ -44,7 +49,7 @@ export class UserController {
     }
   }
 
-  static async deleteUser(req: Request, res: Response) {
+  static async deleteUser(req: Request, res: Response): Promise<void> {
     try {
       const request: { userId: string } = req.body;
       const { success } = await auth.api.removeUser({
@@ -57,14 +62,17 @@ export class UserController {
         });
         sendResponse({
           res,
-          message: "Deleted user",
+          status: "success",
           statusCode: 200,
+          message: "Deleted user",
+          data: null,
         });
       }
     } catch (error) {
       logger.error("Error deleting user:", { error });
       sendResponse({
         res,
+        status: "error",
         message: ERRORS.INTERNAL_SERVER_ERROR,
         statusCode: 500,
         error,
@@ -72,20 +80,24 @@ export class UserController {
     }
   }
 
-  static async getUsers(req: Request, res: Response) {
+  static async getUsers(req: Request, res: Response): Promise<void> {
     try {
       const request = req.query as unknown as UsersQueryDTO;
-      const { message, data } = await UserService.getUsers(request);
-      sendResponse({
-        res,
-        message,
-        statusCode: 200,
-        data,
-      });
+      const response = await UserService.getUsers(request);
+      if (response.status === "success") {
+        sendResponse({
+          res,
+          message: response.message,
+          statusCode: 200,
+          status: "success",
+          data: response.data,
+        });
+      }
     } catch (error) {
       logger.error({ error });
       sendResponse({
         res,
+        status: "error",
         message: ERRORS.INTERNAL_SERVER_ERROR,
         statusCode: 500,
         error,

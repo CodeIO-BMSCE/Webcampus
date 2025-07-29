@@ -3,19 +3,8 @@ import { Course, db } from "@webcampus/db";
 import { CreateCourseDTO } from "@webcampus/schemas/department";
 import { BaseResponse } from "@webcampus/types/api";
 
-/**
- * Course service class
- */
 export class CourseService {
-  /**
-   * Create a new course
-   * @param data - Course creation data
-   * @returns Created course with ID
-   * @throws Error if course code already exists
-   */
-  static async createCourse(
-    data: CreateCourseDTO
-  ): Promise<BaseResponse<Course>> {
+  static async create(data: CreateCourseDTO): Promise<BaseResponse<Course>> {
     try {
       const { departmentName, ...courseData } = data;
       const course = await db.course.create({
@@ -30,16 +19,11 @@ export class CourseService {
       });
 
       const response: BaseResponse<Course> = {
+        status: "success",
         message: "Course created successfully",
         data: course,
       };
-
-      logger.info(response.message, {
-        courseId: course.id,
-        courseCode: course.code,
-        courseName: course.name || "N/A",
-      });
-
+      logger.info(response);
       return response;
     } catch (error) {
       logger.error("Failed to create course", error);
@@ -47,13 +31,7 @@ export class CourseService {
     }
   }
 
-  /**
-   * Get a single course by ID
-   * @param id - Course UUID
-   * @returns Course data with related counts
-   * @throws Error if course not found
-   */
-  static async getCourseById(id: string): Promise<BaseResponse<Course>> {
+  static async getById(id: string): Promise<BaseResponse<Course>> {
     try {
       const course = await db.course.findUnique({
         where: { id },
@@ -66,16 +44,12 @@ export class CourseService {
       }
 
       const response: BaseResponse<Course> = {
+        status: "success",
         message: "Course fetched successfully",
         data: course,
       };
 
-      logger.info(response.message, {
-        courseId: course.id,
-        courseCode: course.code,
-        courseName: course.name || "N/A",
-      });
-
+      logger.info(response);
       return response;
     } catch (error) {
       logger.error("Failed to fetch course", error);
@@ -83,9 +57,7 @@ export class CourseService {
     }
   }
 
-  static async getCoursesByBranch(
-    name: string
-  ): Promise<BaseResponse<Course[]>> {
+  static async getByBranch(name: string): Promise<BaseResponse<Course[]>> {
     try {
       const courses = await db.course.findMany({
         where: {
@@ -99,10 +71,11 @@ export class CourseService {
       });
 
       const response: BaseResponse<Course[]> = {
+        status: "success",
         message: "Courses fetched successfully",
         data: courses,
       };
-
+      logger.info(response);
       return response;
     } catch (error) {
       logger.error("Failed to fetch courses by department", error);

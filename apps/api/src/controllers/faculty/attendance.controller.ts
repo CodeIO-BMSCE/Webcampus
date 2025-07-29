@@ -8,17 +8,21 @@ import { Request, Response } from "express";
 export class AttendanceController {
   static async create(req: Request, res: Response): Promise<void> {
     try {
-      const { message, data } = await Attendance.create(req.body);
-      sendResponse({
-        res,
-        message,
-        data,
-        statusCode: data ? 201 : 400,
-      });
+      const response = await Attendance.create(req.body);
+      if (response.status === "success") {
+        sendResponse({
+          res,
+          status: "success",
+          message: response.message,
+          data: response.data,
+          statusCode: 201,
+        });
+      }
     } catch (error) {
       logger.error("Error creating attendance:", { error });
       sendResponse({
         res,
+        status: "error",
         message: ERRORS.INTERNAL_SERVER_ERROR,
         statusCode: 500,
         error,
@@ -28,17 +32,21 @@ export class AttendanceController {
 
   static async getAll(req: Request, res: Response): Promise<void> {
     try {
-      const { message, data } = await Attendance.getAll();
-      sendResponse({
-        res,
-        message,
-        data,
-        statusCode: 200,
-      });
+      const response = await Attendance.getAll();
+      if (response.status === "success") {
+        sendResponse({
+          res,
+          status: "success",
+          message: response.message,
+          data: response.data,
+          statusCode: 200,
+        });
+      }
     } catch (error) {
       logger.error("Error retrieving attendances:", { error });
       sendResponse({
         res,
+        status: "error",
         message: ERRORS.INTERNAL_SERVER_ERROR,
         statusCode: 500,
         error,
@@ -51,17 +59,21 @@ export class AttendanceController {
     res: Response
   ): Promise<void> {
     try {
-      const { message, data } = await Attendance.getById(req.params.id);
-      sendResponse({
-        res,
-        message,
-        data,
-        statusCode: data ? 200 : 404,
-      });
+      const response = await Attendance.getById(req.params.id);
+      if (response.status === "success") {
+        sendResponse({
+          res,
+          status: "success",
+          message: response.message,
+          data: response.data,
+          statusCode: response.data ? 200 : 404,
+        });
+      }
     } catch (error) {
       logger.error("Error retrieving attendance:", { error });
       sendResponse({
         res,
+        status: "error",
         message: ERRORS.INTERNAL_SERVER_ERROR,
         statusCode: 500,
         error,
@@ -74,20 +86,24 @@ export class AttendanceController {
     res: Response
   ): Promise<void> {
     try {
-      const { message, data } = await Attendance.getByStudentAndCourse(
+      const response = await Attendance.getByStudentAndCourse(
         req.params.studentId,
         req.params.courseId
       );
-      sendResponse({
-        res,
-        message,
-        data,
-        statusCode: data ? 200 : 404,
-      });
+      if (response.status === "success") {
+        sendResponse({
+          res,
+          status: "success",
+          message: response.message,
+          data: response.data,
+          statusCode: response.data ? 200 : 404,
+        });
+      }
     } catch (error) {
       logger.error("Error retrieving attendance:", { error });
       sendResponse({
         res,
+        status: "error",
         message: ERRORS.INTERNAL_SERVER_ERROR,
         statusCode: 500,
         error,
@@ -100,20 +116,21 @@ export class AttendanceController {
     res: Response
   ): Promise<void> {
     try {
-      const { message, data } = await Attendance.update(
-        req.params.id,
-        req.body
-      );
-      sendResponse({
-        res,
-        message,
-        data,
-        statusCode: data ? 200 : 404,
-      });
+      const response = await Attendance.update(req.params.id, req.body);
+      if (response.status === "success") {
+        sendResponse({
+          res,
+          status: "success",
+          message: response.message,
+          data: response.data,
+          statusCode: response.data ? 200 : 404,
+        });
+      }
     } catch (error) {
       logger.error("Error updating attendance:", { error });
       sendResponse({
         res,
+        status: "error",
         message: ERRORS.INTERNAL_SERVER_ERROR,
         statusCode: 500,
         error,
@@ -126,16 +143,21 @@ export class AttendanceController {
     res: Response
   ): Promise<void> {
     try {
-      const { message } = await Attendance.delete(req.params.id);
-      sendResponse({
-        res,
-        message,
-        statusCode: 200,
-      });
+      const response = await Attendance.delete(req.params.id);
+      if (response.status === "success") {
+        sendResponse({
+          res,
+          status: "success",
+          message: response.message,
+          data: response.data,
+          statusCode: 200,
+        });
+      }
     } catch (error) {
       logger.error("Error deleting attendance:", { error });
       sendResponse({
         res,
+        status: "error",
         message: ERRORS.INTERNAL_SERVER_ERROR,
         statusCode: 500,
         error,

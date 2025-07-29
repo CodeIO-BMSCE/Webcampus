@@ -2,142 +2,112 @@ import { logger } from "@webcampus/common/logger";
 import { db } from "@webcampus/db";
 import {
   CreateFacultyType,
+  FacultyResponseType,
   UpdateFacultyType,
 } from "@webcampus/schemas/faculty";
+import { BaseResponse } from "@webcampus/types/api";
 
 export class Faculty {
-  async create(data: CreateFacultyType) {
+  static async create(
+    data: CreateFacultyType
+  ): Promise<BaseResponse<FacultyResponseType>> {
     try {
       const faculty = await db.faculty.create({
         data: {
           userId: data.userId,
           departmentName: data.departmentName,
         },
-        include: {
-          user: true,
-          department: true,
-        },
       });
-
-      logger.info("Faculty created successfully", { faculty });
-
-      return {
+      const response: BaseResponse<FacultyResponseType> = {
+        status: "success",
         message: "Faculty created successfully",
         data: faculty,
       };
+      logger.info({ response });
+      return response;
     } catch (error) {
       logger.error("Error creating faculty:", { error });
       throw new Error("Failed to create faculty");
     }
   }
 
-  async getAll() {
+  static async getAll(): Promise<BaseResponse<FacultyResponseType[]>> {
     try {
-      const faculties = await db.faculty.findMany({
-        include: {
-          user: {
-            select: {
-              id: true,
-              name: true,
-              email: true,
-              username: true,
-              displayUsername: true,
-            },
-          },
-          department: true,
-        },
-      });
-
-      return {
+      const faculties = await db.faculty.findMany();
+      const response: BaseResponse<FacultyResponseType[]> = {
+        status: "success",
         message: "Faculties retrieved successfully",
         data: faculties,
       };
+      logger.info({ response });
+      return response;
     } catch (error) {
       logger.error("Error retrieving faculties:", { error });
       throw new Error("Failed to retrieve faculties");
     }
   }
 
-  async getById(id: string) {
+  static async getById(id: string): Promise<BaseResponse<FacultyResponseType>> {
     try {
       const faculty = await db.faculty.findUnique({
         where: { id },
-        include: {
-          user: {
-            select: {
-              id: true,
-              name: true,
-              email: true,
-              username: true,
-              displayUsername: true,
-            },
-          },
-          department: true,
-          teaches: true,
-        },
       });
 
       if (!faculty) {
-        return {
-          message: "Faculty not found",
-          data: null,
-        };
+        throw new Error("Faculty not found");
       }
 
-      return {
+      const response: BaseResponse<FacultyResponseType> = {
+        status: "success",
         message: "Faculty retrieved successfully",
         data: faculty,
       };
+      logger.info({ response });
+      return response;
     } catch (error) {
       logger.error("Error retrieving faculty:", { error });
       throw new Error("Failed to retrieve faculty");
     }
   }
 
-  async update(id: string, data: UpdateFacultyType) {
+  static async update(
+    id: string,
+    data: UpdateFacultyType
+  ): Promise<BaseResponse<FacultyResponseType>> {
     try {
       const faculty = await db.faculty.update({
         where: { id },
         data: {
           departmentName: data.departmentName,
         },
-        include: {
-          user: {
-            select: {
-              id: true,
-              name: true,
-              email: true,
-              username: true,
-              displayUsername: true,
-            },
-          },
-          department: true,
-        },
       });
 
-      logger.info("Faculty updated successfully", { faculty });
-
-      return {
+      const response: BaseResponse<FacultyResponseType> = {
+        status: "success",
         message: "Faculty updated successfully",
         data: faculty,
       };
+      logger.info({ response });
+      return response;
     } catch (error) {
       logger.error("Error updating faculty:", { error });
       throw new Error("Failed to update faculty");
     }
   }
 
-  async delete(id: string) {
+  static async delete(id: string): Promise<BaseResponse<void>> {
     try {
       await db.faculty.delete({
         where: { id },
       });
 
-      logger.info("Faculty deleted successfully", { id });
-
-      return {
+      const response: BaseResponse<void> = {
+        status: "success",
         message: "Faculty deleted successfully",
+        data: null,
       };
+      logger.info({ response });
+      return response;
     } catch (error) {
       logger.error("Error deleting faculty:", { error });
       throw new Error("Failed to delete faculty");

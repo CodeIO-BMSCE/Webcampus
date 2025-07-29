@@ -1,21 +1,31 @@
 import { z } from "zod";
 
-export const createSectionAssignmentSchema = z.object({
-  studentId: z.string().uuid("Invalid student ID"),
-  sectionId: z.string().uuid("Invalid section ID"),
+export const BaseSectionAssignmentSchema = z.object({
+  studentId: z.uuid("Invalid student ID"),
+  sectionId: z.uuid("Invalid section ID"),
   semester: z.number().int().positive("Semester must be a positive integer"),
   academicYear: z.string().min(1, "Academic year is required"),
 });
 
-export const updateSectionAssignmentSchema = z.object({
-  sectionId: z.string().uuid("Invalid section ID").optional(),
-  semester: z.number().int().positive().optional(),
-  academicYear: z.string().min(1).optional(),
-});
+export const CreateSectionAssignmentSchema = BaseSectionAssignmentSchema;
 
+export const UpdateSectionAssignmentSchema =
+  BaseSectionAssignmentSchema.partial();
+
+export const SectionAssignmentResponseSchema =
+  BaseSectionAssignmentSchema.extend({
+    id: z.uuid("Invalid section assignment ID"),
+  });
+
+export type BaseSectionAssignmentType = z.infer<
+  typeof BaseSectionAssignmentSchema
+>;
 export type CreateSectionAssignmentType = z.infer<
-  typeof createSectionAssignmentSchema
+  typeof CreateSectionAssignmentSchema
 >;
 export type UpdateSectionAssignmentType = z.infer<
-  typeof updateSectionAssignmentSchema
+  typeof UpdateSectionAssignmentSchema
+>;
+export type SectionAssignmentResponseType = z.infer<
+  typeof SectionAssignmentResponseSchema
 >;

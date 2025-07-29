@@ -65,6 +65,7 @@ export class UserService {
       const user = await this.createUserWithUsername();
       await this.updateUserRole();
       return {
+        status: "success",
         message: "Student created successfully.",
         data: user,
       };
@@ -136,6 +137,7 @@ export class UserService {
       });
       logger.info("User Created using Admin API ", { user });
       return {
+        status: "success",
         message: `${this.body.role} created successfully`,
         data: user,
       };
@@ -173,10 +175,11 @@ export class UserService {
         },
       });
       const response: BaseResponse<UserResponseDTO[]> = {
+        status: "success",
         message: "Users fetched successfully",
         data: users,
       };
-      logger.info("Users fetched successfully", { users });
+      logger.info(response);
       return response;
     } catch (error) {
       logger.error("Failed to get users", { error });

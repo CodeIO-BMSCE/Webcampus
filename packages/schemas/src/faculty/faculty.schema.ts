@@ -1,13 +1,19 @@
 import { z } from "zod";
 
-export const createFacultySchema = z.object({
+export const BaseFacultySchema = z.object({
   userId: z.uuid("Invalid user ID"),
   departmentName: z.string("Invalid department name"),
 });
 
-export const updateFacultySchema = z.object({
-  departmentName: z.string("Invalid department name").optional(),
+export const CreateFacultySchema = BaseFacultySchema;
+
+export const UpdateFacultySchema = BaseFacultySchema.partial();
+
+export const FacultyResponseSchema = BaseFacultySchema.extend({
+  id: z.uuid("Invalid faculty ID"),
 });
 
-export type CreateFacultyType = z.infer<typeof createFacultySchema>;
-export type UpdateFacultyType = z.infer<typeof updateFacultySchema>;
+export type BaseFacultyType = z.infer<typeof BaseFacultySchema>;
+export type CreateFacultyType = z.infer<typeof CreateFacultySchema>;
+export type UpdateFacultyType = z.infer<typeof UpdateFacultySchema>;
+export type FacultyResponseType = z.infer<typeof FacultyResponseSchema>;

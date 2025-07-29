@@ -33,9 +33,11 @@ export const verifySession = async (
     });
     if (!session) {
       sendResponse({
+        status: "error",
         res,
         statusCode: 401,
         message: ERRORS.UNAUTHENTICATED,
+        error: ERRORS.UNAUTHENTICATED,
       });
       return;
     }
@@ -43,9 +45,11 @@ export const verifySession = async (
   } catch (error) {
     logger.error("Session verification error:", { error });
     sendResponse({
+      status: "error",
       res,
       statusCode: 500,
       message: "Internal server error during authentication",
+      error: "Internal server error during authentication",
     });
     return;
   }

@@ -9,19 +9,24 @@ import { Request, Response } from "express";
 export class DepartmentController {
   static async getDepartments(req: Request, res: Response): Promise<void> {
     try {
-      const { message, data } = await DepartmentService.getDepartments();
-      sendResponse({
-        res,
-        statusCode: 200,
-        message,
-        data,
-      });
+      const response = await DepartmentService.getDepartments();
+      if (response.status === "success") {
+        sendResponse({
+          res,
+          statusCode: 200,
+          status: "success",
+          message: response.message,
+          data: response.data,
+        });
+      }
     } catch (error) {
       logger.error("Error Getting Departments", error);
       sendResponse({
         res,
+        status: "error",
         message: ERRORS.INTERNAL_SERVER_ERROR,
         statusCode: 500,
+        error,
       });
     }
   }
@@ -29,19 +34,24 @@ export class DepartmentController {
   static async create(req: Request, res: Response): Promise<void> {
     try {
       const request: CreateDepartmentDTO & CreateUserType = req.body;
-      const { message, data } = await DepartmentService.create(request);
-      sendResponse({
-        res,
-        statusCode: 201,
-        message,
-        data,
-      });
+      const response = await DepartmentService.create(request);
+      if (response.status === "success") {
+        sendResponse({
+          res,
+          status: "success",
+          statusCode: 201,
+          message: response.message,
+          data: response.data,
+        });
+      }
     } catch (error) {
       logger.error("Error Creating Department with User", error);
       sendResponse({
         res,
+        status: "error",
         message: ERRORS.INTERNAL_SERVER_ERROR,
         statusCode: 500,
+        error,
       });
     }
   }

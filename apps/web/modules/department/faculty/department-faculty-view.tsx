@@ -29,6 +29,11 @@ export const DepartmentFacultyView = () => {
         `${frontendEnv().NEXT_PUBLIC_API_BASE_URL}/admin/user?${queryParams}`
       );
     },
+    select: (data) => {
+      if (data.data.status === "success") {
+        return data.data.data;
+      }
+    },
   });
 
   if (response.isLoading) {
@@ -47,7 +52,7 @@ export const DepartmentFacultyView = () => {
     );
   }
 
-  if (!response.data?.data?.data) {
+  if (!response.data) {
     return <div>No users found</div>;
   }
 
@@ -56,10 +61,7 @@ export const DepartmentFacultyView = () => {
       <div className="flex justify-end">
         <CreateUserDialog role="faculty" />
       </div>
-      <DataTable
-        columns={departmentFacultyColumns}
-        data={response.data?.data?.data}
-      />
+      <DataTable columns={departmentFacultyColumns} data={response.data} />
     </div>
   );
 };

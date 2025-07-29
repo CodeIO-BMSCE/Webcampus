@@ -5,134 +5,133 @@ import { logger } from "@webcampus/common/logger";
 import { UpdateFacultyType } from "@webcampus/schemas/faculty";
 import { Request, Response } from "express";
 
-/**
- * Create a new faculty member
- */
-export const createFaculty = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
-  try {
-    const { message, data } = await new Faculty().create(req.body);
-    sendResponse({
-      res,
-      message,
-      data,
-      statusCode: 201,
-    });
-  } catch (error) {
-    logger.error("Error creating faculty:", { error });
-    sendResponse({
-      res,
-      message: ERRORS.INTERNAL_SERVER_ERROR,
-      statusCode: 500,
-      error,
-    });
+export class FacultyController {
+  static async create(req: Request, res: Response): Promise<void> {
+    try {
+      const response = await Faculty.create(req.body);
+      if (response.status === "success") {
+        sendResponse({
+          res,
+          status: "success",
+          message: response.message,
+          data: response.data,
+          statusCode: 201,
+        });
+      }
+    } catch (error) {
+      logger.error("Error creating faculty:", { error });
+      sendResponse({
+        res,
+        status: "error",
+        message: ERRORS.INTERNAL_SERVER_ERROR,
+        statusCode: 500,
+        error,
+      });
+    }
   }
-};
 
-/**
- * Get all faculty members
- */
-export const getAllFaculty = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
-  try {
-    const { message, data } = await new Faculty().getAll();
-    sendResponse({
-      res,
-      message,
-      data,
-      statusCode: 200,
-    });
-  } catch (error) {
-    logger.error("Error retrieving faculties:", { error });
-    sendResponse({
-      res,
-      message: ERRORS.INTERNAL_SERVER_ERROR,
-      statusCode: 500,
-      error,
-    });
+  static async getAll(req: Request, res: Response): Promise<void> {
+    try {
+      const response = await Faculty.getAll();
+      if (response.status === "success") {
+        sendResponse({
+          res,
+          status: "success",
+          message: response.message,
+          data: response.data,
+          statusCode: 200,
+        });
+      }
+    } catch (error) {
+      logger.error("Error retrieving faculties:", { error });
+      sendResponse({
+        res,
+        status: "error",
+        message: ERRORS.INTERNAL_SERVER_ERROR,
+        statusCode: 500,
+        error,
+      });
+    }
   }
-};
 
-/**
- * Get a faculty member by ID
- */
-export const getFacultyById = async (
-  req: Request<{ id: string }>,
-  res: Response
-): Promise<void> => {
-  try {
-    const { message, data } = await new Faculty().getById(req.params.id);
-    sendResponse({
-      res,
-      message,
-      data,
-      statusCode: data ? 200 : 404,
-    });
-  } catch (error) {
-    logger.error("Error retrieving faculty:", { error });
-    sendResponse({
-      res,
-      message: ERRORS.INTERNAL_SERVER_ERROR,
-      statusCode: 500,
-      error,
-    });
+  static async getById(
+    req: Request<{ id: string }>,
+    res: Response
+  ): Promise<void> {
+    try {
+      const response = await Faculty.getById(req.params.id);
+      if (response.status === "success") {
+        sendResponse({
+          res,
+          status: "success",
+          message: response.message,
+          data: response.data,
+          statusCode: response.data ? 200 : 404,
+        });
+      }
+    } catch (error) {
+      logger.error("Error retrieving faculty:", { error });
+      sendResponse({
+        res,
+        status: "error",
+        message: ERRORS.INTERNAL_SERVER_ERROR,
+        statusCode: 500,
+        error,
+      });
+    }
   }
-};
 
-/**
- * Update a faculty member
- */
-export const updateFaculty = async (
-  req: Request<{ id: string }, UpdateFacultyType>,
-  res: Response
-): Promise<void> => {
-  try {
-    const { message, data } = await new Faculty().update(
-      req.params.id,
-      req.body
-    );
-    sendResponse({
-      res,
-      message,
-      data,
-      statusCode: 200,
-    });
-  } catch (error) {
-    logger.error("Error updating faculty:", { error });
-    sendResponse({
-      res,
-      message: ERRORS.INTERNAL_SERVER_ERROR,
-      statusCode: 500,
-      error,
-    });
+  static async update(
+    req: Request<{ id: string }, UpdateFacultyType>,
+    res: Response
+  ): Promise<void> {
+    try {
+      const response = await Faculty.update(req.params.id, req.body);
+      if (response.status === "success") {
+        sendResponse({
+          res,
+          status: "success",
+          message: response.message,
+          data: response.data,
+          statusCode: 200,
+        });
+      }
+    } catch (error) {
+      logger.error("Error updating faculty:", { error });
+      sendResponse({
+        res,
+        status: "error",
+        message: ERRORS.INTERNAL_SERVER_ERROR,
+        statusCode: 500,
+        error,
+      });
+    }
   }
-};
 
-/**
- * Delete a faculty member
- */
-export const deleteFaculty = async (
-  req: Request<{ id: string }>,
-  res: Response
-): Promise<void> => {
-  try {
-    const { message } = await new Faculty().delete(req.params.id);
-    sendResponse({
-      res,
-      message,
-      statusCode: 200,
-    });
-  } catch (error) {
-    logger.error("Error deleting faculty:", { error });
-    sendResponse({
-      res,
-      message: ERRORS.INTERNAL_SERVER_ERROR,
-      statusCode: 500,
-      error,
-    });
+  static async delete(
+    req: Request<{ id: string }>,
+    res: Response
+  ): Promise<void> {
+    try {
+      const response = await Faculty.delete(req.params.id);
+      if (response.status === "success") {
+        sendResponse({
+          res,
+          status: "success",
+          message: response.message,
+          data: response.data,
+          statusCode: 200,
+        });
+      }
+    } catch (error) {
+      logger.error("Error deleting faculty:", { error });
+      sendResponse({
+        res,
+        status: "error",
+        message: ERRORS.INTERNAL_SERVER_ERROR,
+        statusCode: 500,
+        error,
+      });
+    }
   }
-};
+}

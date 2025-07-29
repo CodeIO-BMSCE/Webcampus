@@ -5,136 +5,136 @@ import { logger } from "@webcampus/common/logger";
 import { CreateCourseAssignmentType } from "@webcampus/schemas/hod";
 import { Request, Response } from "express";
 
-/**
- * Create a new course assignment
- */
-export const createCourseAssignment = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
-  try {
-    const request: CreateCourseAssignmentType = req.body;
-    const { message, data } = await CourseAssignment.create(request);
-    sendResponse({
-      res,
-      message,
-      data,
-      statusCode: 201,
-    });
-  } catch (error) {
-    logger.error({ error });
-    sendResponse({
-      res,
-      message: ERRORS.INTERNAL_SERVER_ERROR,
-      statusCode: 500,
-      error,
-    });
+export class CourseAssignmentController {
+  static async create(req: Request, res: Response): Promise<void> {
+    try {
+      const request: CreateCourseAssignmentType = req.body;
+      const response = await CourseAssignment.create(request);
+      if (response.status === "success") {
+        sendResponse({
+          res,
+          status: "success",
+          message: response.message,
+          data: response.data,
+          statusCode: 201,
+        });
+      }
+    } catch (error) {
+      logger.error({ error });
+      sendResponse({
+        res,
+        status: "error",
+        message: ERRORS.INTERNAL_SERVER_ERROR,
+        statusCode: 500,
+        error,
+      });
+    }
   }
-};
 
-/**
- * Get all course assignments
- */
-export const getAllCourseAssignments = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
-  try {
-    const { message, data } = await new CourseAssignment().getAll();
-    sendResponse({
-      res,
-      message,
-      data,
-      statusCode: 200,
-    });
-  } catch (error) {
-    logger.error("Error retrieving course assignments:", { error });
-    sendResponse({
-      res,
-      message: ERRORS.INTERNAL_SERVER_ERROR,
-      statusCode: 500,
-      error,
-    });
+  static async getAll(req: Request, res: Response): Promise<void> {
+    try {
+      const response = await new CourseAssignment().getAll();
+      if (response.status === "success") {
+        sendResponse({
+          res,
+          status: "success",
+          message: response.message,
+          data: response.data,
+          statusCode: 200,
+        });
+      }
+    } catch (error) {
+      logger.error("Error retrieving course assignments:", { error });
+      sendResponse({
+        res,
+        status: "error",
+        message: ERRORS.INTERNAL_SERVER_ERROR,
+        statusCode: 500,
+        error,
+      });
+    }
   }
-};
 
-/**
- * Get a course assignment by ID
- */
-export const getCourseAssignmentById = async (
-  req: Request<{ id: string }>,
-  res: Response
-): Promise<void> => {
-  try {
-    const { message, data } = await new CourseAssignment().getById(
-      req.params.id
-    );
-    sendResponse({
-      res,
-      message,
-      data,
-      statusCode: data ? 200 : 404,
-    });
-  } catch (error) {
-    logger.error("Error retrieving course assignment:", { error });
-    sendResponse({
-      res,
-      message: ERRORS.INTERNAL_SERVER_ERROR,
-      statusCode: 500,
-      error,
-    });
+  static async getById(
+    req: Request<{ id: string }>,
+    res: Response
+  ): Promise<void> {
+    try {
+      const response = await new CourseAssignment().getById(req.params.id);
+      if (response.status === "success") {
+        sendResponse({
+          res,
+          status: "success",
+          message: response.message,
+          data: response.data,
+          statusCode: response.data ? 200 : 404,
+        });
+      }
+    } catch (error) {
+      logger.error("Error retrieving course assignment:", { error });
+      sendResponse({
+        res,
+        status: "error",
+        message: ERRORS.INTERNAL_SERVER_ERROR,
+        statusCode: 500,
+        error,
+      });
+    }
   }
-};
 
-/**
- * Get course assignments by faculty ID
- */
-export const getCourseAssignmentsByFacultyId = async (
-  req: Request<{ facultyId: string }>,
-  res: Response
-): Promise<void> => {
-  try {
-    const { message, data } = await new CourseAssignment().getByFacultyId(
-      req.params.facultyId
-    );
-    sendResponse({
-      res,
-      message,
-      data,
-      statusCode: 200,
-    });
-  } catch (error) {
-    logger.error("Error retrieving faculty's course assignments:", { error });
-    sendResponse({
-      res,
-      message: ERRORS.INTERNAL_SERVER_ERROR,
-      statusCode: 500,
-      error,
-    });
+  static async getByFacultyId(
+    req: Request<{ facultyId: string }>,
+    res: Response
+  ): Promise<void> {
+    try {
+      const response = await new CourseAssignment().getByFacultyId(
+        req.params.facultyId
+      );
+      if (response.status === "success") {
+        sendResponse({
+          res,
+          status: "success",
+          message: response.message,
+          data: response.data,
+          statusCode: 200,
+        });
+      }
+    } catch (error) {
+      logger.error("Error retrieving faculty's course assignments:", { error });
+      sendResponse({
+        res,
+        status: "error",
+        message: ERRORS.INTERNAL_SERVER_ERROR,
+        statusCode: 500,
+        error,
+      });
+    }
   }
-};
 
-/**
- * Delete a course assignment
- */
-export const deleteCourseAssignment = async (
-  req: Request<{ id: string }>,
-  res: Response
-): Promise<void> => {
-  try {
-    const { message } = await new CourseAssignment().delete(req.params.id);
-    sendResponse({
-      res,
-      message,
-      statusCode: 200,
-    });
-  } catch (error) {
-    logger.error("Error deleting course assignment:", { error });
-    sendResponse({
-      res,
-      message: ERRORS.INTERNAL_SERVER_ERROR,
-      statusCode: 500,
-      error,
-    });
+  static async delete(
+    req: Request<{ id: string }>,
+    res: Response
+  ): Promise<void> {
+    try {
+      const response = await new CourseAssignment().delete(req.params.id);
+      if (response.status === "success") {
+        sendResponse({
+          res,
+          status: "success",
+          message: response.message,
+          data: response.data,
+          statusCode: 200,
+        });
+      }
+    } catch (error) {
+      logger.error("Error deleting course assignment:", { error });
+      sendResponse({
+        res,
+        status: "error",
+        message: ERRORS.INTERNAL_SERVER_ERROR,
+        statusCode: 500,
+        error,
+      });
+    }
   }
-};
+}

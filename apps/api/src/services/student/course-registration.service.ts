@@ -1,122 +1,91 @@
 import { logger } from "@webcampus/common/logger";
 import { db } from "@webcampus/db";
 import {
+  CourseRegistrationResponseType,
   CreateCourseRegistrationType,
   UpdateCourseRegistrationType,
 } from "@webcampus/schemas/student";
+import { BaseResponse } from "@webcampus/types/api";
 
 export class CourseRegistration {
-  async create(data: CreateCourseRegistrationType) {
+  static async create(
+    data: CreateCourseRegistrationType
+  ): Promise<BaseResponse<CourseRegistrationResponseType>> {
     try {
       const registration = await db.courseRegistration.create({
         data,
-        include: {
-          student: {
-            include: {
-              user: {
-                select: {
-                  name: true,
-                  email: true,
-                  username: true,
-                },
-              },
-            },
-          },
-          course: true,
-        },
       });
-
-      logger.info("Course registration created successfully", { registration });
-
-      return {
+      const response: BaseResponse<CourseRegistrationResponseType> = {
+        status: "success",
         message: "Course registration created successfully",
         data: registration,
       };
+      logger.info({ response });
+      return response;
     } catch (error) {
       logger.error("Error creating course registration:", { error });
       throw new Error("Failed to create course registration");
     }
   }
 
-  async getAll() {
+  static async getAll(): Promise<
+    BaseResponse<CourseRegistrationResponseType[]>
+  > {
     try {
-      const registrations = await db.courseRegistration.findMany({
-        include: {
-          student: {
-            include: {
-              user: {
-                select: {
-                  name: true,
-                  email: true,
-                  username: true,
-                },
-              },
-            },
-          },
-          course: true,
-        },
-      });
-
-      return {
+      const registrations = await db.courseRegistration.findMany();
+      const response: BaseResponse<CourseRegistrationResponseType[]> = {
+        status: "success",
         message: "Course registrations retrieved successfully",
         data: registrations,
       };
+      logger.info({ response });
+      return response;
     } catch (error) {
       logger.error("Error retrieving course registrations:", { error });
       throw new Error("Failed to retrieve course registrations");
     }
   }
 
-  async getById(id: string) {
+  static async getById(
+    id: string
+  ): Promise<BaseResponse<CourseRegistrationResponseType>> {
     try {
       const registration = await db.courseRegistration.findUnique({
         where: { id },
-        include: {
-          student: {
-            include: {
-              user: {
-                select: {
-                  name: true,
-                  email: true,
-                  username: true,
-                },
-              },
-            },
-          },
-          course: true,
-        },
       });
 
       if (!registration) {
-        return {
-          message: "Course registration not found",
-          data: null,
-        };
+        throw new Error("Course registration not found");
       }
 
-      return {
+      const response: BaseResponse<CourseRegistrationResponseType> = {
+        status: "success",
         message: "Course registration retrieved successfully",
         data: registration,
       };
+      logger.info({ response });
+      return response;
     } catch (error) {
       logger.error("Error retrieving course registration:", { error });
       throw new Error("Failed to retrieve course registration");
     }
   }
 
-  async getByStudentId(studentId: string) {
+  static async getByStudentId(
+    studentId: string
+  ): Promise<BaseResponse<CourseRegistrationResponseType[]>> {
     try {
       const registrations = await db.courseRegistration.findMany({
         where: { studentId },
-        include: {
-          course: true,
-        },
       });
 
-      return {
+      const response: BaseResponse<CourseRegistrationResponseType[]> = {
+        status: "success",
         message: "Student's course registrations retrieved successfully",
         data: registrations,
       };
+      logger.info({ response });
+      return response;
     } catch (error) {
       logger.error("Error retrieving student's course registrations:", {
         error,
@@ -125,50 +94,42 @@ export class CourseRegistration {
     }
   }
 
-  async update(id: string, data: UpdateCourseRegistrationType) {
+  static async update(
+    id: string,
+    data: UpdateCourseRegistrationType
+  ): Promise<BaseResponse<CourseRegistrationResponseType>> {
     try {
       const registration = await db.courseRegistration.update({
         where: { id },
         data,
-        include: {
-          student: {
-            include: {
-              user: {
-                select: {
-                  name: true,
-                  email: true,
-                  username: true,
-                },
-              },
-            },
-          },
-          course: true,
-        },
       });
 
-      logger.info("Course registration updated successfully", { registration });
-
-      return {
+      const response: BaseResponse<CourseRegistrationResponseType> = {
+        status: "success",
         message: "Course registration updated successfully",
         data: registration,
       };
+      logger.info({ response });
+      return response;
     } catch (error) {
       logger.error("Error updating course registration:", { error });
       throw new Error("Failed to update course registration");
     }
   }
 
-  async delete(id: string) {
+  static async delete(id: string): Promise<BaseResponse<void>> {
     try {
       await db.courseRegistration.delete({
         where: { id },
       });
 
-      logger.info("Course registration deleted successfully", { id });
-
-      return {
+      const response: BaseResponse<void> = {
+        status: "success",
         message: "Course registration deleted successfully",
+        data: null,
       };
+      logger.info({ response });
+      return response;
     } catch (error) {
       logger.error("Error deleting course registration:", { error });
       throw new Error("Failed to delete course registration");

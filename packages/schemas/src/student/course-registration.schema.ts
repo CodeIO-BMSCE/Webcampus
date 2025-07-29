@@ -12,9 +12,17 @@ export const updateCourseRegistrationSchema = z.object({
   hasDropped: z.boolean(),
 });
 
+export const CourseRegistrationResponseSchema =
+  createCourseRegistrationSchema.extend({
+    id: z.uuid("Invalid course registration ID"),
+  });
+
 export type CreateCourseRegistrationType = z.infer<
   typeof createCourseRegistrationSchema
 >;
 export type UpdateCourseRegistrationType = z.infer<
   typeof updateCourseRegistrationSchema
+>;
+export type CourseRegistrationResponseType = z.infer<
+  typeof CourseRegistrationResponseSchema
 >;

@@ -9,7 +9,7 @@ import {
   CreateSemesterType,
   SemesterResponseType,
 } from "@webcampus/schemas/admin";
-import { BaseResponse } from "@webcampus/types/api";
+import { BaseResponse, ErrorResponse } from "@webcampus/types/api";
 import axios, { AxiosError } from "axios";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -43,8 +43,8 @@ export const useSemesterCreateSchema = () => {
       toast.success(data.data.message);
       queryClient.invalidateQueries({ queryKey: ["semesters"] });
     },
-    onError: (error: AxiosError<BaseResponse<null>>) => {
-      toast.error(error.response?.data.error as string);
+    onError: (error: AxiosError<ErrorResponse>) => {
+      toast.error(error.response?.data.error);
     },
   });
 

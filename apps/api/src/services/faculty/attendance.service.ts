@@ -23,7 +23,9 @@ export class Attendance {
 
       if (existingAttendance) {
         return {
+          status: "error",
           message: "Attendance already exists for this student and course",
+          error: "Attendance already exists for this student and course",
         };
       }
 
@@ -31,11 +33,10 @@ export class Attendance {
         data,
       });
 
-      logger.info("Attendance created successfully", { attendance });
-
       return {
+        status: "success",
         message: "Attendance created successfully",
-        data: attendance as AttendanceResponseType,
+        data: attendance,
       };
     } catch (error) {
       logger.error("Error creating attendance:", { error });
@@ -48,8 +49,9 @@ export class Attendance {
       const attendances = await db.attendance.findMany();
 
       return {
+        status: "success",
         message: "Attendances retrieved successfully",
-        data: attendances as AttendanceResponseType[],
+        data: attendances,
       };
     } catch (error) {
       logger.error("Error retrieving attendances:", { error });
@@ -67,13 +69,16 @@ export class Attendance {
 
       if (!attendance) {
         return {
+          status: "error",
           message: "Attendance not found",
+          error: "Attendance not found",
         };
       }
 
       return {
+        status: "success",
         message: "Attendance retrieved successfully",
-        data: attendance as AttendanceResponseType,
+        data: attendance,
       };
     } catch (error) {
       logger.error("Error retrieving attendance:", { error });
@@ -97,13 +102,16 @@ export class Attendance {
 
       if (!attendance) {
         return {
+          status: "error",
           message: "Attendance not found",
+          error: "Attendance not found",
         };
       }
 
       return {
+        status: "success",
         message: "Attendance retrieved successfully",
-        data: attendance as AttendanceResponseType,
+        data: attendance,
       };
     } catch (error) {
       logger.error("Error retrieving attendance:", { error });
@@ -118,11 +126,11 @@ export class Attendance {
     try {
       const existingAttendance = await db.attendance.findUnique({
         where: { id },
-        include: {
+        select: {
           course: {
-            include: {
+            select: {
               assignments: {
-                include: {
+                select: {
                   freezes: true,
                 },
               },
@@ -133,7 +141,9 @@ export class Attendance {
 
       if (!existingAttendance) {
         return {
+          status: "error",
           message: "Attendance not found",
+          error: "Attendance not found",
         };
       }
 
@@ -144,7 +154,10 @@ export class Attendance {
         courseAssignment?.freezes[0]?.adminFrozen
       ) {
         return {
+          status: "error",
           message:
+            "Cannot update attendance as it has been frozen by faculty, HOD, or admin",
+          error:
             "Cannot update attendance as it has been frozen by faculty, HOD, or admin",
         };
       }
@@ -153,12 +166,10 @@ export class Attendance {
         where: { id },
         data,
       });
-
-      logger.info("Attendance updated successfully", { attendance });
-
       return {
+        status: "success",
         message: "Attendance updated successfully",
-        data: attendance as AttendanceResponseType,
+        data: attendance,
       };
     } catch (error) {
       logger.error("Error updating attendance:", { error });
@@ -170,11 +181,11 @@ export class Attendance {
     try {
       const existingAttendance = await db.attendance.findUnique({
         where: { id },
-        include: {
+        select: {
           course: {
-            include: {
+            select: {
               assignments: {
-                include: {
+                select: {
                   freezes: true,
                 },
               },
@@ -182,13 +193,13 @@ export class Attendance {
           },
         },
       });
-
       if (!existingAttendance) {
         return {
+          status: "error",
           message: "Attendance not found",
+          error: "Attendance not found",
         };
       }
-
       const courseAssignment = existingAttendance.course.assignments[0];
       if (
         courseAssignment?.freezes[0]?.facultyFrozen ||
@@ -196,19 +207,19 @@ export class Attendance {
         courseAssignment?.freezes[0]?.adminFrozen
       ) {
         return {
+          error: "Attendance not found",
+          status: "error",
           message:
             "Cannot delete attendance as it has been frozen by faculty, HOD, or admin",
         };
       }
-
       await db.attendance.delete({
         where: { id },
       });
-
-      logger.info("Attendance deleted successfully", { id });
-
       return {
+        status: "success",
         message: "Attendance deleted successfully",
+        data: null,
       };
     } catch (error) {
       logger.error("Error deleting attendance:", { error });
@@ -216,5 +227,3 @@ export class Attendance {
     }
   }
 }
-
-// TODO: Bro change the things mentioned in makrs services here as well please, I guess you can ask Supriya and Akanksha for the Freeze model

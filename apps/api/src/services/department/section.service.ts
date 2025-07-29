@@ -7,7 +7,7 @@ import {
 } from "@webcampus/schemas/department";
 import { BaseResponse } from "@webcampus/types/api";
 
-export class Section {
+export class SectionService {
   static async create(
     data: CreateSectionType
   ): Promise<BaseResponse<SectionResponseType>> {
@@ -17,6 +17,7 @@ export class Section {
       });
 
       const response: BaseResponse<SectionResponseType> = {
+        status: "success",
         message: "Section created successfully",
         data: section,
       };
@@ -46,6 +47,7 @@ export class Section {
         },
       });
       const response: BaseResponse<SectionResponseType[]> = {
+        status: "success",
         message: "Sections retrieved successfully",
         data: sections,
       };
@@ -65,7 +67,7 @@ export class Section {
     }
   }
 
-  static async getById(id: string) {
+  static async getById(id: string): Promise<BaseResponse<SectionResponseType>> {
     try {
       const section = await db.section.findUnique({
         where: { id },
@@ -78,33 +80,34 @@ export class Section {
       });
 
       if (!section) {
-        return {
-          message: "Section not found",
-          data: null,
-        };
+        throw new Error("Section not found");
       }
 
-      return {
+      const response: BaseResponse<SectionResponseType> = {
+        status: "success",
         message: "Section retrieved successfully",
         data: section,
       };
+      logger.info(response);
+      return response;
     } catch (error) {
       logger.error("Error retrieving section:", { error });
       throw new Error("Failed to retrieve section");
     }
   }
 
-  async delete(id: string) {
+  static async delete(id: string): Promise<BaseResponse<void>> {
     try {
       await db.section.delete({
         where: { id },
       });
-
-      logger.info("Section deleted successfully", { id });
-
-      return {
+      const response: BaseResponse<void> = {
+        status: "success",
         message: "Section deleted successfully",
+        data: null,
       };
+      logger.info(response);
+      return response;
     } catch (error) {
       logger.error("Error deleting section:", { error });
       throw new Error("Failed to delete section");

@@ -8,13 +8,15 @@ import {
   CreateCourseDTO,
   CreateCourseSchema,
 } from "@webcampus/schemas/department";
-import axios from "axios";
+import { ErrorResponse, SuccessResponse } from "@webcampus/types/api";
+import axios, { AxiosError } from "axios";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 export const useCreateCourseForm = () => {
   const queryClient = useQueryClient();
   const { data: session } = authClient.useSession();
+  const { NEXT_PUBLIC_API_BASE_URL } = frontendEnv();
   const form = useForm<CreateCourseDTO>({
     resolver: zodResolver(CreateCourseSchema),
     defaultValues: {
@@ -28,19 +30,20 @@ export const useCreateCourseForm = () => {
   });
 
   const { mutate } = useMutation({
-    mutationFn: async (values: CreateCourseDTO) =>
-      axios.post(
-        `${frontendEnv().NEXT_PUBLIC_API_BASE_URL}/department/course`,
+    mutationFn: async (values: CreateCourseDTO) => {
+      const response = await axios.post(
+        `${NEXT_PUBLIC_API_BASE_URL}/department/course`,
         values,
         { withCredentials: true }
-      ),
-    onError: (error) => {
-      console.log(error);
+      );
+      return response.data;
     },
-    onSuccess: (data) => {
-      toast.success(data.data.message);
+    onSuccess: (data: SuccessResponse<null>) => {
+      toast.success(data.message);
       queryClient.invalidateQueries({ queryKey: ["courses"] });
-      form.reset();
+    },
+    onError: (error: AxiosError<ErrorResponse>) => {
+      toast.error(error.response?.data.error);
     },
   });
 

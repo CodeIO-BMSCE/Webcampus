@@ -1,14 +1,8 @@
-import {
-  createFaculty,
-  deleteFaculty,
-  getAllFaculty,
-  getFacultyById,
-  updateFaculty,
-} from "@webcampus/api/src/controllers/faculty/faculty.controller";
+import { FacultyController } from "@webcampus/api/src/controllers/faculty/faculty.controller";
 import { protect, validateRequest } from "@webcampus/backend-utils/middlewares";
 import {
-  createFacultySchema,
-  updateFacultySchema,
+  CreateFacultySchema,
+  UpdateFacultySchema,
 } from "@webcampus/schemas/faculty";
 import { Router } from "express";
 
@@ -24,10 +18,18 @@ router.use(
   })
 );
 
-router.post("/", validateRequest(createFacultySchema), createFaculty);
-router.get("/", getAllFaculty);
-router.get("/:id", getFacultyById);
-router.put("/:id", validateRequest(updateFacultySchema), updateFaculty);
-router.delete("/:id", deleteFaculty);
+router.post(
+  "/",
+  validateRequest(CreateFacultySchema),
+  FacultyController.create
+);
+router.get("/", FacultyController.getAll);
+router.get("/:id", FacultyController.getById);
+router.put(
+  "/:id",
+  validateRequest(UpdateFacultySchema),
+  FacultyController.update
+);
+router.delete("/:id", FacultyController.delete);
 
 export default router;

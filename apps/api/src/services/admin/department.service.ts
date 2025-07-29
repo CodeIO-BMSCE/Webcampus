@@ -41,6 +41,9 @@ export class DepartmentService {
         },
       });
       const user = await userService.create();
+      if (user.status === "error") {
+        throw new Error(user.message);
+      }
       const department = await db.department.create({
         data: {
           name: request.name,
@@ -52,12 +55,16 @@ export class DepartmentService {
         },
       });
       const response: BaseResponse<DepartmentResponseDTO> = {
+        status: "success",
         message: "Department created successfully",
         data: department,
       };
-      logger.info(`Department created successfully`, { response: department });
+      logger.info(response);
       return response;
     } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(error.message);
+      }
       logger.error(`Failed to create department`, error);
       throw new Error("Failed to create department");
     }
@@ -76,10 +83,11 @@ export class DepartmentService {
     try {
       const departments = await db.department.findMany({});
       const response: BaseResponse<DepartmentResponseDTO[]> = {
+        status: "success",
         message: "Departments fetched successfully",
         data: departments,
       };
-      logger.info(`Departments fetched successfully`, { response });
+      logger.info(response);
       return response;
     } catch (error) {
       logger.error(`Failed to get departments`, error);

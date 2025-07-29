@@ -1,10 +1,4 @@
-import {
-  createCourseAssignment,
-  deleteCourseAssignment,
-  getAllCourseAssignments,
-  getCourseAssignmentById,
-  getCourseAssignmentsByFacultyId,
-} from "@webcampus/api/src/controllers/hod/course-assignment.controller";
+import { CourseAssignmentController } from "@webcampus/api/src/controllers/hod/course-assignment.controller";
 import { validateRequest } from "@webcampus/backend-utils/middlewares";
 import { CreateCourseAssignmentSchema } from "@webcampus/schemas/hod";
 import { Router } from "express";
@@ -14,11 +8,11 @@ const router = Router();
 router.post(
   "/",
   validateRequest(CreateCourseAssignmentSchema),
-  createCourseAssignment
+  CourseAssignmentController.create
 );
-router.get("/", getAllCourseAssignments);
-router.get("/:id", getCourseAssignmentById);
-router.get("/faculty/:facultyId", getCourseAssignmentsByFacultyId);
-router.delete("/:id", deleteCourseAssignment);
+router.get("/", CourseAssignmentController.getAll);
+router.get("/:id", CourseAssignmentController.getById);
+router.get("/faculty/:facultyId", CourseAssignmentController.getByFacultyId);
+router.delete("/:id", CourseAssignmentController.delete);
 
 export default router;

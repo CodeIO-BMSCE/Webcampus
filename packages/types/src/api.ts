@@ -1,47 +1,35 @@
-import type { Response } from "express";
+export type SuccessResponse<T> = {
+  status: "success";
+  message: string;
+  data: T | null;
+};
+
+export type ErrorResponse = {
+  status: "error";
+  message: string;
+  error: string;
+};
 
 /**
  * Generic interface for consistent API responses.
  *
  * @template T - The type of the response `data` payload.
  */
-export interface BaseResponse<T> {
-  /** Human-readable message about the result */
+export type BaseResponse<T> = SuccessResponse<T> | ErrorResponse;
+
+/**
+ * Input types that allow unknown error but output string error
+ */
+export type SuccessInputParams<T> = {
+  status: "success";
   message: string;
+  data: T | null;
+};
 
-  /** Optional payload data */
-  data?: T;
+export type ErrorInputParams = {
+  status: "error";
+  message: string;
+  error: unknown;
+};
 
-  /** Optional error object or message */
-  error?: unknown;
-}
-
-/**
- * Extended interface for sending structured HTTP responses.
- *
- * @template T - The type of the response `data` payload.
- */
-export interface SendResponseParmas<T> extends BaseResponse<T> {
-  /** Express Response object */
-  res: Response;
-
-  /** HTTP status code */
-  statusCode: number;
-}
-
-/**
- * Sends a structured JSON response using Express.
- *
- * @template T - The type of the response `data` payload.
- * @param {SendResponseParmas<T>} params - The parameters used to send the response.
- *
- * @returns {Response} The Express response object after sending JSON.
- *
- * @example
- * sendResponse({
- *   res,
- *   statusCode: 200,
- *   message: "User created successfully",
- *   data: user
- * });
- */
+export type BaseInputParams<T> = SuccessInputParams<T> | ErrorInputParams;

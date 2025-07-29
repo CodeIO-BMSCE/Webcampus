@@ -1,9 +1,4 @@
-import {
-  createSection,
-  deleteSection,
-  getAllSections,
-  getSectionById,
-} from "@webcampus/api/src/controllers/department/section.controller";
+import { SectionController } from "@webcampus/api/src/controllers/department/section.controller";
 import { protect, validateRequest } from "@webcampus/backend-utils/middlewares";
 import {
   CreateSectionSchema,
@@ -22,7 +17,7 @@ router.post(
       section: ["create"],
     },
   }),
-  createSection
+  SectionController.create
 );
 
 router.get(
@@ -34,11 +29,11 @@ router.get(
       section: ["read"],
     },
   }),
-  getAllSections
+  SectionController.getAll
 );
 
-router.get("/:id", getSectionById);
+router.get("/:id", SectionController.getById);
 
-router.delete("/:id", deleteSection);
+router.delete("/:id", SectionController.delete);
 
 export default router;

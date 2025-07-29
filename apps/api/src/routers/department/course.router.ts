@@ -27,7 +27,7 @@ router.get(
       courses: ["read"],
     },
   }),
-  CourseController.getCoursesByBranch
+  CourseController.getByBranch
 );
 
 export default router;

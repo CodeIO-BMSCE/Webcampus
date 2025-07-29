@@ -1,15 +1,8 @@
-import {
-  createSectionAssignment,
-  deleteSectionAssignment,
-  getAllSectionAssignments,
-  getSectionAssignmentById,
-  getSectionAssignmentsBySectionId,
-  updateSectionAssignment,
-} from "@webcampus/api/src/controllers/department/section-assignment.controller";
+import { SectionAssignmentController } from "@webcampus/api/src/controllers/department/section-assignment.controller";
 import { validateRequest } from "@webcampus/backend-utils/middlewares";
 import {
-  createSectionAssignmentSchema,
-  updateSectionAssignmentSchema,
+  CreateSectionAssignmentSchema,
+  UpdateSectionAssignmentSchema,
 } from "@webcampus/schemas/department";
 import { Router } from "express";
 
@@ -17,17 +10,17 @@ const router = Router();
 
 router.post(
   "/",
-  validateRequest(createSectionAssignmentSchema),
-  createSectionAssignment
+  validateRequest(CreateSectionAssignmentSchema),
+  SectionAssignmentController.create
 );
-router.get("/", getAllSectionAssignments);
-router.get("/:id", getSectionAssignmentById);
-router.get("/section/:sectionId", getSectionAssignmentsBySectionId);
+router.get("/", SectionAssignmentController.getAll);
+router.get("/:id", SectionAssignmentController.getById);
+router.get("/section/:sectionId", SectionAssignmentController.getBySectionId);
 router.put(
   "/:id",
-  validateRequest(updateSectionAssignmentSchema),
-  updateSectionAssignment
+  validateRequest(UpdateSectionAssignmentSchema),
+  SectionAssignmentController.update
 );
-router.delete("/:id", deleteSectionAssignment);
+router.delete("/:id", SectionAssignmentController.delete);
 
 export default router;

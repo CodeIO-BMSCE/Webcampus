@@ -8,6 +8,7 @@ import {
   CreateDepartmentDTO,
   CreateDepartmentSchema,
 } from "@webcampus/schemas/department";
+import { ErrorResponse } from "@webcampus/types/api";
 import axios, { AxiosError } from "axios";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -38,8 +39,8 @@ export const useCreateDepartmentForm = () => {
       toast.success(data.message);
       queryClient.invalidateQueries({ queryKey: ["department"] });
     },
-    onError: (error: AxiosError) => {
-      toast.error(error.cause?.message);
+    onError: (error: AxiosError<ErrorResponse>) => {
+      toast.error(error.response?.data.error);
     },
   });
 

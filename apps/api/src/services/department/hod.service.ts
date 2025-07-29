@@ -38,6 +38,7 @@ export class HODService {
         throw new Error(MESSAGES.HOD.NOT_FOUND);
       }
       const response: BaseResponse<HODResponseDTO> = {
+        status: "success",
         message: MESSAGES.HOD.GET,
         data: HODResponseSchema.parse(hod),
       };
@@ -51,33 +52,16 @@ export class HODService {
       throw new Error(MESSAGES.HOD.FAILED_TO_GET);
     }
   }
-  /**
-   * Creates a new HOD
-   * @param data - The data for the HOD
-   * @returns The created HOD
-   */
   static async create(
     data: CreateHODDTO,
     headers: IncomingHttpHeaders
   ): Promise<BaseResponse<HODResponseDTO>> {
     try {
-      /**
-       * Check if the HOD already exists
-       * If it does, throw an error
-       * If it doesn't, continue with the creation
-       */
       const hodExists = await HODService.checkIfHODExists(data.departmentName);
       if (hodExists) {
         throw new Error(MESSAGES.HOD.CHECK_IF_HOD_EXISTS);
       }
-      /**
-       * Set the role of the user to HOD
-       */
       const { user } = await auth.api.setRole({
-        /**
-         * For some reason, the headers are not being passed to the auth service
-         * So we need to pass them manually
-         */
         headers: fromNodeHeaders(headers),
         body: {
           userId: data.userId,
@@ -89,10 +73,6 @@ export class HODService {
         throw new Error("Failed to change role to HOD");
       }
       logger.info("Role changed to HOD", { userId: data.userId });
-
-      /**
-       * Create the HOD in the database
-       */
       const hod = await db.hod.create({
         data: {
           ...data,
@@ -104,6 +84,7 @@ export class HODService {
         },
       });
       const response: BaseResponse<HODResponseDTO> = {
+        status: "success",
         message: MESSAGES.HOD.CREATE,
         data: HODResponseSchema.parse(hod),
       };
@@ -143,6 +124,7 @@ export class HODService {
         },
       });
       const response: BaseResponse<HODResponseDTO> = {
+        status: "success",
         message: MESSAGES.HOD.REMOVE,
         data: HODResponseSchema.parse(hod),
       };

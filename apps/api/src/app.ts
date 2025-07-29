@@ -5,7 +5,7 @@ import { backendEnv } from "@webcampus/common/env";
 import cors from "cors";
 import express from "express";
 import adminRouter from "./routers/admin/admin.router";
-import hodRouter from "./services/hod/hod.router";
+import hodRouter from "./routers/hod/hod.router";
 
 const app = express();
 

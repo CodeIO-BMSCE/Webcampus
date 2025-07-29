@@ -15,6 +15,7 @@ export class CourseAssignment {
         data,
       });
       const response: BaseResponse<CourseAssignmentResponseType> = {
+        status: "success",
         message: "Course assignment created successfully",
         data: assignment,
       };
@@ -34,97 +35,81 @@ export class CourseAssignment {
     }
   }
 
-  async getAll() {
+  async getAll(): Promise<BaseResponse<CourseAssignmentResponseType[]>> {
     try {
-      const assignments = await db.courseAssignment.findMany({
-        include: {
-          course: true,
-          section: true,
-          batch: true,
-        },
-      });
-
-      return {
+      const assignments = await db.courseAssignment.findMany();
+      const response: BaseResponse<CourseAssignmentResponseType[]> = {
+        status: "success",
         message: "Course assignments retrieved successfully",
         data: assignments,
       };
+      logger.info({ response });
+      return response;
     } catch (error) {
       logger.error("Error retrieving course assignments:", { error });
       throw new Error("Failed to retrieve course assignments");
     }
   }
 
-  async getById(id: string) {
+  async getById(
+    id: string
+  ): Promise<BaseResponse<CourseAssignmentResponseType>> {
     try {
       const assignment = await db.courseAssignment.findUnique({
         where: { id },
-        include: {
-          course: true,
-          faculty: {
-            include: {
-              user: {
-                select: {
-                  name: true,
-                  email: true,
-                  username: true,
-                },
-              },
-            },
-          },
-          section: true,
-          batch: true,
-        },
       });
 
       if (!assignment) {
-        return {
-          message: "Course assignment not found",
-          data: null,
-        };
+        throw new Error("Course assignment not found");
       }
 
-      return {
+      const response: BaseResponse<CourseAssignmentResponseType> = {
+        status: "success",
         message: "Course assignment retrieved successfully",
         data: assignment,
       };
+      logger.info({ response });
+      return response;
     } catch (error) {
       logger.error("Error retrieving course assignment:", { error });
       throw new Error("Failed to retrieve course assignment");
     }
   }
 
-  async getByFacultyId(facultyId: string) {
+  async getByFacultyId(
+    facultyId: string
+  ): Promise<BaseResponse<CourseAssignmentResponseType[]>> {
     try {
       const assignments = await db.courseAssignment.findMany({
         where: { facultyId },
-        include: {
-          course: true,
-          section: true,
-          batch: true,
-        },
       });
 
-      return {
+      const response: BaseResponse<CourseAssignmentResponseType[]> = {
+        status: "success",
         message: "Faculty's course assignments retrieved successfully",
-        data: assignments,
+        data: assignments || null,
       };
+      logger.info({ response });
+      return response;
     } catch (error) {
       logger.error("Error retrieving faculty's course assignments:", { error });
       throw new Error("Failed to retrieve faculty's course assignments");
     }
   }
 
-  async delete(id: string) {
+  async delete(id: string): Promise<BaseResponse<void>> {
     try {
       await db.courseAssignment.delete({
         where: { id },
       });
-
       logger.info("Course assignment deleted successfully", { id });
-
-      return {
+      const response: BaseResponse<void> = {
+        status: "success",
         message: "Course assignment deleted successfully",
+        data: null,
       };
+      logger.info({ response });
+      return response;
     } catch (error) {
       logger.error("Error deleting course assignment:", { error });
       throw new Error("Failed to delete course assignment");

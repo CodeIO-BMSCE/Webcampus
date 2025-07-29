@@ -1,12 +1,5 @@
-import {
-  createCourseRegistration,
-  deleteCourseRegistration,
-  getAllCourseRegistrations,
-  getCourseRegistrationById,
-  getCourseRegistrationsByStudentId,
-  updateCourseRegistration,
-} from "@webcampus/api/src/controllers/student/course-registration.controller";
-import { protect, validateRequest } from "@webcampus/backend-utils/middlewares";
+import { CourseRegistrationController } from "@webcampus/api/src/controllers/student/course-registration.controller";
+import { validateRequest } from "@webcampus/backend-utils/middlewares";
 import {
   createCourseRegistrationSchema,
   updateCourseRegistrationSchema,
@@ -15,28 +8,19 @@ import { Router } from "express";
 
 const router = Router();
 
-router.use(
-  protect({
-    role: "admin",
-    permissions: {
-      user: ["set-role"],
-    },
-  })
-);
-
 router.post(
   "/",
   validateRequest(createCourseRegistrationSchema),
-  createCourseRegistration
+  CourseRegistrationController.create
 );
-router.get("/", getAllCourseRegistrations);
-router.get("/:id", getCourseRegistrationById);
-router.get("/student/:studentId", getCourseRegistrationsByStudentId);
+router.get("/", CourseRegistrationController.getAll);
+router.get("/:id", CourseRegistrationController.getById);
+router.get("/student/:studentId", CourseRegistrationController.getByStudentId);
 router.put(
   "/:id",
   validateRequest(updateCourseRegistrationSchema),
-  updateCourseRegistration
+  CourseRegistrationController.update
 );
-router.delete("/:id", deleteCourseRegistration);
+router.delete("/:id", CourseRegistrationController.delete);
 
 export default router;

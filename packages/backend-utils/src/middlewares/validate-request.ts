@@ -38,6 +38,7 @@ export const validateRequest =
       });
 
       return sendResponse({
+        status: "error",
         res,
         statusCode: 400,
         message: z.prettifyError(result.error),

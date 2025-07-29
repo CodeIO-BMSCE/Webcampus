@@ -25,7 +25,7 @@ export const DepartmentSectionView = () => {
   const { data, isLoading } = useQuery({
     queryKey: ["sections"],
     queryFn: async () => {
-      const response = await axios.get<BaseResponse<SectionResponseType[]>>(
+      return await axios.get<BaseResponse<SectionResponseType[]>>(
         `${frontendEnv().NEXT_PUBLIC_API_BASE_URL}/department/section`,
         {
           params: {
@@ -34,7 +34,11 @@ export const DepartmentSectionView = () => {
           withCredentials: true,
         }
       );
-      return response.data.data;
+    },
+    select: (data) => {
+      if (data.data.status === "success") {
+        return data.data.data;
+      }
     },
   });
 

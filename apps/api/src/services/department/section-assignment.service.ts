@@ -2,14 +2,13 @@ import { logger } from "@webcampus/common/logger";
 import { db } from "@webcampus/db";
 import {
   CreateSectionAssignmentType,
+  SectionAssignmentResponseType,
   UpdateSectionAssignmentType,
 } from "@webcampus/schemas/department";
+import { BaseResponse } from "@webcampus/types/api";
 
 export class SectionAssignment {
-  /**
-   * Validate that both student and section belong to the same department.
-   */
-  private async validateSameDepartment(studentId: string, sectionId: string) {
+  static async validateSameDepartment(studentId: string, sectionId: string) {
     const student = await db.student.findUnique({
       where: { id: studentId },
       select: { departmentName: true },
@@ -31,114 +30,102 @@ export class SectionAssignment {
     }
   }
 
-  async create(data: CreateSectionAssignmentType) {
+  static async create(
+    data: CreateSectionAssignmentType
+  ): Promise<BaseResponse<SectionAssignmentResponseType>> {
     try {
-      await this.validateSameDepartment(data.studentId, data.sectionId);
-
+      await SectionAssignment.validateSameDepartment(
+        data.studentId,
+        data.sectionId
+      );
       const assignment = await db.studentSection.create({
         data,
-        include: {
-          student: {
-            include: {
-              user: {
-                select: { name: true, email: true, username: true },
-              },
-            },
-          },
-          section: true,
-        },
       });
 
-      logger.info("Section assignment created successfully", { assignment });
-      return {
+      const response: BaseResponse<SectionAssignmentResponseType> = {
+        status: "success",
         message: "Section assignment created successfully",
         data: assignment,
       };
+      logger.info(response);
+      return response;
     } catch (error) {
       logger.error("Error creating section assignment:", { error });
       throw error;
     }
   }
 
-  async getAll() {
+  static async getAll(): Promise<
+    BaseResponse<SectionAssignmentResponseType[]>
+  > {
     try {
-      const assignments = await db.studentSection.findMany({
-        include: {
-          student: {
-            include: {
-              user: { select: { name: true, email: true, username: true } },
-            },
-          },
-          section: true,
-        },
-      });
+      const assignments = await db.studentSection.findMany();
 
-      return {
+      const response: BaseResponse<SectionAssignmentResponseType[]> = {
+        status: "success",
         message: "Section assignments retrieved successfully",
         data: assignments,
       };
+      logger.info(response);
+      return response;
     } catch (error) {
       logger.error("Error retrieving section assignments:", { error });
       throw new Error("Failed to retrieve section assignments");
     }
   }
 
-  async getById(id: string) {
+  static async getById(
+    id: string
+  ): Promise<BaseResponse<SectionAssignmentResponseType>> {
     try {
       const assignment = await db.studentSection.findUnique({
         where: { id },
-        include: {
-          student: {
-            include: {
-              user: { select: { name: true, email: true, username: true } },
-            },
-          },
-          section: true,
-        },
       });
 
       if (!assignment) {
-        return { message: "Section assignment not found", data: null };
+        throw new Error("Section assignment not found");
       }
 
-      return {
+      const response: BaseResponse<SectionAssignmentResponseType> = {
+        status: "success",
         message: "Section assignment retrieved successfully",
         data: assignment,
       };
+      logger.info(response);
+      return response;
     } catch (error) {
       logger.error("Error retrieving section assignment:", { error });
       throw new Error("Failed to retrieve section assignment");
     }
   }
 
-  async getBySectionId(sectionId: string) {
+  static async getBySectionId(
+    sectionId: string
+  ): Promise<BaseResponse<SectionAssignmentResponseType[]>> {
     try {
       const assignments = await db.studentSection.findMany({
         where: { sectionId },
-        include: {
-          student: {
-            include: {
-              user: { select: { name: true, email: true, username: true } },
-            },
-          },
-          section: true,
-        },
       });
 
-      return {
+      const response: BaseResponse<SectionAssignmentResponseType[]> = {
+        status: "success",
         message: "Section assignments for section retrieved successfully",
         data: assignments,
       };
+      logger.info(response);
+      return response;
     } catch (error) {
       logger.error("Error retrieving assignments by section:", { error });
       throw new Error("Failed to retrieve assignments by section");
     }
   }
 
-  async update(id: string, data: UpdateSectionAssignmentType) {
+  static async update(
+    id: string,
+    data: UpdateSectionAssignmentType
+  ): Promise<BaseResponse<SectionAssignmentResponseType>> {
     try {
       if (data.sectionId) {
-        // Validate if updating sectionId
         const existing = await db.studentSection.findUnique({ where: { id } });
         if (!existing) throw new Error("Section assignment not found");
         await this.validateSameDepartment(existing.studentId, data.sectionId);
@@ -147,32 +134,31 @@ export class SectionAssignment {
       const updated = await db.studentSection.update({
         where: { id },
         data,
-        include: {
-          student: {
-            include: {
-              user: { select: { name: true, email: true, username: true } },
-            },
-          },
-          section: true,
-        },
       });
 
-      logger.info("Section assignment updated successfully", { updated });
-      return {
+      const response: BaseResponse<SectionAssignmentResponseType> = {
+        status: "success",
         message: "Section assignment updated successfully",
         data: updated,
       };
+      logger.info(response);
+      return response;
     } catch (error) {
       logger.error("Error updating section assignment:", { error });
       throw error;
     }
   }
 
-  async delete(id: string) {
+  static async delete(id: string): Promise<BaseResponse<void>> {
     try {
       await db.studentSection.delete({ where: { id } });
-      logger.info("Section assignment deleted successfully", { id });
-      return { message: "Section assignment deleted successfully" };
+      const response: BaseResponse<void> = {
+        status: "success",
+        message: "Section assignment deleted successfully",
+        data: null,
+      };
+      logger.info(response);
+      return response;
     } catch (error) {
       logger.error("Error deleting section assignment:", { error });
       throw new Error("Failed to delete section assignment");

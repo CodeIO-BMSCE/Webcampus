@@ -23,7 +23,9 @@ export class Mark {
 
       if (existingMark) {
         return {
+          status: "error",
           message: "Mark already exists for this student and course",
+          error: "Mark already exists for this student and course",
         };
       }
 
@@ -34,6 +36,7 @@ export class Mark {
       logger.info("Mark created successfully", { mark });
 
       return {
+        status: "success",
         message: "Mark created successfully",
         data: mark,
       };
@@ -48,6 +51,7 @@ export class Mark {
       const marks = await db.mark.findMany();
 
       return {
+        status: "success",
         message: "Marks retrieved successfully",
         data: marks,
       };
@@ -65,11 +69,14 @@ export class Mark {
 
       if (!mark) {
         return {
+          status: "error",
           message: "Mark not found",
+          error: "Mark not found",
         };
       }
 
       return {
+        status: "success",
         message: "Mark retrieved successfully",
         data: mark,
       };
@@ -95,11 +102,14 @@ export class Mark {
 
       if (!mark) {
         return {
+          status: "error",
           message: "Mark not found",
+          error: "Mark not found",
         };
       }
 
       return {
+        status: "success",
         message: "Mark retrieved successfully",
         data: mark,
       };
@@ -131,7 +141,9 @@ export class Mark {
 
       if (!existingMark) {
         return {
+          status: "error",
           message: "Mark not found",
+          error: "Mark not found",
         };
       }
       // TODO :- Bro please check if the freezing thing below I have handled properly or not, I have just done as per my understanding
@@ -142,7 +154,9 @@ export class Mark {
 
       if (freeze?.facultyFrozen || freeze?.hodFrozen || freeze?.adminFrozen) {
         return {
+          status: "error",
           message: "Cannot update mark as it has been frozen by HOD or admin",
+          error: "Cannot update mark as it has been frozen by HOD or admin",
         };
       }
 
@@ -154,6 +168,7 @@ export class Mark {
       logger.info("Mark updated successfully", { mark });
 
       return {
+        status: "success",
         message: "Mark updated successfully",
         data: mark,
       };
@@ -182,7 +197,9 @@ export class Mark {
 
       if (!existingMark) {
         return {
+          status: "error",
           message: "Mark not found",
+          error: "Mark not found",
         };
       }
 
@@ -191,7 +208,9 @@ export class Mark {
 
       if (freeze?.hodFrozen || freeze?.adminFrozen) {
         return {
+          status: "error",
           message: "Cannot delete mark as it has been frozen by HOD or admin",
+          error: "Cannot delete mark as it has been frozen by HOD or admin",
         };
       }
 
@@ -202,7 +221,9 @@ export class Mark {
       logger.info("Mark deleted successfully", { id });
 
       return {
+        status: "success",
         message: "Mark deleted successfully",
+        data: null,
       };
     } catch (error) {
       logger.error("Error deleting mark:", { error });

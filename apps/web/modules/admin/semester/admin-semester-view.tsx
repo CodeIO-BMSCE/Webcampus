@@ -53,12 +53,17 @@ export const AdminSemesterView = () => {
         }
       );
     },
+    select: (data) => {
+      if (data.data.status === "success") {
+        return data.data.data;
+      }
+    },
   });
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
-  if (!semesters?.data.data || semesters?.data.data.length === 0) {
+  if (!semesters || semesters.length === 0) {
     return <div>No semesters found</div>;
   }
   return (
@@ -203,10 +208,7 @@ export const AdminSemesterView = () => {
           </DialogForm>
         </PageHeader>
         <PageContent>
-          <DataTable
-            columns={AdminSemesterColumns}
-            data={semesters?.data.data}
-          />
+          <DataTable columns={AdminSemesterColumns} data={semesters} />
         </PageContent>
       </Page>
     </div>

@@ -19,10 +19,11 @@ export class SemesterService {
         },
       });
       const response: BaseResponse<SemesterResponseType> = {
+        status: "success",
         message: "Semester created successfully",
         data: semester,
       };
-      logger.info({ response });
+      logger.info(response);
       return response;
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -51,10 +52,11 @@ export class SemesterService {
         },
       });
       const response: BaseResponse<SemesterResponseType[]> = {
+        status: "success",
         message: "Semesters fetched successfully",
         data: semesters,
       };
-      logger.info({ response });
+      logger.info(response);
       return response;
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -76,10 +78,11 @@ export class SemesterService {
         where: { id },
       });
       const response: BaseResponse<null> = {
+        status: "success",
         message: "Semester deleted successfully",
         data: null,
       };
-      logger.info({ response });
+      logger.info(response);
       return response;
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {

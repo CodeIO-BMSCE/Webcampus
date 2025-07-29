@@ -48,9 +48,11 @@ export const protect =
       if (!session?.user) {
         logger.error(ERRORS.UNAUTHENTICATED);
         return sendResponse({
+          status: "error",
           res,
           statusCode: 401,
           message: ERRORS.UNAUTHORIZED,
+          error: ERRORS.UNAUTHORIZED,
         });
       }
       const { success, error } = await auth.api.userHasPermission({
@@ -63,6 +65,7 @@ export const protect =
       if (!success) {
         logger.error(ERRORS.FORBIDDEN);
         sendResponse({
+          status: "error",
           res,
           statusCode: 403,
           message: ERRORS.FORBIDDEN,
@@ -75,9 +78,11 @@ export const protect =
     } catch (error) {
       logger.error("Authorization error", { error });
       sendResponse({
+        status: "error",
         res,
         statusCode: 500,
         message: "Internal server error during authorization",
+        error: "Internal server error during authorization",
       });
       return;
     }

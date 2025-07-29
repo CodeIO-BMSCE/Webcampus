@@ -8,17 +8,21 @@ import { Request, Response } from "express";
 export class MarkController {
   static async create(req: Request, res: Response): Promise<void> {
     try {
-      const { message, data } = await Mark.create(req.body);
-      sendResponse({
-        res,
-        message,
-        data,
-        statusCode: data ? 201 : 400,
-      });
+      const response = await Mark.create(req.body);
+      if (response.status === "success") {
+        sendResponse({
+          res,
+          status: "success",
+          message: response.message,
+          data: response.data,
+          statusCode: 201,
+        });
+      }
     } catch (error) {
       logger.error("Error creating mark:", { error });
       sendResponse({
         res,
+        status: "error",
         message: ERRORS.INTERNAL_SERVER_ERROR,
         statusCode: 500,
         error,
@@ -28,17 +32,21 @@ export class MarkController {
 
   static async getAll(req: Request, res: Response): Promise<void> {
     try {
-      const { message, data } = await Mark.getAll();
-      sendResponse({
-        res,
-        message,
-        data,
-        statusCode: 200,
-      });
+      const response = await Mark.getAll();
+      if (response.status === "success") {
+        sendResponse({
+          res,
+          status: "success",
+          message: response.message,
+          data: response.data,
+          statusCode: 200,
+        });
+      }
     } catch (error) {
       logger.error("Error retrieving marks:", { error });
       sendResponse({
         res,
+        status: "error",
         message: ERRORS.INTERNAL_SERVER_ERROR,
         statusCode: 500,
         error,
@@ -51,17 +59,21 @@ export class MarkController {
     res: Response
   ): Promise<void> {
     try {
-      const { message, data } = await Mark.getById(req.params.id);
-      sendResponse({
-        res,
-        message,
-        data,
-        statusCode: data ? 200 : 404,
-      });
+      const response = await Mark.getById(req.params.id);
+      if (response.status === "success") {
+        sendResponse({
+          res,
+          status: "success",
+          message: response.message,
+          data: response.data,
+          statusCode: response.data ? 200 : 404,
+        });
+      }
     } catch (error) {
       logger.error("Error retrieving mark:", { error });
       sendResponse({
         res,
+        status: "error",
         message: ERRORS.INTERNAL_SERVER_ERROR,
         statusCode: 500,
         error,
@@ -74,20 +86,24 @@ export class MarkController {
     res: Response
   ): Promise<void> {
     try {
-      const { message, data } = await Mark.getByStudentAndCourse(
+      const response = await Mark.getByStudentAndCourse(
         req.params.studentId,
         req.params.courseId
       );
-      sendResponse({
-        res,
-        message,
-        data,
-        statusCode: data ? 200 : 404,
-      });
+      if (response.status === "success") {
+        sendResponse({
+          res,
+          status: "success",
+          message: response.message,
+          data: response.data,
+          statusCode: response.data ? 200 : 404,
+        });
+      }
     } catch (error) {
       logger.error("Error retrieving mark:", { error });
       sendResponse({
         res,
+        status: "error",
         message: ERRORS.INTERNAL_SERVER_ERROR,
         statusCode: 500,
         error,
@@ -100,17 +116,21 @@ export class MarkController {
     res: Response
   ): Promise<void> {
     try {
-      const { message, data } = await Mark.update(req.params.id, req.body);
-      sendResponse({
-        res,
-        message,
-        data,
-        statusCode: data ? 200 : 404,
-      });
+      const response = await Mark.update(req.params.id, req.body);
+      if (response.status === "success") {
+        sendResponse({
+          res,
+          status: "success",
+          message: response.message,
+          data: response.data,
+          statusCode: response.data ? 200 : 404,
+        });
+      }
     } catch (error) {
       logger.error("Error updating mark:", { error });
       sendResponse({
         res,
+        status: "error",
         message: ERRORS.INTERNAL_SERVER_ERROR,
         statusCode: 500,
         error,
@@ -123,16 +143,21 @@ export class MarkController {
     res: Response
   ): Promise<void> {
     try {
-      const { message } = await Mark.delete(req.params.id);
-      sendResponse({
-        res,
-        message,
-        statusCode: 200,
-      });
+      const response = await Mark.delete(req.params.id);
+      if (response.status === "success") {
+        sendResponse({
+          res,
+          status: "success",
+          message: response.message,
+          data: response.data,
+          statusCode: 200,
+        });
+      }
     } catch (error) {
       logger.error("Error deleting mark:", { error });
       sendResponse({
         res,
+        status: "error",
         message: ERRORS.INTERNAL_SERVER_ERROR,
         statusCode: 500,
         error,

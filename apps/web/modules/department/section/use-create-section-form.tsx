@@ -7,9 +7,8 @@ import { frontendEnv } from "@webcampus/common/env";
 import {
   CreateSectionSchema,
   CreateSectionType,
-  SectionResponseType,
 } from "@webcampus/schemas/department";
-import { BaseResponse } from "@webcampus/types/api";
+import { ErrorResponse, SuccessResponse } from "@webcampus/types/api";
 import axios, { AxiosError } from "axios";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -17,6 +16,7 @@ import { toast } from "react-toastify";
 export const useCreateSectionForm = () => {
   const queryClient = useQueryClient();
   const { data: session } = authClient.useSession();
+  const { NEXT_PUBLIC_API_BASE_URL } = frontendEnv();
   const form = useForm({
     resolver: zodResolver(CreateSectionSchema),
     defaultValues: {
@@ -27,8 +27,8 @@ export const useCreateSectionForm = () => {
   });
   const createSectionMutation = useMutation({
     mutationFn: async (data: CreateSectionType) => {
-      const response = await axios.post<BaseResponse<SectionResponseType>>(
-        `${frontendEnv().NEXT_PUBLIC_API_BASE_URL}/department/section`,
+      const response = await axios.post(
+        `${NEXT_PUBLIC_API_BASE_URL}/department/section`,
         data,
         {
           withCredentials: true,
@@ -36,13 +36,12 @@ export const useCreateSectionForm = () => {
       );
       return response.data;
     },
-    onSuccess: (data) => {
+    onSuccess: (data: SuccessResponse<null>) => {
       toast.success(data.message);
       queryClient.invalidateQueries({ queryKey: ["sections"] });
-      form.reset();
     },
-    onError: (error: AxiosError<BaseResponse<SectionResponseType>>) => {
-      toast.error(String(error.response?.data.error));
+    onError: (error: AxiosError<ErrorResponse>) => {
+      toast.error(error.response?.data.error);
     },
   });
   const onSubmit = async (data: CreateSectionType) => {
