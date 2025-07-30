@@ -5,8 +5,16 @@ export const SemesterTypeSchema = z.enum(["even", "odd"]);
 export const BaseSemesterSchema = z.object({
   type: SemesterTypeSchema,
   year: z.string(),
-  startDate: z.date(),
-  endDate: z.date(),
+  /**
+   * Just a temporary fix to get the date from the form.
+   * https://github.com/colinhacks/zod/issues/4236#issuecomment-3101645579
+   */
+  startDate: z.coerce.date() as z.ZodDate,
+  /**
+   * Just a temporary fix to get the date from the form.
+   * https://github.com/colinhacks/zod/issues/4236#issuecomment-3101645579
+   */
+  endDate: z.coerce.date() as z.ZodDate,
   userId: z.string(),
 });
 
