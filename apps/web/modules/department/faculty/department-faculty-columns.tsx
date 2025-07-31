@@ -1,10 +1,10 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { UserResponseDTO } from "@webcampus/schemas/admin";
+import { UserResponseType } from "@webcampus/schemas/admin";
 import { DepartmentFacultyActions } from "./department-faculty-actions";
 
-export const departmentFacultyColumns: ColumnDef<UserResponseDTO>[] = [
+export const departmentFacultyColumns: ColumnDef<UserResponseType>[] = [
   {
     accessorKey: "id",
     header: "ID",

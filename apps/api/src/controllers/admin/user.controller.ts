@@ -27,6 +27,7 @@ export class UserController {
       const request: CreateUserType = req.body;
       const response = await new UserService({
         request,
+        headers: req.headers,
       }).create();
       if (response.status === "success") {
         sendResponse({

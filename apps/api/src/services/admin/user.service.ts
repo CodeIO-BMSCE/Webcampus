@@ -1,9 +1,10 @@
-import { auth } from "@webcampus/auth";
+import { IncomingHttpHeaders } from "http";
+import { auth, fromNodeHeaders } from "@webcampus/auth";
 import { logger } from "@webcampus/common/logger";
 import { db, User } from "@webcampus/db";
 import {
   CreateUserType,
-  UserResponseDTO,
+  UserResponseType,
   UsersQueryDTO,
 } from "@webcampus/schemas/admin";
 import { BaseResponse } from "@webcampus/types/api";
@@ -28,9 +29,16 @@ import { BaseResponse } from "@webcampus/types/api";
 export class UserService {
   private body: CreateUserType;
   private userId: string | null = null;
-
-  constructor({ request }: { request: CreateUserType }) {
+  private headers: IncomingHttpHeaders;
+  constructor({
+    request,
+    headers,
+  }: {
+    request: CreateUserType;
+    headers: IncomingHttpHeaders;
+  }) {
     this.body = request;
+    this.headers = headers;
   }
   /**
    * Main method to create a user.
@@ -111,6 +119,7 @@ export class UserService {
           userId: this.userId,
           role: this.body.role,
         },
+        headers: fromNodeHeaders(this.headers),
       });
       logger.info("User Role updated using Admin API", { user });
     } catch (error) {
@@ -149,7 +158,7 @@ export class UserService {
 
   static async getUsers(
     query: UsersQueryDTO
-  ): Promise<BaseResponse<UserResponseDTO[]>> {
+  ): Promise<BaseResponse<UserResponseType[]>> {
     try {
       const users = await db.user.findMany({
         where: {
@@ -174,7 +183,7 @@ export class UserService {
           banExpires: true,
         },
       });
-      const response: BaseResponse<UserResponseDTO[]> = {
+      const response: BaseResponse<UserResponseType[]> = {
         status: "success",
         message: "Users fetched successfully",
         data: users,

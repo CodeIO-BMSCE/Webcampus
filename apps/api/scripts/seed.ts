@@ -1,135 +1,103 @@
-import path from "path";
+import "dotenv/config";
 import { faker } from "@faker-js/faker";
 import { auth } from "@webcampus/auth";
 import { backendEnv } from "@webcampus/common/env";
-import axios from "axios";
-import * as dotenv from "dotenv";
+import { logger } from "@webcampus/common/logger";
+import axios, { AxiosInstance } from "axios";
 
-dotenv.config({
-  path: path.resolve(__dirname, "..", "..", "..", "packages", "db", ".env"),
-});
-
-const BASE_URL = "http://localhost:8080";
-const CREATE_ADMIN_USER_ENDPOINT = "/admin/user";
-
-const api = axios.create({
-  baseURL: BASE_URL,
-});
-
-let adminAuthToken: string | null = null;
-
-async function adminSignIn() {
-  const { ADMIN_USER_EMAIL, ADMIN_USER_PASSWORD } = backendEnv();
-  console.log(`Attempting admin sign-in with: ${ADMIN_USER_EMAIL}`);
-
-  try {
-    const response = await auth.api.signInEmail({
-      body: {
-        email: ADMIN_USER_EMAIL,
-        password: ADMIN_USER_PASSWORD,
-      },
-    });
-
-    const data = response;
-    console.log(
-      `Admin sign-in successful. Token obtained for user: ${data.user.name} (${data.user.email})`
-    );
-
-    if (data.token) {
-      adminAuthToken = data.token;
-    } else {
-      throw new Error("Login successful but no token received in response.");
-    }
-  } catch (error: unknown) {
-    if (axios.isAxiosError(error) && error.response) {
-      console.error(
-        `Admin sign-in failed: ${error.response.status} - ${JSON.stringify(error.response.data)}`
-      );
-    } else if (error instanceof Error) {
-      console.error(`Admin sign-in failed unexpectedly: ${error.message}`);
-    } else {
-      console.error(`Admin sign-in failed with unknown error.`);
-    }
-    process.exit(1);
-  }
-}
-
-async function createAdminUser(userData: {
+interface AdminUserData {
   name: string;
   email: string;
   username: string;
   password: string;
   role: string;
-}) {
-  if (!adminAuthToken) {
-    throw new Error(
-      "Admin authentication token is missing. Login must succeed first."
-    );
+}
+
+class AdminUserSeeder {
+  private api: AxiosInstance;
+  private adminAuthToken: string | null = null;
+  private readonly baseUrl: string;
+
+  constructor() {
+    this.baseUrl = "http://localhost:8080";
+    this.api = axios.create({
+      baseURL: this.baseUrl,
+    });
   }
 
-  try {
-    console.log(
-      `Creating new admin user: ${userData.name} (${userData.email})`
-    );
-    await api.post(CREATE_ADMIN_USER_ENDPOINT, userData, {
-      headers: {
-        Authorization: `Bearer ${adminAuthToken}`,
-      },
-    });
-  } catch (error: unknown) {
-    if (axios.isAxiosError(error) && error.response) {
-      console.error(
-        `Failed to create admin user ${userData.email}: ${error.response.status} - ${JSON.stringify(error.response.data)}`
+  public async signIn(): Promise<void> {
+    const { ADMIN_USER_EMAIL, ADMIN_USER_PASSWORD } = backendEnv();
+    try {
+      const response = await auth.api.signInEmail({
+        body: {
+          email: ADMIN_USER_EMAIL,
+          password: ADMIN_USER_PASSWORD,
+        },
+      });
+      if (!response.token || !response.user) {
+        throw new Error(
+          "Sign-in succeeded but expected data (token/user) is missing."
+        );
+      }
+      this.adminAuthToken = response.token;
+      logger.info(
+        `Admin sign-in successful: ${response.user.name} (${response.user.email})`
       );
-    } else if (error instanceof Error) {
-      console.error(
-        `Failed to create admin user ${userData.email} unexpectedly: ${error.message}`
+    } catch (error) {
+      logger.error(`Admin sign-in failed: ${(error as Error).message}`);
+      throw error;
+    }
+  }
+
+  public async createAdminUser(userData: AdminUserData): Promise<void> {
+    if (!this.adminAuthToken) {
+      throw new Error(
+        "Missing admin authentication token. Please sign in first."
       );
-    } else {
-      console.error(
-        `Failed to create admin user ${userData.email} with unknown error.`
-      );
+    }
+    try {
+      await this.api.post("/admin/user", userData, {
+        headers: {
+          Authorization: `Bearer ${this.adminAuthToken}`,
+        },
+      });
+      logger.info(`Created admin user: ${userData.name} <${userData.email}>`);
+    } catch (error) {
+      const errMsg = (error as Error).message || "Unknown error";
+      logger.error(`Failed to create admin user ${userData.email}: ${errMsg}`);
+      throw error;
+    }
+  }
+
+  public async seedAdminUsers(count: number = 10): Promise<void> {
+    try {
+      await this.signIn();
+      const creationPromises = Array.from({ length: count }, async () => {
+        await this.createAdminUser({
+          name: faker.person.fullName(),
+          email: faker.internet.email().toLowerCase(),
+          username: faker.internet.username().toLowerCase(),
+          password: "password",
+          role: "admin",
+        });
+      });
+      await Promise.allSettled(creationPromises);
+      logger.info("Admin user seeding process completed.");
+    } catch (error) {
+      logger.error(`Seeding failed: ${(error as Error).message}`);
+      throw error;
     }
   }
 }
 
 async function main() {
-  console.log("Starting seed script...");
-
+  const seeder = new AdminUserSeeder();
   try {
-    await adminSignIn();
-
-    const numberOfAdminsToCreate = 10;
-    const adminCreationPromises = Array.from({
-      length: numberOfAdminsToCreate,
-    }).map(async () => {
-      const generatedPassword = "password";
-      const generatedEmail = faker.internet.email().toLowerCase();
-      const generatedName = faker.person.fullName();
-      const generatedUsername = faker.internet.username().toLowerCase();
-
-      await createAdminUser({
-        email: generatedEmail,
-        password: generatedPassword,
-        name: generatedName,
-        username: generatedUsername,
-        role: "admin",
-      });
-    });
-
-    await Promise.all(adminCreationPromises);
-
-    console.log("Seed script finished.");
-  } catch (e: unknown) {
-    console.error(
-      "Seed script encountered a fatal error:",
-      e instanceof Error ? e.message : "Unknown error"
-    );
+    await seeder.seedAdminUsers(10);
+  } catch (error) {
+    logger.error(`Fatal error in seed script: ${(error as Error).message}`);
     process.exit(1);
   }
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+main();

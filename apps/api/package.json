@@ -32,14 +32,15 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "@faker-js/faker": "^9.9.0",
+    "@webcampus/auth": "*",
+    "@webcampus/backend-utils": "*",
+    "@webcampus/common": "*",
+    "@webcampus/db": "*",
+    "@webcampus/schemas": "*",
+    "@webcampus/types": "*",
     "cors": "^2.8.5",
     "dotenv": "^17.1.0",
-    "express": "^5.1.0",
-    "@webcampus/auth": "*",
-    "@webcampus/types": "*",
-    "@webcampus/common": "*",
-    "@webcampus/schemas": "*",
-    "@webcampus/db": "*",
-    "@webcampus/backend-utils": "*"
+    "express": "^5.1.0"
   }
 }

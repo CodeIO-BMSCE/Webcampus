@@ -1,3 +1,4 @@
+import { IncomingHttpHeaders } from "http";
 import { UserService } from "@webcampus/api/src/services/admin/user.service";
 import { logger } from "@webcampus/common/logger";
 import { db } from "@webcampus/db";
@@ -28,7 +29,8 @@ export class DepartmentService {
    * @returns A promise that resolves to a BaseResponse object containing the created department information.
    */
   static async create(
-    request: CreateDepartmentDTO & CreateUserType
+    request: CreateDepartmentDTO &
+      CreateUserType & { headers: IncomingHttpHeaders }
   ): Promise<BaseResponse<DepartmentResponseDTO>> {
     try {
       const userService = new UserService({
@@ -39,6 +41,7 @@ export class DepartmentService {
           username: request.username,
           role: request.role,
         },
+        headers: request.headers,
       });
       const user = await userService.create();
       if (user.status === "error") {

@@ -71,6 +71,9 @@
     },
     "dx": {
       "cache": false
+    },
+    "seed": {
+      "cache": false
     }
   }
 }

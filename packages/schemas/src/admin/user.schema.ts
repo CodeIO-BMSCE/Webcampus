@@ -42,6 +42,6 @@ export const createUserSchema = z.object({
 
 export type CreateUserType = z.infer<typeof createUserSchema>;
 export type CreateUserDTO = z.infer<typeof CreateUserSchema>;
-export type UserResponseDTO = z.infer<typeof UserResponseSchema>;
+export type UserResponseType = z.infer<typeof UserResponseSchema>;
 export type BaseUserDTO = z.infer<typeof BaseUserSchema>;
 export type UsersQueryDTO = z.infer<typeof UsersQuerySchema>;

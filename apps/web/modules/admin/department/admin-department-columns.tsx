@@ -2,6 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { frontendEnv } from "@webcampus/common/env";
+import { UserResponseType } from "@webcampus/schemas/admin";
 import { Button } from "@webcampus/ui/components/button";
 import {
   DropdownMenu,
@@ -10,10 +11,9 @@ import {
   DropdownMenuTrigger,
 } from "@webcampus/ui/components/dropdown-menu";
 import axios from "axios";
-import { UserWithRole } from "better-auth/plugins";
 import { MoreHorizontal } from "lucide-react";
 
-export const adminDepartmentColumns: ColumnDef<UserWithRole>[] = [
+export const adminDepartmentColumns: ColumnDef<UserResponseType>[] = [
   {
     accessorKey: "id",
     header: "ID",

@@ -1,3 +1,4 @@
+import { IncomingHttpHeaders } from "http";
 import { DepartmentService } from "@webcampus/api/src/services/admin/department.service";
 import { ERRORS } from "@webcampus/backend-utils/errors";
 import { sendResponse } from "@webcampus/backend-utils/helpers";
@@ -33,7 +34,8 @@ export class DepartmentController {
 
   static async create(req: Request, res: Response): Promise<void> {
     try {
-      const request: CreateDepartmentDTO & CreateUserType = req.body;
+      const request: CreateDepartmentDTO &
+        CreateUserType & { headers: IncomingHttpHeaders } = req.body;
       const response = await DepartmentService.create(request);
       if (response.status === "success") {
         sendResponse({
