@@ -4,8 +4,8 @@
 @source "../**/*.{ts,tsx}";
 
 @import "tw-animate-css";
-
 @custom-variant dark (&:is(.dark *));
+@plugin "tailwind-scrollbar";
 
 :root {
   --background: oklch(1 0 0);
