@@ -38,6 +38,8 @@
   },
   "dependencies": {
     "@prisma/client": "^6.11.1",
+    "@types/dotenv": "^8.2.3",
+    "dotenv": "^17.2.1",
     "prisma": "^6.11.1"
   }
 }

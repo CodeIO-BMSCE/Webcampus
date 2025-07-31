@@ -2,7 +2,7 @@ import { backendEnv } from "@webcampus/common/env";
 import { db } from "@webcampus/db";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { admin, username } from "better-auth/plugins";
+import { admin, bearer, username } from "better-auth/plugins";
 import { getFileContent } from "./mail/get-file-content";
 import { sendEmail } from "./mail/send-mail";
 import { ac, roles } from "./rbac/permissions";
@@ -44,6 +44,7 @@ export const auth = betterAuth({
     },
   },
   plugins: [
+    bearer(),
     username(),
     admin({
       ac,

@@ -46,7 +46,10 @@
     "check-types": "turbo run check-types",
     "bootstrap": "turbo run bootstrap",
     "prepare": "husky",
-    "dx": "turbo run dx"
+    "dx": "turbo run dx",
+    "db:generate": "bun run --cwd packages/db prisma generate",
+    "db:migrate": "bun run --cwd packages/db prisma migrate dev",
+    "db:seed": "bun run --cwd packages/db prisma db seed"
   },
   "workspaces": [
     "apps/*",
