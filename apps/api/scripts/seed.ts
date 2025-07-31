@@ -1,29 +1,13 @@
 import "dotenv/config";
 import { faker } from "@faker-js/faker";
+import { UserService } from "@webcampus/api/src/services/admin/user.service";
 import { auth } from "@webcampus/auth";
 import { backendEnv } from "@webcampus/common/env";
 import { logger } from "@webcampus/common/logger";
-import axios, { AxiosInstance } from "axios";
+import { CreateUserType } from "@webcampus/schemas/admin";
 
-interface AdminUserData {
-  name: string;
-  email: string;
-  username: string;
-  password: string;
-  role: string;
-}
-
-class AdminUserSeeder {
-  private api: AxiosInstance;
+class Seeder {
   private adminAuthToken: string | null = null;
-  private readonly baseUrl: string;
-
-  constructor() {
-    this.baseUrl = "http://localhost:8080";
-    this.api = axios.create({
-      baseURL: this.baseUrl,
-    });
-  }
 
   public async signIn(): Promise<void> {
     const { ADMIN_USER_EMAIL, ADMIN_USER_PASSWORD } = backendEnv();
@@ -49,18 +33,18 @@ class AdminUserSeeder {
     }
   }
 
-  public async createAdminUser(userData: AdminUserData): Promise<void> {
-    if (!this.adminAuthToken) {
-      throw new Error(
-        "Missing admin authentication token. Please sign in first."
-      );
-    }
+  public async createUser(userData: CreateUserType): Promise<void> {
     try {
-      await this.api.post("/admin/user", userData, {
+      const userService = new UserService({
+        request: userData,
         headers: {
           Authorization: `Bearer ${this.adminAuthToken}`,
         },
       });
+      const user = await userService.create();
+      if (user.status === "error") {
+        throw new Error(user.message);
+      }
       logger.info(`Created admin user: ${userData.name} <${userData.email}>`);
     } catch (error) {
       const errMsg = (error as Error).message || "Unknown error";
@@ -69,16 +53,16 @@ class AdminUserSeeder {
     }
   }
 
-  public async seedAdminUsers(count: number = 10): Promise<void> {
+  public async seedDepartmentUsers(count: number = 10): Promise<void> {
     try {
       await this.signIn();
       const creationPromises = Array.from({ length: count }, async () => {
-        await this.createAdminUser({
+        await this.createUser({
           name: faker.person.fullName(),
           email: faker.internet.email().toLowerCase(),
           username: faker.internet.username().toLowerCase(),
           password: "password",
-          role: "admin",
+          role: "department",
         });
       });
       await Promise.allSettled(creationPromises);
@@ -91,9 +75,9 @@ class AdminUserSeeder {
 }
 
 async function main() {
-  const seeder = new AdminUserSeeder();
+  const seeder = new Seeder();
   try {
-    await seeder.seedAdminUsers(10);
+    await seeder.seedDepartmentUsers(10);
   } catch (error) {
     logger.error(`Fatal error in seed script: ${(error as Error).message}`);
     process.exit(1);

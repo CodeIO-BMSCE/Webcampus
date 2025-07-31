@@ -16,5 +16,8 @@ bun dx
 # Bootstrap the required resources
 bun run bootstrap
 
+# Seed the database
+bun run seed
+
 # Start the Turborepo development server using Bun
 bunx turbo dev

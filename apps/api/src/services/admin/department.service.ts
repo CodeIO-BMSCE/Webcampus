@@ -1,7 +1,7 @@
 import { IncomingHttpHeaders } from "http";
 import { UserService } from "@webcampus/api/src/services/admin/user.service";
 import { logger } from "@webcampus/common/logger";
-import { db } from "@webcampus/db";
+import { db, Prisma } from "@webcampus/db";
 import { CreateUserType } from "@webcampus/schemas/admin";
 import {
   CreateDepartmentDTO,
@@ -65,6 +65,11 @@ export class DepartmentService {
       logger.info(response);
       return response;
     } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === "P2002") {
+          throw new Error("Department already exists");
+        }
+      }
       if (error instanceof Error) {
         throw new Error(error.message);
       }
