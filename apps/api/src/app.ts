@@ -6,6 +6,7 @@ import cors from "cors";
 import express from "express";
 import adminRouter from "./routers/admin/admin.router";
 import hodRouter from "./routers/hod/hod.router";
+import coeRouter from "./routers/coe/coe.router";
 
 const app = express();
 
@@ -17,7 +18,7 @@ app.use(
   })
 );
 
-app.all("/api/auth/{*any}", toNodeHandler(auth));
+app.all("/api/auth", toNodeHandler(auth));
 /**
  * Mount express json middleware after Better Auth handler
  **/
@@ -28,6 +29,8 @@ app.use("/admin", adminRouter);
 app.use("/hod", hodRouter);
 
 app.use("/department", DepartmentRouter);
+
+app.use("/coe", coeRouter);
 
 app.get("/", (req, res) => {
   res.send({

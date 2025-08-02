@@ -275,7 +275,13 @@ CREATE TABLE "public"."_BatchStudents" (
 
     CONSTRAINT "_BatchStudents_AB_pkey" PRIMARY KEY ("A","B")
 );
+-- CreateTable
+CREATE TABLE "public"."_Coe" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
 
+    CONSTRAINT "Coe_pkey" PRIMARY KEY ("id")
+);
 -- CreateIndex
 CREATE UNIQUE INDEX "user_email_key" ON "public"."user"("email");
 
@@ -378,9 +384,12 @@ CREATE UNIQUE INDEX "Mark_studentId_courseId_key" ON "public"."Mark"("studentId"
 -- CreateIndex
 CREATE UNIQUE INDEX "Freeze_courseAssignmentId_key" ON "public"."Freeze"("courseAssignmentId");
 
+
 -- CreateIndex
 CREATE INDEX "_BatchStudents_B_index" ON "public"."_BatchStudents"("B");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "Coe_userId_key" ON "public"."_Coe"("userId");
 -- AddForeignKey
 ALTER TABLE "public"."Semester" ADD CONSTRAINT "Semester_userId_fkey" FOREIGN KEY ("userId") REFERENCES "public"."user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
@@ -482,3 +491,6 @@ ALTER TABLE "public"."_BatchStudents" ADD CONSTRAINT "_BatchStudents_A_fkey" FOR
 
 -- AddForeignKey
 ALTER TABLE "public"."_BatchStudents" ADD CONSTRAINT "_BatchStudents_B_fkey" FOREIGN KEY ("B") REFERENCES "public"."Student"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "public"."_Coe" ADD CONSTRAINT "Coe_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

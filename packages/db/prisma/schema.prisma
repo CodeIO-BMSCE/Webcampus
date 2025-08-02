@@ -28,6 +28,7 @@ model User {
   frozenAsFaculty Freeze[]  @relation("FrozenByFaculty")
   frozenAsHod     Freeze[]  @relation("FrozenByHod")
   frozenAsAdmin   Freeze[]  @relation("FrozenByAdmin")
+  coe Coe?
 
   banned     Boolean?
   banReason  String?
@@ -315,6 +316,11 @@ model Mark {
 
   @@unique([studentId, courseId])
   @@index([courseId])
+}
+model Coe {
+  id       String @id @default(uuid())
+  user     User   @relation(fields: [userId], references: [id])
+  userId   String @unique
 }
 
 model Freeze {
