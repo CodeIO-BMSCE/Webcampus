@@ -276,6 +276,13 @@ CREATE TABLE "_BatchStudents" (
     CONSTRAINT "_BatchStudents_AB_pkey" PRIMARY KEY ("A","B")
 );
 
+-- CreateTable
+CREATE TABLE "Coe" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+
+    CONSTRAINT "Coe_pkey" PRIMARY KEY ("id")
+);
 -- CreateIndex
 CREATE UNIQUE INDEX "user_email_key" ON "user"("email");
 
@@ -380,6 +387,14 @@ CREATE UNIQUE INDEX "Freeze_courseAssignmentId_key" ON "Freeze"("courseAssignmen
 
 -- CreateIndex
 CREATE INDEX "_BatchStudents_B_index" ON "_BatchStudents"("B");
+
+
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Coe_userId_key" ON "Coe"("userId");
+
+-- AddForeignKey
+ALTER TABLE "Coe" ADD CONSTRAINT "Coe_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Semester" ADD CONSTRAINT "Semester_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
