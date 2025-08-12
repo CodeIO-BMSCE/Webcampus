@@ -45,6 +45,7 @@ export const roles = {
     hod: ["create", "read", "remove"],
     sectionAssignment: ["create", "read", "update", "delete"],
     section: ["create", "read"],
+    semester: ["read"],
   }),
 } satisfies Record<Role, unknown>;
 

@@ -22,7 +22,7 @@ export const useCreateSectionForm = () => {
     defaultValues: {
       name: "",
       departmentName: session?.user?.name as string,
-      semester: 1,
+      semesterId: "",
     },
   });
   const createSectionMutation = useMutation({

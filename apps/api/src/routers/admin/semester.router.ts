@@ -31,7 +31,6 @@ router.delete(
 router.get(
   "/",
   protect({
-    role: "admin",
     permissions: { semester: ["read"] },
   }),
   SemesterController.getAll

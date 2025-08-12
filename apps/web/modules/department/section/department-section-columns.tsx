@@ -18,6 +18,6 @@ export const DepartmentSectionColumns: ColumnDef<SectionResponseType>[] = [
   },
   {
     header: "Semester",
-    accessorKey: "semester",
+    accessorKey: "semesterId",
   },
 ];

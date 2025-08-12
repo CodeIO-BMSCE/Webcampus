@@ -53,6 +53,7 @@ model Semester {
   updatedAt DateTime     @updatedAt
   createdBy User         @relation(fields: [userId], references: [id])
   userId    String
+  Section   Section[]
 
   @@unique([type, year])
 }
@@ -154,13 +155,14 @@ model Section {
   name            String
   department      Department         @relation(fields: [departmentName], references: [name])
   departmentName  String
-  semester        Int
+  semesterId      String
+  semester        Semester           @relation(fields: [semesterId], references: [id])
   courses         CourseAssignment[]
   studentSections StudentSection[]
   batches         Batch[]
 
-  @@unique([name, departmentName, semester])
-  @@index([departmentName, semester])
+  @@unique([name, departmentName, semesterId])
+  @@index([departmentName, semesterId])
 }
 
 /**
