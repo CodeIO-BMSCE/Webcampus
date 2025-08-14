@@ -46,6 +46,7 @@
     "check-types": "turbo run check-types",
     "bootstrap": "turbo run bootstrap",
     "prepare": "husky",
+    "kill-ports": "kill-port 3000 8080",
     "dx": "turbo run dx"
   },
   "workspaces": [
