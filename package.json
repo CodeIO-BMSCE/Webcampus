@@ -53,6 +53,7 @@
     "packages/*"
   ],
   "dependencies": {
+    "dayjs": "^1.11.13",
     "syncpack": "^14.0.0-alpha.18"
   }
 }

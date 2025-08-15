@@ -5,8 +5,9 @@ import { backendEnv } from "@webcampus/common/env";
 import cors from "cors";
 import express from "express";
 import adminRouter from "./routers/admin/admin.router";
-import hodRouter from "./routers/hod/hod.router";
 import coeRouter from "./routers/coe/coe.router";
+import hodRouter from "./routers/hod/hod.router";
+
 
 const app = express();
 
@@ -17,7 +18,6 @@ app.use(
     credentials: true,
   })
 );
-
 app.all("/api/auth", toNodeHandler(auth));
 /**
  * Mount express json middleware after Better Auth handler

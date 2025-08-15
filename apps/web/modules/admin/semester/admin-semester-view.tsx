@@ -63,150 +63,154 @@ export const AdminSemesterView = () => {
   if (isLoading) {
     return <div>Loading...</div>;
   }
-
+  if (!semesters || semesters.length === 0) {
+    return <div>No semesters found</div>;
+  }
   return (
-    <Page>
-      <PageHeader title="Semesters">
-        <DialogForm
-          title="Create Semester"
-          trigger={"Create Semester"}
-          form={form}
-          onSubmit={onSubmit}
-        >
-          <div className="flex gap-4">
-            <FormField
-              control={form.control}
-              name="type"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel>Type</FormLabel>
-                  <FormControl>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Select Type" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent className="w-full">
-                        {SemesterTypeSchema.options.map((option) => (
-                          <SelectItem key={option} value={option}>
-                            {option.charAt(0).toUpperCase() + option.slice(1)}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+    <div>
+      <Page>
+        <PageHeader title="Semesters">
+          <DialogForm
+            title="Create Semester"
+            trigger={"Create Semester"}
+            form={form}
+            onSubmit={onSubmit}
+          >
+            <div className="flex gap-4">
+              <FormField
+                control={form.control}
+                name="type"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Type</FormLabel>
+                    <FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Select Type" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent className="w-full">
+                          {SemesterTypeSchema.options.map((option) => (
+                            <SelectItem key={option} value={option}>
+                              {option.charAt(0).toUpperCase() + option.slice(1)}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name="year"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel>Year</FormLabel>
-                  <FormControl>
-                    <Input {...field} placeholder="e.g., 2024" type="number" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-
-          <div className="flex flex-col gap-4 sm:flex-row">
-            <FormField
-              control={form.control}
-              name="startDate"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel>Start Date</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "text-left font-normal",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value ? (
-                            dayjs(field.value).format("MMMM D, YYYY")
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        captionLayout="dropdown"
+              <FormField
+                control={form.control}
+                name="year"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Year</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        placeholder="e.g., 2024"
+                        type="number"
                       />
-                    </PopoverContent>
-                  </Popover>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
-            <FormField
-              control={form.control}
-              name="endDate"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel>End Date</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "text-left font-normal",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value ? (
-                            dayjs(field.value).format("MMMM D, YYYY")
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        captionLayout="dropdown"
-                      />
-                    </PopoverContent>
-                  </Popover>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-        </DialogForm>
-      </PageHeader>
-      <PageContent>
-        {semesters && semesters.length > 0 ? (
+            <div className="flex flex-col gap-4 sm:flex-row">
+              <FormField
+                control={form.control}
+                name="startDate"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Start Date</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value ? (
+                              dayjs(field.value).format("MMMM D, YYYY")
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          captionLayout="dropdown"
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="endDate"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>End Date</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value ? (
+                              dayjs(field.value).format("MMMM D, YYYY")
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          captionLayout="dropdown"
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </DialogForm>
+        </PageHeader>
+        <PageContent>
           <DataTable columns={AdminSemesterColumns} data={semesters} />
-        ) : (
-          <div>No semesters found</div>
-        )}
-      </PageContent>
-    </Page>
+        </PageContent>
+      </Page>
+    </div>
   );
 };
