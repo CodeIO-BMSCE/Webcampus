@@ -8,7 +8,6 @@ import adminRouter from "./routers/admin/admin.router";
 import coeRouter from "./routers/coe/coe.router";
 import hodRouter from "./routers/hod/hod.router";
 
-
 const app = express();
 
 app.use(
@@ -18,7 +17,8 @@ app.use(
     credentials: true,
   })
 );
-app.all("/api/auth", toNodeHandler(auth));
+app.all("/api/auth/{*any}", toNodeHandler(auth));
+
 /**
  * Mount express json middleware after Better Auth handler
  **/
